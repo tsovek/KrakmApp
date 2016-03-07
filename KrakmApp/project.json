@@ -1,4 +1,4 @@
-﻿{
+{
   "webroot": "wwwroot",
   "userSecretsId": "KrakmApp",
   "version": "1.0.0-*",
@@ -19,7 +19,8 @@
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
     "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc1-final",
     "AutoMapper.Data": "1.0.0-beta1",
-    "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final"
+    "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
+    "KrakmApp.Entities": "1.0.0-*"
   },
 
   "commands": {

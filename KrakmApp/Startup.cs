@@ -1,31 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using KrakmApp.Core;
+using KrakmApp.Core.Repositories;
+using KrakmApp.Core.Repositories.Base;
+using KrakmApp.Core.Services;
+
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
+using Microsoft.Data.Entity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace KrakmApp
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        private static string _applicationPath = string.Empty;
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
+            _applicationPath = appEnv.ApplicationBasePath;
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(appEnv.ApplicationBasePath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public IConfigurationRoot Configuration { get; set; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddEntityFramework()
+                    .AddSqlServer()
+                    .AddDbContext<KrakmApp.Core.KrakmAppContext>(options =>
+                        options.UseSqlServer(Configuration["Data:KrakmAppConnection:ConnectionString"]));
+
+            services.AddScoped<IHotelRepository, HotelRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IEntertainmentRepository, EntertainmentRepository>();
+            services.AddScoped<IMonumentRepository, MonumentsRepository>();
+            services.AddScoped<IMarkerRepository, MarkerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ILoggingRepository, LoggingRepository>();
+
+            // Services
+            services.AddScoped<IMembershipService, MembershipService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
+
+            services.AddAuthentication();
+
+            // Polices
+            services.AddAuthorization(options =>
+            {
+                // inline policies
+                options.AddPolicy("AdminOnly", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+
+            });
+
+            // Add MVC services to the services container.
+            services.AddMvc();
+        }
+
         public void Configure(IApplicationBuilder app)
         {
+            // Add the platform handler to the request pipeline.
             app.UseIISPlatformHandler();
 
-            app.Run(async (context) =>
+            // Add static files to the request pipeline.
+            app.UseStaticFiles();
+
+            app.UseCookieAuthentication(options =>
             {
-                await context.Response.WriteAsync(("S" == "s").ToString());
+                options.AutomaticAuthenticate = true;
+                options.AutomaticChallenge = true;
             });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+            });
+
+            DbInitializer.Initialize(app.ApplicationServices, _applicationPath);
         }
 
         // Entry point for the application.
