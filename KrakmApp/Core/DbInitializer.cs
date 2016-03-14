@@ -20,20 +20,23 @@ namespace KrakmApp.Core
 
         private static void InitializeHotelsWithPartners(string imagesPath)
         {
-            if (!context.Markers.Any())
-            {
-                // TODO: Markers with images
-            }
-
             List<Partner> partners = null;
             if (!context.Partners.Any())
             {
+                var loc1 = new Localization { Latitude = 10.0001, Longitude = 10.0001 };
+                var loc2 = new Localization { Latitude = 10.0002, Longitude = 10.0002 };
+                context.Localizations.AddRange(loc1, loc2);
+
+                var mark = new Marker { Name = "standard" };
+                context.Markers.Add(mark);
+
                 var testPartner1 = new Partner()
                 {
                     Name = "First test partner",
                     Adress = "Krakowska 11/11",
                     Phone = "453139384",
-                    Localization = new Localization { Latitude = 10.0001, Longitude = 10.0001 }
+                    Localization = loc1,
+                    Marker = mark
                 };
 
                 var testPartner2 = new Partner()
@@ -41,10 +44,12 @@ namespace KrakmApp.Core
                     Name = "Second test partner",
                     Adress = "Krakowska 20/11",
                     Phone = "983561094",
-                    Localization = new Localization { Latitude = 10.0002, Longitude = 10.0002 }
+                    Localization = loc2,
+                    Marker = mark
                 };
 
                 partners = new List<Partner>() { testPartner1, testPartner2 };
+                context.Partners.AddRange(testPartner1, testPartner2);
             }
 
             if (!context.Hotels.Any())
@@ -54,6 +59,7 @@ namespace KrakmApp.Core
                     Latitude = 10.000000,
                     Longitude = 10.000000
                 };
+                context.Localizations.Add(localizationMainHotel);
 
                 var mainHotel = context.Hotels.Add(
                     new Hotel
@@ -65,6 +71,7 @@ namespace KrakmApp.Core
                         Localizations = new List<Localization>() { localizationMainHotel },
                         Partners = partners
                     }).Entity;
+                context.Hotels.Add(mainHotel);
 
                 context.SaveChanges();
             }
