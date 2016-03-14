@@ -6,11 +6,9 @@ export class DataService {
 
     public _baseUri: string;
 
-    constructor(public http: Http) {
+    constructor(public http: Http) { }
 
-    }
-
-    set(baseUri: string, pageSize?: number): void {
+    set(baseUri: string): void {
         this._baseUri = baseUri;
     }
 
