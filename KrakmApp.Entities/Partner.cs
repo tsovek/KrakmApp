@@ -7,7 +7,8 @@ namespace KrakmApp.Entities
         public int Id { get; set; }
         public int HotelId { get; set; }
         public int MarkerId { get; set; }
-        
+        public int LocalizationId { get; set; }
+
         public Guid UniqueKey { get; set; }
         public string Adress { get; set; }
         public string Phone { get; set; }

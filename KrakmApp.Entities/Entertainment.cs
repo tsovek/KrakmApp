@@ -4,7 +4,7 @@ namespace KrakmApp.Entities
     public class Entertainment : IEntityBase
     {
         public int Id { get; set; }
-        public int EntertainmentId { get; set; }
+        public int LocalizationId { get; set; }
 
         public string Name { get; set; }
         public string Description { get; set; }
