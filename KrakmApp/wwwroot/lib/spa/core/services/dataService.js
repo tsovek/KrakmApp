@@ -9,8 +9,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Http } from 'angular2/http';
-import { Injectable } from 'angular2/core';
+import { Http } from '../../../../node_modules/angular2/http';
+import { Injectable } from '../../../../node_modules/angular2/core';
 export let DataService = class {
     constructor(http) {
         this.http = http;

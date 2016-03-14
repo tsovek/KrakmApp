@@ -1,5 +1,5 @@
-﻿import { Http, Response, Request } from 'angular2/http';
-import { Injectable } from 'angular2/core';
+﻿import { Http, Response, Request } from '../../../../node_modules/angular2/http';
+import { Injectable } from '../../../../node_modules/angular2/core';
 
 @Injectable()
 export class DataService {
