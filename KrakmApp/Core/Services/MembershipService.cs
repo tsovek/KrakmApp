@@ -27,7 +27,11 @@ namespace KrakmApp.Core.Services
             _encryptionService = encyption;
         }
 
-        public User CreateUser(string username, string email, string password, int[] roles)
+        public User CreateUser(
+            string username, 
+            string email, 
+            string password, 
+            int[] roles)
         {
             var existingUser = _userRepository.GetSingleByUsername(username);
 
@@ -86,7 +90,9 @@ namespace KrakmApp.Core.Services
             return _result.Distinct().ToList();
         }
 
-        public MembershipContext ValidateUser(string username, string password)
+        public MembershipContext ValidateUser(
+            string username, 
+            string password)
         {
             var membershipCtx = new MembershipContext();
 

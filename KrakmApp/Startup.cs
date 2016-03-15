@@ -1,12 +1,13 @@
 ﻿using System.Security.Claims;
+
 using KrakmApp.Core;
+using KrakmApp.Core.Mappings;
 using KrakmApp.Core.Repositories;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Core.Services;
 
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +45,7 @@ namespace KrakmApp
                         options.UseSqlServer(Configuration["Data:KrakmAppConnection:ConnectionString"]));
 
             services.AddScoped<IHotelRepository, HotelRepository>();
+            services.AddScoped<IPartnersRepository, PartnersRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IEntertainmentRepository, EntertainmentRepository>();
             services.AddScoped<IMonumentRepository, MonumentsRepository>();
@@ -95,6 +97,8 @@ namespace KrakmApp
                     template: "{controller=Home}/{action=Index}/{id?}");
 
             });
+
+            AutoMapperConfiguration.Configure();
 
             DbInitializer.Initialize(app.ApplicationServices, _applicationPath);
         }

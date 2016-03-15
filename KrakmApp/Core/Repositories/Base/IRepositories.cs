@@ -6,6 +6,8 @@ namespace KrakmApp.Core.Repositories.Base
 {
     public interface IHotelRepository : IRepository<Hotel> { }
 
+    public interface IPartnersRepository : IRepository<Partner> { }
+
     public interface IClientRepository : IRepository<Client> { }
 
     public interface IMonumentRepository : IRepository<Monument> { }
