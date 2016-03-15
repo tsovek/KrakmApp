@@ -25,7 +25,7 @@ System.register(['../../../../node_modules/angular2/http', '../../../../node_mod
                 constructor(http) {
                     this.http = http;
                 }
-                set(baseUri, pageSize) {
+                set(baseUri) {
                     this._baseUri = baseUri;
                 }
                 post(data, mapJson = true) {

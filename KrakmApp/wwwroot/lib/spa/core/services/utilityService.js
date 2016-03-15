@@ -9,36 +9,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Http } from '../../../../node_modules/angular2/http';
 import { Injectable } from '../../../../node_modules/angular2/core';
-export let DataService = class {
-    constructor(http) {
-        this.http = http;
+import { Router } from '../../../../node_modules/angular2/router';
+export let UtilityService = class {
+    constructor(router) {
+        this._router = router;
     }
-    set(baseUri) {
-        this._baseUri = baseUri;
+    convertDateTime(date) {
+        var _formattedDate = new Date(date.toString());
+        return _formattedDate.toDateString();
     }
-    get() {
-        return this.http.get(this._baseUri)
-            .map(response => (response));
+    navigate(path) {
+        this._router.navigate([path]);
     }
-    post(data, mapJson = true) {
-        if (mapJson)
-            return this.http.post(this._baseUri, data)
-                .map(response => response.json());
-        else
-            return this.http.post(this._baseUri, data);
-    }
-    delete(id) {
-        return this.http.delete(this._baseUri + '/' + id.toString())
-            .map(response => response.json());
-    }
-    deleteResource(resource) {
-        return this.http.delete(resource)
-            .map(response => response.json());
+    navigateToSignIn() {
+        this.navigate('/Account/Login');
     }
 };
-DataService = __decorate([
+UtilityService = __decorate([
     Injectable(), 
-    __metadata('design:paramtypes', [Http])
-], DataService);
+    __metadata('design:paramtypes', [Router])
+], UtilityService);

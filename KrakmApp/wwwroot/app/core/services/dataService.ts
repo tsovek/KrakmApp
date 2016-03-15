@@ -12,6 +12,11 @@ export class DataService {
         this._baseUri = baseUri;
     }
 
+    get() {
+        return this.http.get(this._baseUri)
+            .map(response => (<Response>response));
+    }
+
     post(data?: any, mapJson: boolean = true) {
         if (mapJson)
             return this.http.post(this._baseUri, data)

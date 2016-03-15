@@ -1,0 +1,22 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Your hotels here.
+                <small><i>(click markers on the map)</i></small>
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a [routerLink]="['/Home']">Home</a>
+                </li>
+                <li class="active">Hotels</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row" *ngFor="#hotel of _hotels">
+        <p class="item">{{hotel.Name}}</p>
+        <p>{{hotel.Description}}</p>
+    </div>
+
+</div>
