@@ -21,33 +21,39 @@ System.register(['../../../../node_modules/angular2/http', '../../../../node_mod
                 core_1 = core_1_1;
             }],
         execute: function() {
-            let DataService = class DataService {
-                constructor(http) {
+            DataService = (function () {
+                function DataService(http) {
                     this.http = http;
                 }
-                set(baseUri) {
+                DataService.prototype.set = function (baseUri) {
                     this._baseUri = baseUri;
-                }
-                post(data, mapJson = true) {
+                };
+                DataService.prototype.get = function () {
+                    return this.http.get(this._baseUri)
+                        .map(function (response) { return (response); });
+                };
+                DataService.prototype.post = function (data, mapJson) {
+                    if (mapJson === void 0) { mapJson = true; }
                     if (mapJson)
                         return this.http.post(this._baseUri, data)
-                            .map(response => response.json());
+                            .map(function (response) { return response.json(); });
                     else
                         return this.http.post(this._baseUri, data);
-                }
-                delete(id) {
+                };
+                DataService.prototype.delete = function (id) {
                     return this.http.delete(this._baseUri + '/' + id.toString())
-                        .map(response => response.json());
-                }
-                deleteResource(resource) {
+                        .map(function (response) { return response.json(); });
+                };
+                DataService.prototype.deleteResource = function (resource) {
                     return this.http.delete(resource)
-                        .map(response => response.json());
-                }
-            };
-            DataService = __decorate([
-                core_1.Injectable(), 
-                __metadata('design:paramtypes', [http_1.Http])
-            ], DataService);
+                        .map(function (response) { return response.json(); });
+                };
+                DataService = __decorate([
+                    core_1.Injectable(), 
+                    __metadata('design:paramtypes', [http_1.Http])
+                ], DataService);
+                return DataService;
+            }());
             exports_1("DataService", DataService);
         }
     }

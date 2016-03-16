@@ -5,14 +5,15 @@ System.register([], function(exports_1, context_1) {
     return {
         setters:[],
         execute: function() {
-            class Result {
-                constructor(succeeded, message) {
+            Result = (function () {
+                function Result(succeeded, message) {
                     this.Succeeded = succeeded;
                     this.Message = message;
                 }
-            }
+                return Result;
+            }());
             exports_1("Result", Result);
         }
     }
 });
-//# sourceMappingURL=result.js.map
+//# sourceMappingURL=Result.js.map

@@ -1,0 +1,26 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{_hotelTitle}}
+            </h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a [routerLink]="['/Home']">Home</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/Hotels']">Hotelss</a>
+                </li>
+                <li>{{_hotelTitle}}</li>
+                <li class="active">Partnerss</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div *ngFor="#partner of _partners">
+            <p class="item">{{partner.Name}}</p>
+            <p>{{partner.Description}}</p>
+        </div>
+    </div>
+</div>

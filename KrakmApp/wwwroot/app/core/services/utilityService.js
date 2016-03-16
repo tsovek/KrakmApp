@@ -21,25 +21,26 @@ System.register(['../../../../node_modules/angular2/core', '../../../../node_mod
                 router_1 = router_1_1;
             }],
         execute: function() {
-            let UtilityService = class UtilityService {
-                constructor(router) {
+            UtilityService = (function () {
+                function UtilityService(router) {
                     this._router = router;
                 }
-                convertDateTime(date) {
+                UtilityService.prototype.convertDateTime = function (date) {
                     var _formattedDate = new Date(date.toString());
                     return _formattedDate.toDateString();
-                }
-                navigate(path) {
+                };
+                UtilityService.prototype.navigate = function (path) {
                     this._router.navigate([path]);
-                }
-                navigateToSignIn() {
+                };
+                UtilityService.prototype.navigateToSignIn = function () {
                     this.navigate('/Account/Login');
-                }
-            };
-            UtilityService = __decorate([
-                core_1.Injectable(), 
-                __metadata('design:paramtypes', [router_1.Router])
-            ], UtilityService);
+                };
+                UtilityService = __decorate([
+                    core_1.Injectable(), 
+                    __metadata('design:paramtypes', [router_1.Router])
+                ], UtilityService);
+                return UtilityService;
+            }());
             exports_1("UtilityService", UtilityService);
         }
     }

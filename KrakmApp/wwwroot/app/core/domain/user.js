@@ -5,12 +5,13 @@ System.register([], function(exports_1, context_1) {
     return {
         setters:[],
         execute: function() {
-            class User {
-                constructor(username, password) {
+            User = (function () {
+                function User(username, password) {
                     this.Username = username;
                     this.Password = password;
                 }
-            }
+                return User;
+            }());
             exports_1("User", User);
         }
     }

@@ -5,14 +5,15 @@ System.register([], function(exports_1, context_1) {
     return {
         setters:[],
         execute: function() {
-            class Hotel {
-                constructor(name, latitude, longitude, description) {
+            Hotel = (function () {
+                function Hotel(name, latitude, longitude, description) {
                     this.Name = name;
                     this.Latitude = latitude;
                     this.Longitude = longitude;
                     this.Description = description;
                 }
-            }
+                return Hotel;
+            }());
             exports_1("Hotel", Hotel);
         }
     }

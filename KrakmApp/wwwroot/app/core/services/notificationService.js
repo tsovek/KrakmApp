@@ -18,17 +18,17 @@ System.register(['../../../../node_modules/angular2/core'], function(exports_1, 
                 core_1 = core_1_1;
             }],
         execute: function() {
-            let NotificationService = class NotificationService {
-                constructor() {
+            NotificationService = (function () {
+                function NotificationService() {
                     this._notifier = alertify;
                 }
-                printSuccessMessage(message) {
+                NotificationService.prototype.printSuccessMessage = function (message) {
                     this._notifier.success(message);
-                }
-                printErrorMessage(message) {
+                };
+                NotificationService.prototype.printErrorMessage = function (message) {
                     this._notifier.error(message);
-                }
-                printConfirmationDialog(message, okCallback) {
+                };
+                NotificationService.prototype.printConfirmationDialog = function (message, okCallback) {
                     this._notifier.confirm(message, function (e) {
                         if (e) {
                             okCallback();
@@ -36,12 +36,13 @@ System.register(['../../../../node_modules/angular2/core'], function(exports_1, 
                         else {
                         }
                     });
-                }
-            };
-            NotificationService = __decorate([
-                core_1.Injectable(), 
-                __metadata('design:paramtypes', [])
-            ], NotificationService);
+                };
+                NotificationService = __decorate([
+                    core_1.Injectable(), 
+                    __metadata('design:paramtypes', [])
+                ], NotificationService);
+                return NotificationService;
+            }());
             exports_1("NotificationService", NotificationService);
         }
     }
