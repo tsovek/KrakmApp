@@ -1,4 +1,4 @@
-﻿import { Route, Router } from '../../node_modules/angular2/router';
+﻿import { Route, Router } from 'angular2/router';
 import { Home } from './components/home';
 import { Hotels } from './components/hotels';
 import { Partners } from './components/partners';

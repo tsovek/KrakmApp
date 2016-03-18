@@ -1,5 +1,5 @@
-﻿import { Injectable } from '../../../../node_modules/angular2/core';
-import {Router} from '../../../../node_modules/angular2/router';
+﻿import { Injectable } from 'angular2/core';
+import {Router} from 'angular2/router';
 
 @Injectable()
 export class UtilityService {

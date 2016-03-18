@@ -1,6 +1,6 @@
-﻿import { Component } from '../../../node_modules/angular2/core';
-import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '../../../node_modules/angular2/common';
-import { RouterLink, RouteParams } from '../../../node_modules/angular2/router'
+﻿import { Component } from 'angular2/core';
+import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/common';
+import { RouterLink, RouteParams } from 'angular2/router'
 import { Partner } from '../core/domain/partner';
 import { DataService } from '../core/services/dataService';
 import { UtilityService } from '../core/services/utilityService';

@@ -1,14 +1,14 @@
 ﻿///<reference path="../../node_modules/angular2/typings/browser.d.ts"/>
-import {provide, Component, View} from '../../node_modules/angular2/core';
-import {CORE_DIRECTIVES} from '../../node_modules/angular2/common';
-import {bootstrap} from '../../node_modules/angular2/platform/browser';
-import {HTTP_BINDINGS, HTTP_PROVIDERS, Headers, RequestOptions, BaseRequestOptions} from '../../node_modules/angular2/http';
+import {provide, Component, View} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
+import {bootstrap} from 'angular2/platform/browser';
+import {HTTP_BINDINGS, HTTP_PROVIDERS, Headers, RequestOptions, BaseRequestOptions} from 'angular2/http';
 import {
 RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, ROUTER_BINDINGS,
-Location, LocationStrategy, HashLocationStrategy
-} from '../../node_modules/angular2/router';
+Location, LocationStrategy, HashLocationStrategy, Route, Router
+} from 'angular2/router';
 import 'rxjs/add/operator/map';
-import {enableProdMode} from '../../node_modules/angular2/core';
+import {enableProdMode} from 'angular2/core';
 
 enableProdMode();
 import { Routes, APP_ROUTES } from './routes';

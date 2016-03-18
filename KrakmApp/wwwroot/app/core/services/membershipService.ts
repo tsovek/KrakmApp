@@ -1,5 +1,5 @@
-﻿import { Http, Response, Request } from '../../../../node_modules/angular2/http';
-import { Injectable } from '../../../../node_modules/angular2/core';
+﻿import { Http, Response, Request } from 'angular2/http';
+import { Injectable } from 'angular2/core';
 import { DataService } from './dataService';
 import { Registration } from '../domain/registration';
 import { User } from '../domain/user';
