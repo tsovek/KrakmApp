@@ -25,7 +25,7 @@ export class Hotels {
         this.hotelsService.get()
             .subscribe(res => {
                 var data: any = res.json();
-                this._hotels = data.Items;
+                this._hotels = data;
             },
             error => console.error('Error: ' + error));
     }
