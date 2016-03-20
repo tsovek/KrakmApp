@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 
 using KrakmApp.Entities;
+using KrakmApp.ViewModels;
 
 namespace KrakmApp.Core.Repositories.Base
 {
-    public interface IHotelRepository : IRepository<Hotel> { }
+    public interface IHotelRepository : IRepository<Hotel>
+    {
+        void Add(HotelViewModel _hotelVM);
+    }
 
     public interface IPartnersRepository : IRepository<Partner> { }
 
@@ -27,4 +31,6 @@ namespace KrakmApp.Core.Repositories.Base
     public interface ILoggingRepository : IRepository<Error> { }
 
     public interface IMarkerRepository : IRepository<Marker> { }
+
+    public interface ILocalizationRepository : IRepository<Localization> { }
 }

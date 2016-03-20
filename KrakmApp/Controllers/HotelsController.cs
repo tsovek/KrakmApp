@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using KrakmApp.Core.Common;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 
 namespace KrakmApp.Controllers
@@ -15,12 +17,16 @@ namespace KrakmApp.Controllers
     {
         IHotelRepository _hotelsRepository;
         ILoggingRepository _loggingRepository;
+        IAuthorizationService _authorization;
+
         public HotelsController(
             IHotelRepository hotelsRepository, 
-            ILoggingRepository loggingRepository)
+            ILoggingRepository loggingRepository, 
+            IAuthorizationService authorization)
         {
             _hotelsRepository = hotelsRepository;
             _loggingRepository = loggingRepository;
+            _authorization = authorization;
         }
 
         // GET: api/values
@@ -53,17 +59,68 @@ namespace KrakmApp.Controllers
             return returnedHotels;
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<HotelViewModel> Get(int id)
         {
-            return "value";
+            HotelViewModel hotelVM = null;
+
+            try
+            {
+                Hotel hotel = await _hotelsRepository.GetSingleAsync(id);
+                hotelVM = Mapper.Map<Hotel, HotelViewModel>(hotel);
+            }
+            catch (Exception ex)
+            {
+                _loggingRepository.Add(
+                    new Error()
+                    {
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace,
+                        DateCreated = DateTime.Now
+                    });
+                _loggingRepository.Commit();
+            }
+
+            return hotelVM;
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody]HotelViewModel value)
         {
+            IActionResult result = new ObjectResult(false);
+            Result hotelCreationResult = null;
+
+            try
+            {
+                if (await _authorization.AuthorizeAsync(User, "AdminOnly"))
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        throw new Exception("Correct data before adding");
+                    }
+
+                    _hotelsRepository.Add(value);
+                }
+                else
+                {
+                    var codeResult = new CodeResult(401);
+                    return new ObjectResult(codeResult);
+                }
+            }
+            catch (Exception ex)
+            {
+                hotelCreationResult = new Result()
+                {
+                    Succeeded = false,
+                    Message = ex.Message
+                };
+
+                //_loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
+                //_loggingRepository.Commit();
+            }
+
+            result = new ObjectResult(hotelCreationResult);
+            return result;
         }
 
         // PUT api/values/5

@@ -54,6 +54,7 @@ namespace KrakmApp
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ILoggingRepository, LoggingRepository>();
+            services.AddScoped<ILocalizationRepository, LocalizationRepository>();
 
             // Services
             services.AddScoped<IMembershipService, MembershipService>();
@@ -69,7 +70,6 @@ namespace KrakmApp
                 {
                     policy.RequireClaim(ClaimTypes.Role, "Admin");
                 });
-
             });
 
             // Add MVC services to the services container.
