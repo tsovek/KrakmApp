@@ -46,6 +46,7 @@ gulp.task('setup-vendors', function (done) {
     ]).pipe(gulp.dest(paths.jsRxJSVendors));
 
     gulp.src([
+      'wwwroot/css/site.css',
       'bower_components/bootstrap/dist/css/bootstrap.css',
       'node_modules/fancybox/dist/css/jquery.fancybox.css',
       'bower_components/components-font-awesome/css/font-awesome.css',
