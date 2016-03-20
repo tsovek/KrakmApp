@@ -35,9 +35,9 @@ namespace KrakmApp.Core
             modelBuilder.Entity<Hotel>().Property(e => e.Adress).HasMaxLength(100);
             modelBuilder.Entity<Hotel>().Property(e => e.Phone).HasMaxLength(14);
             modelBuilder.Entity<Hotel>().Property(e => e.Email).HasMaxLength(100);
-            modelBuilder.Entity<Hotel>().HasMany(e => e.Partners).WithOne(e => e.Hotel);
             modelBuilder.Entity<Hotel>().HasMany(e => e.Localizations).WithOne();
-            modelBuilder.Entity<Hotel>().HasMany(e => e.Partners).WithOne(e => e.Hotel);
+
+            modelBuilder.Entity<HotelsPartners>().HasKey(x => new { x.HotelId, x.PartnerId });
 
             modelBuilder.Entity<Partner>().Property(e => e.Adress).HasMaxLength(100);
             modelBuilder.Entity<Partner>().Property(e => e.Phone).HasMaxLength(100);
@@ -54,6 +54,7 @@ namespace KrakmApp.Core
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(200);
             modelBuilder.Entity<User>().Property(u => u.HashedPassword).IsRequired().HasMaxLength(200);
             modelBuilder.Entity<User>().Property(u => u.Salt).IsRequired().HasMaxLength(200);
+            modelBuilder.Entity<User>().HasMany(e => e.Hotels).WithOne(e => e.User);
 
             modelBuilder.Entity<UserRole>().Property(ur => ur.UserId).IsRequired();
             modelBuilder.Entity<UserRole>().Property(ur => ur.RoleId).IsRequired();
