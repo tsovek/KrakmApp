@@ -2,16 +2,22 @@
     Name: string;
     Latitude: number;
     Longitude: number;
-    Description: string;
+    Adress: string;
+    Phone: string;
+    Email: string;
 
     constructor(
         name: string,
         latitude: number,
         longitude: number,
-        description: string) {
+        adress: string,
+        phone: string,
+        email: string) {
         this.Name = name;
         this.Latitude = latitude;
         this.Longitude = longitude;
-        this.Description = description;
+        this.Adress = adress;
+        this.Phone = phone;
+        this.Email = email;
     }
 }

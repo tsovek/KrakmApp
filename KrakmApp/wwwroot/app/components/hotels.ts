@@ -29,4 +29,11 @@ export class Hotels {
             },
             error => console.error('Error: ' + error));
     }
+
+    getFirstHotel(): string {
+        if (this._hotels == null) {
+            return "Brak Hotelu"
+        }
+        return "Hotel " + this._hotels[0].Name;
+    }
 }
