@@ -9,6 +9,7 @@ Location, LocationStrategy, HashLocationStrategy, Route, Router
 } from 'angular2/router';
 import 'rxjs/add/operator/map';
 import {enableProdMode} from 'angular2/core';
+import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
 
 enableProdMode();
 import { Routes, APP_ROUTES } from './routes';
@@ -61,7 +62,7 @@ class AppBaseRequestOptions extends BaseRequestOptions {
     })
 }
 
-bootstrap(AppRoot, [HTTP_PROVIDERS, ROUTER_PROVIDERS,
+bootstrap(AppRoot, [HTTP_PROVIDERS, ROUTER_PROVIDERS, ANGULAR2_GOOGLE_MAPS_PROVIDERS,
     provide(RequestOptions, { useClass: AppBaseRequestOptions }),
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
     DataService, MembershipService, UtilityService])
