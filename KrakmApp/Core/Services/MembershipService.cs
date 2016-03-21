@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Principal;
 
 using KrakmApp.Core.Repositories.Base;
@@ -66,6 +67,16 @@ namespace KrakmApp.Core.Services
             _userRepository.Commit();
 
             return user;
+        }
+
+        public User GetUserByPrinciples(ClaimsPrincipal _claims)
+        {
+            if (!_claims.Claims.Any())
+            {
+                throw new Exception("You don't have any claims");
+            }
+
+            return _userRepository.GetSingleByUsername(_claims.Claims.First().Issuer);
         }
 
         public User GetUser(int userId)

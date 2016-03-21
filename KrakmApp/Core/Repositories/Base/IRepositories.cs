@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.Security.Claims;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
 
@@ -7,7 +7,7 @@ namespace KrakmApp.Core.Repositories.Base
 {
     public interface IHotelRepository : IRepository<Hotel>
     {
-        void Add(HotelViewModel _hotelVM);
+        void Add(HotelViewModel hotelVM, ClaimsPrincipal claims);
     }
 
     public interface IPartnersRepository : IRepository<Partner> { }

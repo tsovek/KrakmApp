@@ -99,7 +99,12 @@ namespace KrakmApp.Controllers
                         throw new Exception("Correct data before adding");
                     }
 
-                    _hotelsRepository.Add(value);
+                    _hotelsRepository.Add(value, User);
+                    hotelCreationResult = new Result()
+                    {
+                        Succeeded = true,
+                        Message = "Adding succeeded"
+                    };
                 }
                 else
                 {

@@ -30,10 +30,17 @@ export class Hotels {
             error => console.error('Error: ' + error));
     }
 
-    getFirstHotel(): string {
-        if (this._hotels == null) {
+    getCurrentHotelName(): string {
+        if (this._hotels == null || this._hotels.length == 0) {
             return "Brak Hotelu"
         }
-        return "Hotel " + this._hotels[0].Name;
+        return this._hotels[0].Name;
+    }
+
+    getCurrentHotelAdress(): string {
+        if (this._hotels == null || this._hotels.length == 0) {
+            return "Brak Hotelu"
+        }
+        return this._hotels[0].Adress;
     }
 }
