@@ -3,16 +3,16 @@
   margin-top: 40px;
 }
 
-.profile {
+.hotel {
   margin: 20px 0;
 }
 
-.profile-sidebar {
+.hotel-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
 }
 
-.profile-userpic img {
+.hotel-photo img {
   float: none;
   margin: 0 auto;
   width: 85%;
@@ -22,19 +22,39 @@
   border-radius: 5% !important;
 }
 
-.profile-usertitle {
+.hotel-info {
   text-align: center;
   margin-top: 20px;
 }
 
-.profile-usertitle-name {
+.add-hotel-sidebar {
+  padding: 1px 0 10px 0;
+  background: #fff;
+}
+
+.hotel-add {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.hotel-add-title {
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.hotel-add-form {
+  padding: 10px 20px 20px 20px;
+}
+
+.hotel-info-name {
   color: #5a7391;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 7px;
 }
 
-.profile-usertitle-job {
+.hotel-info-adress {
   text-transform: uppercase;
   color: #5b9bd1;
   font-size: 12px;
@@ -42,12 +62,12 @@
   margin-bottom: 15px;
 }
 
-.profile-userbuttons {
+.hotel-buttons {
   text-align: center;
   margin-top: 10px;
 }
 
-.profile-userbuttons .btn {
+.hotel-buttons .btn {
   text-transform: uppercase;
   font-size: 11px;
   font-weight: 600;
@@ -55,50 +75,50 @@
   margin-right: 5px;
 }
 
-.profile-userbuttons .btn:last-child {
+.hotel-buttons .btn:last-child {
   margin-right: 0px;
 }
     
-.profile-usermenu {
+.hotel-menu {
   margin-top: 30px;
 }
 
-.profile-usermenu ul li {
+.hotel-menu ul li {
   border-bottom: 1px solid #f0f4f7;
 }
 
-.profile-usermenu ul li:last-child {
+.hotel-menu ul li:last-child {
   border-bottom: none;
 }
 
-.profile-usermenu ul li a {
+.hotel-menu ul li a {
   color: #93a3b5;
   font-size: 14px;
   font-weight: 400;
 }
 
-.profile-usermenu ul li a i {
+.hotel-menu ul li a i {
   margin-right: 8px;
   font-size: 14px;
 }
 
-.profile-usermenu ul li a:hover {
+.hotel-menu ul li a:hover {
   background-color: #fafcfd;
   color: #5b9bd1;
 }
 
-.profile-usermenu ul li.active {
+.hotel-menu ul li.active {
   border-bottom: none;
 }
 
-.profile-usermenu ul li.active a {
+.hotel-menu ul li.active a {
   color: #5b9bd1;
   background-color: #f6f9fb;
   border-left: 2px solid #5b9bd1;
   margin-left: -2px;
 }
 
-.profile-content {
+.hotel-map {
   padding: 20px;
   background: #fff;
   min-height: 460px;
@@ -108,11 +128,10 @@
   text-align: center;
 }
 
-#map {
-    width: 500px;
-    height: 400px;
-}
-
 .sebm-google-map-container {
     height: 550px;
+}
+
+.add-hotel-checkbox {
+    text-align: left;
 }
