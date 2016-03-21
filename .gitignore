@@ -173,6 +173,7 @@ ClientBin/
 *.publishsettings
 node_modules/
 Migrations/
+bower_components/
 orleans.codegen.cs
 
 # RIA/Silverlight projects
