@@ -9,9 +9,11 @@
                     <hr />
                     <form (ngSubmit)="addNewHotel()" #addHotelForm="ngForm">
                         <div class="form-group">
-                            <input type="text" class="form-control" required placeholder="Hotel name, ex. My Hotel"
-                                   [(ngModel)]="_newHotel.name"
-                                   ngControl="name" #name="ngForm">
+                            <input type="text" class="form-control" 
+                                   required 
+                                   placeholder="Hotel name, ex. My Hotel"
+                                   [(ngModel)]="_newHotel.Name"
+                                   ngControl="name" #name="ngForm" #spy>
                             <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                                 Name is required
                             </div>
@@ -22,16 +24,20 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" required placeholder="Adress, ex. Pawia 6"
-                                   [(ngModel)]="_newHotel.adress"
+                            <input type="text" class="form-control" 
+                                   required 
+                                   placeholder="Adress, ex. Pawia 6"
+                                   [(ngModel)]="_newHotel.Adress"
                                    ngControl="adress" #adress="ngForm">
                             <div [hidden]="adress.valid || adress.pristine" class="alert alert-danger">
                                 Adress is required
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Phone, ex. 322933421"
-                                   [(ngModel)]="_newHotel.phone"
+                            <input type="text" class="form-control" 
+                                   placeholder="Phone, e.g. 601-123-456"
+                                   [(ngModel)]="_newHotel.Phone" 
+                                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
                                    ngControl="phone" #phone="ngForm">
                             <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger">
                                 Phone is not valid
@@ -39,10 +45,11 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Email, ex. my@hotel.com"
-                                   [(ngModel)]="_newHotel.email"
+                            <input type="email" class="form-control" 
+                                   placeholder="Email, ex. my@hotel.com"
+                                   [(ngModel)]="_newHotel.Email"
                                    ngControl="email" #email="ngForm">
-                            <div [hidden]="email.valid || email.pristine" class="alert-danger">
+                            <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
                                 Email is not valid
                             </div>
                         </div>

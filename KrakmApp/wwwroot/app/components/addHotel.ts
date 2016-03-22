@@ -35,7 +35,7 @@ export class AddHotel {
 
     addNewHotel(): void {
         var result: Result = new Result(false, '');
-        this._dataService.post(this._newHotel, true)
+        this._dataService.post(JSON.stringify(this._newHotel))
             .subscribe(res => {
                 result.Succeeded = res.Succeeded;
                 result.Message = res.Message;
