@@ -36,12 +36,14 @@ namespace KrakmApp.Core
             modelBuilder.Entity<Hotel>().Property(e => e.Phone).HasMaxLength(14);
             modelBuilder.Entity<Hotel>().Property(e => e.Email).HasMaxLength(100);
             modelBuilder.Entity<Hotel>().HasMany(e => e.Localizations).WithOne();
+            modelBuilder.Entity<Hotel>().HasMany(e => e.Routes).WithOne();
 
             modelBuilder.Entity<HotelsPartners>().HasKey(x => new { x.HotelId, x.PartnerId });
 
             modelBuilder.Entity<Partner>().Property(e => e.Adress).HasMaxLength(100);
             modelBuilder.Entity<Partner>().Property(e => e.Phone).HasMaxLength(100);
             modelBuilder.Entity<Partner>().Property(e => e.Name).HasMaxLength(200);
+            modelBuilder.Entity<Partner>().Property(e => e.PromotionKind).HasMaxLength(100);
             modelBuilder.Entity<Partner>().HasOne(e => e.Localization).WithOne();
             modelBuilder.Entity<Partner>().HasOne(e => e.Marker).WithOne();
 
@@ -49,6 +51,8 @@ namespace KrakmApp.Core
             modelBuilder.Entity<Entertainment>().HasOne(e => e.Localization).WithOne();
 
             modelBuilder.Entity<Marker>().Property(e => e.Name).IsRequired().HasMaxLength(200);
+
+            modelBuilder.Entity<Route>().Property(e => e.Name).IsRequired().HasMaxLength(100);
 
             modelBuilder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(200);

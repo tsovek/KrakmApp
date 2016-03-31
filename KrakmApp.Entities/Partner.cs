@@ -13,6 +13,10 @@ namespace KrakmApp.Entities
         public string Adress { get; set; }
         public string Phone { get; set; }
         public string Name { get; set; }
+        public decimal Commission { get; set; }
+        public DateTime StartPromotion { get; set; }
+        public DateTime EndPromotion { get; set; }
+        public int PromotionKind { get; set; }
 
         public virtual Localization Localization { get; set; }
         public virtual Marker Marker { get; set; }

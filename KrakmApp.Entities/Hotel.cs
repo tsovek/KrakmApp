@@ -9,6 +9,7 @@ namespace KrakmApp.Entities
             Localizations = new List<Localization>();
             Clients = new List<Client>();
             Partners = new List<HotelsPartners>();
+            Routes = new List<Route>();
         }
 
         public int Id { get; set; }
@@ -22,5 +23,6 @@ namespace KrakmApp.Entities
         public virtual ICollection<Localization> Localizations { get; set; }
         public virtual ICollection<Client> Clients { get; set; }
         public virtual ICollection<HotelsPartners> Partners { get; set; }
+        public virtual ICollection<Route> Routes { get; set; }
     }
 }
