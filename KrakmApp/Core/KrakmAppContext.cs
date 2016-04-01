@@ -64,6 +64,12 @@ namespace KrakmApp.Core
             modelBuilder.Entity<UserRole>().Property(ur => ur.RoleId).IsRequired();
 
             modelBuilder.Entity<Role>().Property(r => r.Name).IsRequired().HasMaxLength(50);
+
+            modelBuilder.Entity<Banner>().Property(b => b.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Banner>().Property(b => b.Start).IsRequired();
+            modelBuilder.Entity<Banner>().Property(b => b.End).IsRequired();
+
+            modelBuilder.Entity<Error>().Property(e => e.Message).IsRequired();
         }
     }
 }

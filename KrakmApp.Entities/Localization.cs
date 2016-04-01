@@ -1,5 +1,11 @@
 ﻿namespace KrakmApp.Entities
 {
+    public enum LocalizationType
+    {
+        Kids = 0,
+        Students = 1
+    }
+
     public class Localization : IEntityBase
     {
         public int Id { get; set; }
@@ -8,11 +14,5 @@
         public bool Default { get; set; }
         public bool Active { get; set; }
         public LocalizationType LocalizationType { get; set; }
-    }
-
-    public enum LocalizationType
-    {
-        Kids = 0,
-        Students = 1
     }
 }
