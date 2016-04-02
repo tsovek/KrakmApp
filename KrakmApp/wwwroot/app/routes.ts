@@ -5,10 +5,11 @@ import { Partners } from './components/partners';
 import { HotelPartners } from './components/hotelPartners';
 import { Account } from './components/account/account';
 import { AddHotel } from './components/addHotel';
+import { HotelsList } from './components/hotelsList';
 
 export var Routes = {
     home: new Route({ path: '/', name: 'Home', component: Home }),
-    hotels: new Route({ path: '/hotels', name: 'Hotels', component: Hotels }),
+    hotels: new Route({ path: '/hotels', name: 'HotelsList', component: HotelsList }),
     partners: new Route({ path: '/partners', name: 'Partners', component: Partners }),
     hotelPartners: new Route({ path: '/hotels/:id/partners', name: 'HotelPartners', component: HotelPartners }),
     account: new Route({ path: '/account/...', name: 'Account', component: Account }),
