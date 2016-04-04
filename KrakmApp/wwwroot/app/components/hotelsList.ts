@@ -1,4 +1,5 @@
 ﻿import { Component } from 'angular2/core';
+import { Router } from 'angular2/router';
 import { DataService } from '../core/services/dataService';
 import { UtilityService } from '../core/services/utilityService';
 import { Hotel } from '../core/domain/hotel';
@@ -13,9 +14,11 @@ export class HotelsList {
 
     constructor(
         public hotelsService: DataService,
-        public utilityService: UtilityService) {
+        public utilityService: UtilityService,
+        private router: Router) {
 
         this.hotelsService.set(this._hotelsApi);
+        this.getHotels();
     }
 
     getHotels(): void {
@@ -23,7 +26,23 @@ export class HotelsList {
             res => {
                 var data: any = res.json();
                 this._hotels = data;
+                console.log(this._hotels);
             },
             error => console.error('Error: ' + error));
+    }
+
+    remove(hotel: Hotel): void {
+        
+    }
+
+    manage(hotel: Hotel): void {
+        if (hotel == null) {
+            return;
+        }
+        this.router.navigate(['Hotels', { id: hotel.Id }]);
+    }
+
+    edit(hotel: Hotel): void {
+
     }
 }

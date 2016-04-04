@@ -26,7 +26,7 @@ export class AddHotel {
         public _dataService: DataService) {
 
         _dataService.set(this._hotelApi);
-        this._newHotel = new Hotel('', 0, 0, '', '', '');
+        this._newHotel = new Hotel(0, '', 0, 0, '', '', '');
 
         if (_membershipSerivce.isUserAuthenticated()) {
             this._user = _membershipSerivce.getLoggedInUser();
