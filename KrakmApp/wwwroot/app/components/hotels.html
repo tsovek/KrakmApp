@@ -61,7 +61,12 @@
         </div>
         <div class="col-md-9">
             <div class="hotel-map">
-                <sebm-google-map [latitude]="51.678418" [longitude]="7.809007">
+                <sebm-google-map [latitude]="50.0647" [longitude]="19.945" [zoom]="17">
+                    <sebm-google-map-marker [latitude]="50.0647" [longitude]="19.945" [label]="'M'">
+                        <sebm-google-map-info-window [disableAutoPan]="true">
+                            Hi, this is the content of the <strong>info window</strong>
+                        </sebm-google-map-info-window>
+                    </sebm-google-map-marker>
                 </sebm-google-map>
             </div>
             <hr>

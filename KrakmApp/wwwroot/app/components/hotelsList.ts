@@ -26,7 +26,6 @@ export class HotelsList {
             res => {
                 var data: any = res.json();
                 this._hotels = data;
-                console.log(this._hotels);
             },
             error => console.error('Error: ' + error));
     }
