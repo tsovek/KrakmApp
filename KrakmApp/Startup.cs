@@ -49,7 +49,6 @@ namespace KrakmApp
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IEntertainmentRepository, EntertainmentRepository>();
             services.AddScoped<IMonumentRepository, MonumentsRepository>();
-            services.AddScoped<IMarkerRepository, MarkerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
@@ -69,6 +68,15 @@ namespace KrakmApp
                 options.AddPolicy("AdminOnly", policy =>
                 {
                     policy.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+                options.AddPolicy("All", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, 
+                        "Admin", "Owner", "Employee", "Partner");
+                });
+                options.AddPolicy("OwnerOnly", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Owner", "Admin");
                 });
             });
 

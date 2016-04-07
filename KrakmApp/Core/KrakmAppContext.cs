@@ -10,7 +10,6 @@ namespace KrakmApp.Core
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Marker> Markers { get; set; }
         public DbSet<Monument> Monuments { get; set; }
         public DbSet<Localization> Localizations { get; set; }
         public DbSet<Entertainment> Entertainments { get; set; }
@@ -29,30 +28,27 @@ namespace KrakmApp.Core
         {
             modelBuilder.Entity<Client>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Client>().HasOne(e => e.Hotel).WithMany(e => e.Clients);
-            modelBuilder.Entity<Client>().HasOne(e => e.Localization).WithOne();
 
             modelBuilder.Entity<Hotel>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Hotel>().Property(e => e.Adress).HasMaxLength(100);
             modelBuilder.Entity<Hotel>().Property(e => e.Phone).HasMaxLength(14);
             modelBuilder.Entity<Hotel>().Property(e => e.Email).HasMaxLength(100);
-            modelBuilder.Entity<Hotel>().HasMany(e => e.Localizations).WithOne();
-            modelBuilder.Entity<Hotel>().HasMany(e => e.Routes).WithOne();
-
-            modelBuilder.Entity<HotelsPartners>().HasKey(x => new { x.HotelId, x.PartnerId });
+            modelBuilder.Entity<Hotel>().HasOne(e => e.Localization).WithOne();
 
             modelBuilder.Entity<Partner>().Property(e => e.Adress).HasMaxLength(100);
             modelBuilder.Entity<Partner>().Property(e => e.Phone).HasMaxLength(100);
             modelBuilder.Entity<Partner>().Property(e => e.Name).HasMaxLength(200);
             modelBuilder.Entity<Partner>().Property(e => e.PromotionKind).HasMaxLength(100);
             modelBuilder.Entity<Partner>().HasOne(e => e.Localization).WithOne();
-            modelBuilder.Entity<Partner>().HasOne(e => e.Marker).WithOne();
+            modelBuilder.Entity<Partner>().HasOne(e => e.User).WithOne();
 
             modelBuilder.Entity<Entertainment>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Entertainment>().HasOne(e => e.Localization).WithOne();
-
-            modelBuilder.Entity<Marker>().Property(e => e.Name).IsRequired().HasMaxLength(200);
+            modelBuilder.Entity<Entertainment>().HasOne(e => e.User).WithOne();
 
             modelBuilder.Entity<Route>().Property(e => e.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Route>().HasOne(e => e.User).WithOne();
+            modelBuilder.Entity<Route>().HasMany(e => e.Localizations).WithOne();
 
             modelBuilder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(200);

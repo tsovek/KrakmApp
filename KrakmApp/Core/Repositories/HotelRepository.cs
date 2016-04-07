@@ -41,7 +41,7 @@ namespace KrakmApp.Core.Repositories
                 Adress = hotelVM.Adress,
                 Phone = hotelVM.Phone,
                 Email = hotelVM.Email,
-                Localizations = new Collection<Localization>() { localization }
+                Localization = localization
             };
 
             Add(hotel);

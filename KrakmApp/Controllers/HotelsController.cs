@@ -60,14 +60,22 @@ namespace KrakmApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<HotelViewModel> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             HotelViewModel hotelVM = null;
 
             try
             {
-                Hotel hotel = await _hotelsRepository.GetSingleAsync(id);
-                hotelVM = Mapper.Map<Hotel, HotelViewModel>(hotel);
+                if (await _authorization.AuthorizeAsync(User, "OwnerOnly"))
+                {
+                    Hotel hotel = await _hotelsRepository.GetSingleAsync(id);
+                    hotelVM = Mapper.Map<Hotel, HotelViewModel>(hotel);
+                }
+                else
+                {
+                    var codeResult = new CodeResult(401);
+                    return new ObjectResult(codeResult);
+                }
             }
             catch (Exception ex)
             {
@@ -81,7 +89,7 @@ namespace KrakmApp.Controllers
                 _loggingRepository.Commit();
             }
 
-            return hotelVM;
+            return new ObjectResult(hotelVM);
         }
 
         [HttpPost]
@@ -120,8 +128,8 @@ namespace KrakmApp.Controllers
                     Message = ex.Message
                 };
 
-                //_loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
-                //_loggingRepository.Commit();
+                _loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
+                _loggingRepository.Commit();
             }
 
             result = new ObjectResult(hotelCreationResult);
@@ -136,8 +144,11 @@ namespace KrakmApp.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+
+
+            return Ok();
         }
     }
 }

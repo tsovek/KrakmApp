@@ -6,7 +6,6 @@ namespace KrakmApp.Entities
     {
         public int Id { get; set; }
         public int HotelId { get; set; }
-        public int LocalizationId { get; set; }
 
         public Guid UniqueKey { get; set; }
         public string Name { get; set; }
@@ -14,6 +13,5 @@ namespace KrakmApp.Entities
         public DateTime CheckOut { get; set; }
 
         public virtual Hotel Hotel { get; set; }
-        public virtual Localization Localization { get; set; }
     }
 }

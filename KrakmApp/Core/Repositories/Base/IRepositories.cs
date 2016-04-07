@@ -30,7 +30,5 @@ namespace KrakmApp.Core.Repositories.Base
 
     public interface ILoggingRepository : IRepository<Error> { }
 
-    public interface IMarkerRepository : IRepository<Marker> { }
-
     public interface ILocalizationRepository : IRepository<Localization> { }
 }
