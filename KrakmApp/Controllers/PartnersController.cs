@@ -21,15 +21,18 @@ namespace KrakmApp.Controllers
         IAuthorizationService _authorizationService;
         IPartnersRepository _partnersRepository;
         ILoggingRepository _loggingRepository;
+        IMembershipService _membership;
 
         public PartnersController(
             IAuthorizationService authorizationService,
             IPartnersRepository partnersRepository,
-            ILoggingRepository loggingRepository)
+            ILoggingRepository loggingRepository,
+            IMembershipService membershipService)
         {
             _authorizationService = authorizationService;
             _partnersRepository = partnersRepository;
             _loggingRepository = loggingRepository;
+            _membership = membershipService;
         }
 
         [HttpGet]
@@ -39,14 +42,16 @@ namespace KrakmApp.Controllers
 
             try
             {
-                if (await _authorizationService.AuthorizeAsync(User, "AdminOnly"))
+                if (await _authorizationService.AuthorizeAsync(User, "OwnerOnly"))
                 {
+                    User user = _membership.GetUserByPrinciples(User);
                     IEnumerable<Partner> partners = _partnersRepository
                         .GetAll()
-                        .OrderBy(a => a.Id);
+                        .Where(e => e.UserId == user.Id);
 
-                    partnersVM = Mapper
-                        .Map<IEnumerable<Partner>, IEnumerable<PartnerViewModel>>(partners);
+                    partnersVM = Mapper.Map<
+                        IEnumerable<Partner>, 
+                        IEnumerable<PartnerViewModel>>(partners);
                 }
                 else
                 {
@@ -56,7 +61,10 @@ namespace KrakmApp.Controllers
             }
             catch (Exception ex)
             {
-                _loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
+                _loggingRepository.Add(new Error() {
+                    Message = ex.Message,
+                    StackTrace = ex.StackTrace,
+                    DateCreated = DateTime.Now });
                 _loggingRepository.Commit();
             }
 

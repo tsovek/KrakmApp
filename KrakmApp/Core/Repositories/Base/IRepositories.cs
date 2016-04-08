@@ -7,7 +7,7 @@ namespace KrakmApp.Core.Repositories.Base
 {
     public interface IHotelRepository : IRepository<Hotel>
     {
-        void Add(HotelViewModel hotelVM, ClaimsPrincipal claims);
+        
     }
 
     public interface IPartnersRepository : IRepository<Partner> { }

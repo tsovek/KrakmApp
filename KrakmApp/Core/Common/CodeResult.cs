@@ -12,6 +12,10 @@ namespace KrakmApp.Core.Common
             {
                 _message = "Unauthorized access. Login required";
             }
+            else if (status == 403)
+            {
+                _message = "You have not permission to do this action.";
+            }
 
             _status = status;
         }

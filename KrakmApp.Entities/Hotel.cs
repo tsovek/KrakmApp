@@ -4,6 +4,11 @@ namespace KrakmApp.Entities
 {
     public class Hotel : IEntityBase
     {
+        public Hotel()
+        {
+            Clients = new List<Client>();
+        }
+
         public int Id { get; set; }
         public int UserId { get; set; }
         public int LocalizationId { get; set; }

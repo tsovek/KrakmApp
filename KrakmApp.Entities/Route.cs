@@ -4,6 +4,11 @@ namespace KrakmApp.Entities
 {
     public class Route : IEntityBase
     {
+        public Route()
+        {
+            Localizations = new List<Localization>();
+        }
+
         public int Id { get; set; }
         public int UserId { get; set; }
 

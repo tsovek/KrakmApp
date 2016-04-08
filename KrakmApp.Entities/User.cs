@@ -8,6 +8,7 @@ namespace KrakmApp.Entities
         public User()
         {
             UserRoles = new List<UserRole>();
+            Hotels = new List<Hotel>();
         }
 
         public int Id { get; set; }

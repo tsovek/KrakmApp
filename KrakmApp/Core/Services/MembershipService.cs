@@ -76,7 +76,11 @@ namespace KrakmApp.Core.Services
                 throw new Exception("You don't have any claims");
             }
 
-            return _userRepository.GetSingleByUsername(_claims.Claims.First().Issuer);
+            return _userRepository
+                .AllIncluding(
+                    h => h.Hotels, 
+                    h => h.UserRoles)
+                .First(e => e.Name == _claims.Claims.First().Issuer);
         }
 
         public User GetUser(int userId)
