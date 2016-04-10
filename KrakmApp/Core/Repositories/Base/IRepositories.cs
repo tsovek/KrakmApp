@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Security.Claims;
+using System.Threading.Tasks;
 using KrakmApp.Entities;
-using KrakmApp.ViewModels;
 
 namespace KrakmApp.Core.Repositories.Base
 {
     public interface IHotelRepository : IRepository<Hotel>
     {
-        
+        IEnumerable<Hotel> GetAllByUsername(string user);
+        Hotel GetSingleByUsername(string user, int id);
     }
 
-    public interface IPartnersRepository : IRepository<Partner> { }
+    public interface IPartnersRepository : IRepository<Partner>
+    {
+        IEnumerable<Partner> GetAllByUsername(string user);
+        Partner GetSingleByUsername(string user, int id);
+    }
 
     public interface IClientRepository : IRepository<Client> { }
 

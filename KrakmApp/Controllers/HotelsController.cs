@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using KrakmApp.Core.Common;
 using KrakmApp.Core.Repositories.Base;
@@ -13,26 +12,28 @@ using Microsoft.AspNet.Mvc;
 namespace KrakmApp.Controllers
 {
     [Route("api/[controller]")]
-    public class HotelsController : Controller
+    [Authorize(Policy = "OwnerOnly")]
+    public class HotelsController : BaseController
     {
         IHotelRepository _hotelsRepository;
         ILoggingRepository _loggingRepository;
         IAuthorizationService _authorization;
         ILocalizationRepository _localization;
-        IMembershipService _membershipService;
+        IMembershipService _membership;
 
         public HotelsController(
             IHotelRepository hotelsRepository, 
             ILoggingRepository loggingRepository, 
             IAuthorizationService authorization,
             ILocalizationRepository localization,
-            IMembershipService membershipService)
+            IMembershipService membership)
+            : base(membership, loggingRepository)
         {
             _hotelsRepository = hotelsRepository;
             _loggingRepository = loggingRepository;
             _authorization = authorization;
             _localization = localization;
-            _membershipService = membershipService;
+            _membership = membership;
         }
 
         [HttpGet]
@@ -43,69 +44,47 @@ namespace KrakmApp.Controllers
             try
             {
                 IEnumerable<Hotel> hotels = _hotelsRepository
-                    .GetAll()
+                    .GetAllByUsername(GetUsername())
                     .OrderBy(p => p.Id);
 
-                returnedHotels = 
-                    Mapper.Map<IEnumerable<Hotel>, IEnumerable<HotelViewModel>>(hotels);
+                returnedHotels = Mapper.Map<
+                    IEnumerable<Hotel>, 
+                    IEnumerable<HotelViewModel>>(hotels);
             }
             catch (Exception ex)
             {
-                _loggingRepository.Add(
-                    new Error()
-                    {
-                        Message = ex.Message,
-                        StackTrace = ex.StackTrace,
-                        DateCreated = DateTime.Now
-                    });
-                _loggingRepository.Commit();
+                LogFail(ex);
             }
 
             return returnedHotels;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public IActionResult Get(int id)
         {
             HotelViewModel hotelVM = null;
-
             try
             {
-                if (await _authorization.AuthorizeAsync(User, "OwnerOnly"))
-                {
-                    User user = _membershipService.GetUserByPrinciples(User);
-                    if (!user.Hotels.Any(e => e.Id == id))
-                    {
-                        var codeResult = new CodeResult(403);
-                        return new ObjectResult(codeResult);
-                    }
+                Hotel hotel = _hotelsRepository
+                    .GetSingleByUsername(GetUsername(), id);
 
-                    Hotel hotel = await _hotelsRepository.GetSingleAsync(id);
-                    hotelVM = Mapper.Map<Hotel, HotelViewModel>(hotel);
-                }
-                else
+                if (hotel == null)
                 {
-                    var codeResult = new CodeResult(401);
-                    return new ObjectResult(codeResult);
+                    return HttpBadRequest();
                 }
+
+                hotelVM = Mapper.Map<Hotel, HotelViewModel>(hotel);
             }
             catch (Exception ex)
             {
-                _loggingRepository.Add(
-                    new Error()
-                    {
-                        Message = ex.Message,
-                        StackTrace = ex.StackTrace,
-                        DateCreated = DateTime.Now
-                    });
-                _loggingRepository.Commit();
+                LogFail(ex);
             }
 
             return new ObjectResult(hotelVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(
+        public IActionResult Post(
             [FromBody]HotelViewModel value)
         {
             IActionResult result = new ObjectResult(false);
@@ -113,59 +92,41 @@ namespace KrakmApp.Controllers
 
             try
             {
-                if (await _authorization.AuthorizeAsync(User, "OwnerOnly"))
+                if (!ModelState.IsValid)
                 {
-                    if (!ModelState.IsValid)
-                    {
-                        throw new Exception("Correct data before adding");
-                    }
-
-                    var localization = new Localization
-                    {
-                        Latitude = value.Latitude,
-                        Longitude = value.Longitude,
-                        Default = true
-                    };
-                    _localization.Add(localization);
-
-                    User user = _membershipService.GetUserByPrinciples(User);
-                    var hotel = new Hotel
-                    {
-                        User = user,
-                        Name = value.Name,
-                        Adress = value.Adress,
-                        Phone = value.Phone,
-                        Email = value.Email,
-                        Localization = localization
-                    };
-                    _hotelsRepository.Add(hotel);
-                    _hotelsRepository.Commit();
-
-                    hotelCreationResult = new Result()
-                    {
-                        Succeeded = true,
-                        Message = "Adding succeeded"
-                    };
+                    throw new Exception("Correct data before adding");
                 }
-                else
+
+                var localization = new Localization
                 {
-                    var codeResult = new CodeResult(401);
-                    return new ObjectResult(codeResult);
-                }
+                    Latitude = value.Latitude,
+                    Longitude = value.Longitude,
+                    Default = true
+                };
+                _localization.Add(localization);
+
+                User user = GetUser();
+                var hotel = new Hotel
+                {
+                    User = user,
+                    Name = value.Name,
+                    Adress = value.Adress,
+                    Phone = value.Phone,
+                    Email = value.Email,
+                    Localization = localization
+                };
+                _hotelsRepository.Add(hotel);
+                _hotelsRepository.Commit();
+
+                hotelCreationResult = new Result()
+                {
+                    Succeeded = true,
+                    Message = "Adding succeeded"
+                };
             }
             catch (Exception ex)
             {
-                hotelCreationResult = new Result()
-                {
-                    Succeeded = false,
-                    Message = ex.Message
-                };
-
-                _loggingRepository.Add(new Error() {
-                    Message = ex.Message,
-                    StackTrace = ex.StackTrace,
-                    DateCreated = DateTime.Now });
-                _loggingRepository.Commit();
+                hotelCreationResult = GetFailedResult(ex);
             }
 
             result = new ObjectResult(hotelCreationResult);
@@ -173,7 +134,7 @@ namespace KrakmApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(
+        public IActionResult Put(
             int id, 
             [FromBody]HotelViewModel value)
         {
@@ -182,56 +143,37 @@ namespace KrakmApp.Controllers
 
             try
             {
-                if (await _authorization.AuthorizeAsync(User, "OwnerOnly"))
+                if (!ModelState.IsValid)
                 {
-                    if (!ModelState.IsValid)
-                    {
-                        throw new Exception("Correct data before editing");
-                    }
-
-                    User user = _membershipService.GetUserByPrinciples(User);
-                    Hotel hotel = _hotelsRepository.GetSingle(id);
-                    if (!user.Hotels.Any(h => h.Id == id))
-                    {
-                        var codeResult = new CodeResult(403);
-                        return new ObjectResult(codeResult);
-                    }
-
-                    Localization loc = 
-                        _localization.GetSingle(hotel.LocalizationId);
-                    loc.Latitude = value.Latitude;
-                    loc.Longitude = value.Longitude;
-                    _localization.Edit(loc);
-
-                    hotel.Adress = value.Adress;
-                    hotel.Email = value.Email;
-                    hotel.Phone = value.Phone;
-                    hotel.Name = value.Name;
-                    _hotelsRepository.Edit(hotel);
-
-                    _hotelsRepository.Commit();
-
-                    hotelEditionResult = new Result()
-                    {
-                        Succeeded = true,
-                        Message = "Editing succeeded"
-                    };
+                    throw new Exception("Correct data before editing");
                 }
-                else
+
+                Hotel hotel = _hotelsRepository
+                    .GetSingleByUsername(GetUsername(), id);
+
+                Localization loc =
+                    _localization.GetSingle(hotel.LocalizationId);
+                loc.Latitude = value.Latitude;
+                loc.Longitude = value.Longitude;
+                _localization.Edit(loc);
+
+                hotel.Adress = value.Adress;
+                hotel.Email = value.Email;
+                hotel.Phone = value.Phone;
+                hotel.Name = value.Name;
+                _hotelsRepository.Edit(hotel);
+
+                _hotelsRepository.Commit();
+
+                hotelEditionResult = new Result()
                 {
-                    return HttpUnauthorized();
-                }
+                    Succeeded = true,
+                    Message = "Editing succeeded"
+                };
             }
             catch (Exception ex)
             {
-                hotelEditionResult = new Result()
-                {
-                    Succeeded = false,
-                    Message = ex.Message
-                };
-
-                _loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
-                _loggingRepository.Commit();
+                hotelEditionResult = GetFailedResult(ex);
             }
 
             result = new ObjectResult(hotelEditionResult);
@@ -239,52 +181,34 @@ namespace KrakmApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             IActionResult result = new ObjectResult(false);
             Result hotelDeletionResult = null;
-            
+
             try
             {
-                if (await _authorization.AuthorizeAsync(User, "OwnerOnly"))
+                Hotel hotel = _hotelsRepository
+                    .GetSingleByUsername(GetUsername(), id);
+                if (hotel != null)
                 {
-                    User user = _membershipService.GetUserByPrinciples(User);
-                    Hotel hotel = user.Hotels.FirstOrDefault(h => h.Id == id);
-                    if (hotel != null)
-                    {
-                        _hotelsRepository.Delete(hotel);
-                        _hotelsRepository.Commit();
+                    _hotelsRepository.Delete(hotel);
+                    _hotelsRepository.Commit();
 
-                        hotelDeletionResult = new Result()
-                        {
-                            Succeeded = true,
-                            Message = "Deletion succeeded"
-                        };
-                    }
-                    else
+                    hotelDeletionResult = new Result()
                     {
-                        var codeResult = new CodeResult(403);
-                        return new ObjectResult(codeResult);
-                    }
+                        Succeeded = true,
+                        Message = "Deletion succeeded"
+                    };
                 }
                 else
                 {
-                    HttpUnauthorized();
+                    return HttpBadRequest();
                 }
             }
             catch (Exception ex)
             {
-                hotelDeletionResult = new Result()
-                {
-                    Succeeded = false,
-                    Message = ex.Message
-                };
-
-                _loggingRepository.Add(new Error() {
-                    Message = ex.Message,
-                    StackTrace = ex.StackTrace,
-                    DateCreated = DateTime.Now });
-                _loggingRepository.Commit();
+                hotelDeletionResult = GetFailedResult(ex);
             }
 
             result = new ObjectResult(hotelDeletionResult);

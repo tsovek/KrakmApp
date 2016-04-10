@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using AutoMapper;
 
@@ -16,10 +15,12 @@ using Microsoft.AspNet.Mvc;
 namespace KrakmApp.Controllers
 {
     [Route("api/[controller]")]
-    public class PartnersController : Controller
+    [Authorize(Policy ="OwnerOnly")]
+    public class PartnersController : BaseController
     {
         IAuthorizationService _authorizationService;
         IPartnersRepository _partnersRepository;
+        ILocalizationRepository _localizationRepository;
         ILoggingRepository _loggingRepository;
         IMembershipService _membership;
 
@@ -27,48 +28,89 @@ namespace KrakmApp.Controllers
             IAuthorizationService authorizationService,
             IPartnersRepository partnersRepository,
             ILoggingRepository loggingRepository,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            ILocalizationRepository localizationRepository)
+            : base(membershipService, loggingRepository)
         {
             _authorizationService = authorizationService;
             _partnersRepository = partnersRepository;
             _loggingRepository = loggingRepository;
             _membership = membershipService;
+            _localizationRepository = localizationRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             var partnersVM = Enumerable.Empty<PartnerViewModel>();
 
             try
             {
-                if (await _authorizationService.AuthorizeAsync(User, "OwnerOnly"))
-                {
-                    User user = _membership.GetUserByPrinciples(User);
-                    IEnumerable<Partner> partners = _partnersRepository
-                        .GetAll()
-                        .Where(e => e.UserId == user.Id);
+                IEnumerable<Partner> partners = _partnersRepository
+                    .GetAllByUsername(GetUsername());
 
-                    partnersVM = Mapper.Map<
-                        IEnumerable<Partner>, 
-                        IEnumerable<PartnerViewModel>>(partners);
-                }
-                else
-                {
-                    var codeResult = new CodeResult(401);
-                    return new ObjectResult(codeResult);
-                }
+                partnersVM = Mapper.Map<
+                    IEnumerable<Partner>,
+                    IEnumerable<PartnerViewModel>>(partners);
             }
             catch (Exception ex)
             {
-                _loggingRepository.Add(new Error() {
-                    Message = ex.Message,
-                    StackTrace = ex.StackTrace,
-                    DateCreated = DateTime.Now });
-                _loggingRepository.Commit();
+                LogFail(ex);
             }
 
             return new ObjectResult(partnersVM);
+        }
+
+        [HttpPost]
+        public IActionResult Post(
+            [FromBody]PartnerViewModel value)
+        {
+            IActionResult result = new ObjectResult(false);
+            Result hotelCreationResult = null;
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Correct data before adding");
+                }
+
+                var localization = new Localization
+                {
+                    Latitude = value.Latitude,
+                    Longitude = value.Longitude,
+                    Default = true
+                };
+                _localizationRepository.Add(localization);
+
+                User user = GetUser();
+                var partner = new Partner
+                {
+                    User = user,
+                    Name = value.Name,
+                    Adress = value.Adress,
+                    Phone = value.Phone,
+                    Localization = localization,
+                    ImageUrl = value.ImageUrl,
+                    Commission = value.Commission,
+                    UniqueKey = Guid.NewGuid()
+                };
+                _partnersRepository.Add(partner);
+                _partnersRepository.Commit();
+
+                hotelCreationResult = new Result()
+                {
+                    Succeeded = true,
+                    Message = "Adding succeeded"
+                };
+            }
+            catch (Exception ex)
+            {
+                hotelCreationResult = GetFailedResult(ex);
+            }
+
+            result = new ObjectResult(hotelCreationResult);
+            return result;
         }
     }
 }

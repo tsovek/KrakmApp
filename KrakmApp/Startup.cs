@@ -41,7 +41,7 @@ namespace KrakmApp
         {
             services.AddEntityFramework()
                     .AddSqlServer()
-                    .AddDbContext<KrakmApp.Core.KrakmAppContext>(options =>
+                    .AddDbContext<KrakmAppContext>(options =>
                         options.UseSqlServer(Configuration["Data:KrakmAppConnection:ConnectionString"]));
 
             services.AddScoped<IHotelRepository, HotelRepository>();

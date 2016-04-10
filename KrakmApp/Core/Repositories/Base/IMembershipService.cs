@@ -9,6 +9,7 @@ namespace KrakmApp.Core.Repositories.Base
         MembershipContext ValidateUser(string username, string password);
         User CreateUser(string username, string email, string password, int[] roles);
         User GetUser(int userId);
+        User GetUser(string user);
         List<Role> GetUserRoles(string username);
         User GetUserByPrinciples(ClaimsPrincipal claims);
     }

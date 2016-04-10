@@ -1,9 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
-using KrakmApp.ViewModels;
 
 namespace KrakmApp.Core.Repositories
 {
@@ -12,5 +10,18 @@ namespace KrakmApp.Core.Repositories
         public HotelRepository(KrakmAppContext _context)
             : base(_context)
         { }
+
+        public IEnumerable<Hotel> GetAllByUsername(string user)
+        {
+            return AllIncluding(e => e.Localization)
+                .Where(e => e.User.Name == user);
+        }
+
+        public Hotel GetSingleByUsername(string user, int id)
+        {
+            return GetSingle(
+                hotel => hotel.Id == id && hotel.User.Name == user,
+                hotel => hotel.Localization);
+        }
     }
 }

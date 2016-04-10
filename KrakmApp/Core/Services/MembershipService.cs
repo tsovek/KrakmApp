@@ -88,6 +88,11 @@ namespace KrakmApp.Core.Services
             return _userRepository.GetSingle(userId);
         }
 
+        public User GetUser(string user)
+        {
+            return _userRepository.GetSingle(e => e.Name == user);
+        }
+
         public List<Role> GetUserRoles(string username)
         {
             List<Role> _result = new List<Role>();
