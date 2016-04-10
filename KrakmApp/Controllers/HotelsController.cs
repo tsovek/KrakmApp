@@ -12,7 +12,7 @@ using Microsoft.AspNet.Mvc;
 namespace KrakmApp.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Policy = "OwnerOnly")]
+    [Authorize(Policy = "All")]
     public class HotelsController : BaseController
     {
         IHotelRepository _hotelsRepository;
@@ -84,6 +84,7 @@ namespace KrakmApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "OwnerOnly")]
         public IActionResult Post(
             [FromBody]HotelViewModel value)
         {
@@ -134,6 +135,7 @@ namespace KrakmApp.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "OwnerOnly")]
         public IActionResult Put(
             int id, 
             [FromBody]HotelViewModel value)
@@ -181,6 +183,7 @@ namespace KrakmApp.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "OwnerOnly")]
         public IActionResult Delete(int id)
         {
             IActionResult result = new ObjectResult(false);

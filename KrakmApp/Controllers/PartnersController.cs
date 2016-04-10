@@ -15,7 +15,7 @@ using Microsoft.AspNet.Mvc;
 namespace KrakmApp.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Policy ="OwnerOnly")]
+    [Authorize(Policy ="All")]
     public class PartnersController : BaseController
     {
         IAuthorizationService _authorizationService;

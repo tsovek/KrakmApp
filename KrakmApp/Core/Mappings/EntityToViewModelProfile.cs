@@ -20,10 +20,17 @@ namespace KrakmApp.Core.Mappings
             Mapper.CreateMap<Partner, PartnerViewModel>()
                 .ForMember(
                     vm => vm.Latitude,
-                    hotel => hotel.MapFrom(src => src.Localization.Latitude))
+                    partner => partner.MapFrom(src => src.Localization.Latitude))
                 .ForMember(
                     vm => vm.Longitude,
-                    hotel => hotel.MapFrom(src => src.Localization.Longitude)); ;
+                    partner => partner.MapFrom(src => src.Localization.Longitude));
+            Mapper.CreateMap<Monument, MonumentViewModel>()
+                .ForMember(
+                    vm => vm.Latitude,
+                    monument => monument.MapFrom(src => src.Localization.Latitude))
+                .ForMember(
+                    vm => vm.Longitude,
+                    monument => monument.MapFrom(src => src.Localization.Longitude));
         }
     }
 }
