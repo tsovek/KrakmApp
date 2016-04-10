@@ -13,6 +13,7 @@ namespace KrakmApp.Core
         public DbSet<Monument> Monuments { get; set; }
         public DbSet<Localization> Localizations { get; set; }
         public DbSet<Entertainment> Entertainments { get; set; }
+        public DbSet<Route> Routes { get; set; }
 
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
@@ -20,9 +21,7 @@ namespace KrakmApp.Core
 
         public KrakmAppContext(DbContextOptions options) 
             : base (options)
-        {
-                
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,12 +38,15 @@ namespace KrakmApp.Core
             modelBuilder.Entity<Partner>().Property(e => e.Phone).HasMaxLength(100);
             modelBuilder.Entity<Partner>().Property(e => e.Name).HasMaxLength(200);
             modelBuilder.Entity<Partner>().Property(e => e.PromotionKind).HasMaxLength(100);
+            modelBuilder.Entity<Partner>().Property(e => e.Description).HasMaxLength(250);
             modelBuilder.Entity<Partner>().HasOne(e => e.Localization).WithOne();
             modelBuilder.Entity<Partner>().HasOne(e => e.User).WithOne();
 
             modelBuilder.Entity<Entertainment>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Entertainment>().HasOne(e => e.Localization).WithOne();
-            modelBuilder.Entity<Entertainment>().HasOne(e => e.User).WithOne();
+
+            modelBuilder.Entity<Monument>().Property(e => e.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Monument>().HasOne(e => e.Localization).WithOne();
 
             modelBuilder.Entity<Route>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Route>().HasOne(e => e.User).WithOne();
