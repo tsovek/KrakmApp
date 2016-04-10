@@ -61,12 +61,36 @@ namespace KrakmApp.Controllers
             return new ObjectResult(partnersVM);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            PartnerViewModel partnerVM = null;
+            try
+            {
+                Partner partner = _partnersRepository
+                    .GetSingleByUsername(GetUsername(), id);
+
+                if (partner == null)
+                {
+                    return HttpBadRequest();
+                }
+
+                partnerVM = Mapper.Map<Partner, PartnerViewModel>(partner);
+            }
+            catch (Exception ex)
+            {
+                LogFail(ex);
+            }
+
+            return new ObjectResult(partnerVM);
+        }
+
         [HttpPost]
         public IActionResult Post(
             [FromBody]PartnerViewModel value)
         {
             IActionResult result = new ObjectResult(false);
-            Result hotelCreationResult = null;
+            Result partnersCreationResult = null;
 
             try
             {
@@ -98,7 +122,7 @@ namespace KrakmApp.Controllers
                 _partnersRepository.Add(partner);
                 _partnersRepository.Commit();
 
-                hotelCreationResult = new Result()
+                partnersCreationResult = new Result()
                 {
                     Succeeded = true,
                     Message = "Adding succeeded"
@@ -106,10 +130,94 @@ namespace KrakmApp.Controllers
             }
             catch (Exception ex)
             {
-                hotelCreationResult = GetFailedResult(ex);
+                partnersCreationResult = GetFailedResult(ex);
             }
 
-            result = new ObjectResult(hotelCreationResult);
+            result = new ObjectResult(partnersCreationResult);
+            return result;
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(
+            int id,
+            [FromBody]PartnerViewModel value)
+        {
+            IActionResult result = new ObjectResult(false);
+            Result partnerEditionResult = null;
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    throw new Exception("Correct data before editing");
+                }
+
+                Partner partner = _partnersRepository
+                    .GetSingleByUsername(GetUsername(), id);
+
+                Localization loc =
+                    _localizationRepository.GetSingle(partner.LocalizationId);
+                loc.Latitude = value.Latitude;
+                loc.Longitude = value.Longitude;
+                _localizationRepository.Edit(loc);
+
+                partner.Adress = value.Adress;
+                partner.Phone = value.Phone;
+                partner.Name = value.Name;
+                partner.Description = value.Description;
+                partner.Commission = value.Commission;
+                partner.ImageUrl = value.ImageUrl;
+                _partnersRepository.Edit(partner);
+
+                _partnersRepository.Commit();
+
+                partnerEditionResult = new Result()
+                {
+                    Succeeded = true,
+                    Message = "Editing succeeded"
+                };
+            }
+            catch (Exception ex)
+            {
+                partnerEditionResult = GetFailedResult(ex);
+            }
+
+            result = new ObjectResult(partnerEditionResult);
+            return result;
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            IActionResult result = new ObjectResult(false);
+            Result partnerDeletionResult = null;
+
+            try
+            {
+                Partner partner = _partnersRepository
+                    .GetSingleByUsername(GetUsername(), id);
+                if (partner != null)
+                {
+                    _partnersRepository.Delete(partner);
+                    _partnersRepository.Commit();
+
+                    partnerDeletionResult = new Result()
+                    {
+                        Succeeded = true,
+                        Message = "Deletion succeeded"
+                    };
+                }
+                else
+                {
+                    return HttpBadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                partnerDeletionResult = GetFailedResult(ex);
+            }
+
+            result = new ObjectResult(partnerDeletionResult);
             return result;
         }
     }
