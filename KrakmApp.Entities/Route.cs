@@ -6,7 +6,7 @@ namespace KrakmApp.Entities
     {
         public Route()
         {
-            Localizations = new List<Localization>();
+            RouteLocalization = new List<RouteLocalization>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace KrakmApp.Entities
         public decimal Length { get; set; }
 
         public virtual User User { get; set; }
-        public virtual ICollection<Localization> Localizations { get; set; }
+        public virtual ICollection<RouteLocalization> RouteLocalization { get; set; }
     }
 }
