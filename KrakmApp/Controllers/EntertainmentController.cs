@@ -13,22 +13,22 @@ using Microsoft.AspNet.Mvc;
 namespace KrakmApp.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Policy ="All")]
-    public class MonumentsController : BaseController
+    [Authorize(Policy = "All")]
+    public class EntertainmentController : BaseController
     {
-        IMonumentRepository _monumentsRepository;
+        IEntertainmentRepository _entertainmentRepository;
         ILoggingRepository _loggingRepository;
         ILocalizationRepository _localization;
         IMembershipService _membership;
 
-        public MonumentsController(
-            IMonumentRepository monumentsRepository,
+        public EntertainmentController(
+            IEntertainmentRepository entertainmentRepository,
             ILoggingRepository loggingRepository,
             ILocalizationRepository localization,
             IMembershipService membership)
             : base(membership, loggingRepository)
         {
-            _monumentsRepository = monumentsRepository;
+            _entertainmentRepository = entertainmentRepository;
             _loggingRepository = loggingRepository;
             _localization = localization;
             _membership = membership;
@@ -37,15 +37,16 @@ namespace KrakmApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var monumentsVM = Enumerable.Empty<MonumentViewModel>();
+            var monumentsVM = Enumerable.Empty<EntertainmentViewModel>();
 
             try
             {
-                IEnumerable<Monument> monuments = await _monumentsRepository
+                IEnumerable<Entertainment> entertainments = 
+                    await _entertainmentRepository
                     .AllIncludingAsync(e => e.Localization);
                 monumentsVM = Mapper.Map<
-                    IEnumerable<Monument>, 
-                    IEnumerable<MonumentViewModel>>(monuments);
+                    IEnumerable<Entertainment>,
+                    IEnumerable<EntertainmentViewModel>>(entertainments);
             }
             catch (Exception ex)
             {
@@ -59,13 +60,13 @@ namespace KrakmApp.Controllers
         public IActionResult Get(
             int id)
         {
-            MonumentViewModel monumentVM = null;
+            EntertainmentViewModel monumentVM = null;
 
             try
             {
-                Monument monuments = _monumentsRepository
+                Entertainment entertainment = _entertainmentRepository
                     .GetSingle(e => e.Id == id, e => e.Localization);
-                monumentVM = Mapper.Map<Monument, MonumentViewModel>(monuments);
+                monumentVM = Mapper.Map<Entertainment, EntertainmentViewModel>(entertainment);
             }
             catch (Exception ex)
             {
@@ -77,10 +78,10 @@ namespace KrakmApp.Controllers
 
         [HttpPost]
         public IActionResult Post(
-            [FromBody]MonumentViewModel value)
+            [FromBody]EntertainmentViewModel value)
         {
             IActionResult result = new ObjectResult(false);
-            Result monumentCreationResult = null;
+            Result entertainmentCreationResult = null;
 
             try
             {
@@ -97,7 +98,7 @@ namespace KrakmApp.Controllers
                 };
                 _localization.Add(localization);
 
-                var monument = new Monument
+                var entertainment = new Entertainment
                 {
                     Name = value.Name,
                     Description = value.Description,
@@ -105,31 +106,31 @@ namespace KrakmApp.Controllers
                     Localization = localization,
                     ImageUrl = value.ImageUrl
                 };
-                _monumentsRepository.Add(monument);
-                _monumentsRepository.Commit();
+                _entertainmentRepository.Add(entertainment);
+                _entertainmentRepository.Commit();
 
-                monumentCreationResult = new Result()
+                entertainmentCreationResult = new Result()
                 {
                     Succeeded = true,
                     Message = "Adding succeeded"
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                monumentCreationResult = GetFailedResult(ex);
+                entertainmentCreationResult = GetFailedResult(ex);
             }
 
-            result = new ObjectResult(monumentCreationResult);
+            result = new ObjectResult(entertainmentCreationResult);
             return result;
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(
-            int id, 
-            [FromBody]MonumentViewModel value)
+            int id,
+            [FromBody]EntertainmentViewModel value)
         {
             IActionResult result = new ObjectResult(false);
-            Result monumentEditionResult = null;
+            Result entertainmentEditionResult = null;
 
             try
             {
@@ -138,29 +139,29 @@ namespace KrakmApp.Controllers
                     throw new Exception("Correct data before editing");
                 }
 
-                Monument monument = _monumentsRepository
+                Entertainment entertainment = _entertainmentRepository
                     .GetSingle(e => e.Id == id, e => e.Localization);
 
-                if (monument == null)
+                if (entertainment == null)
                 {
                     return HttpBadRequest();
                 }
 
                 Localization loc = _localization
-                    .GetSingle(monument.LocalizationId);
+                    .GetSingle(entertainment.LocalizationId);
                 loc.Latitude = value.Latitude;
                 loc.Longitude = value.Longitude;
                 _localization.Edit(loc);
 
-                monument.Name = value.Name;
-                monument.Description = value.Description;
-                monument.Payable = value.Payable;
-                monument.ImageUrl = value.ImageUrl;
-                _monumentsRepository.Edit(monument);
+                entertainment.Name = value.Name;
+                entertainment.Description = value.Description;
+                entertainment.Payable = value.Payable;
+                entertainment.ImageUrl = value.ImageUrl;
+                _entertainmentRepository.Edit(entertainment);
 
-                _monumentsRepository.Commit();
+                _entertainmentRepository.Commit();
 
-                monumentEditionResult = new Result()
+                entertainmentEditionResult = new Result()
                 {
                     Succeeded = true,
                     Message = "Editing succeeded"
@@ -168,10 +169,10 @@ namespace KrakmApp.Controllers
             }
             catch (Exception ex)
             {
-                monumentEditionResult = GetFailedResult(ex);
+                entertainmentEditionResult = GetFailedResult(ex);
             }
 
-            result = new ObjectResult(monumentEditionResult);
+            result = new ObjectResult(entertainmentEditionResult);
             return result;
         }
 
@@ -179,18 +180,18 @@ namespace KrakmApp.Controllers
         public IActionResult Delete(int id)
         {
             IActionResult result = new ObjectResult(false);
-            Result monumentDeletionResult = null;
+            Result entertainmentDeletionResult = null;
 
             try
             {
-                Monument monument = _monumentsRepository
+                Entertainment entertainment = _entertainmentRepository
                     .GetSingle(id);
-                if (monument != null)
+                if (entertainment != null)
                 {
-                    _monumentsRepository.Delete(monument);
-                    _monumentsRepository.Commit();
+                    _entertainmentRepository.Delete(entertainment);
+                    _entertainmentRepository.Commit();
 
-                    monumentDeletionResult = new Result()
+                    entertainmentDeletionResult = new Result()
                     {
                         Succeeded = true,
                         Message = "Deletion succeeded"
@@ -203,10 +204,10 @@ namespace KrakmApp.Controllers
             }
             catch (Exception ex)
             {
-                monumentDeletionResult = GetFailedResult(ex);
+                entertainmentDeletionResult = GetFailedResult(ex);
             }
 
-            result = new ObjectResult(monumentDeletionResult);
+            result = new ObjectResult(entertainmentDeletionResult);
             return result;
         }
     }

@@ -54,6 +54,8 @@ namespace KrakmApp
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ILoggingRepository, LoggingRepository>();
             services.AddScoped<ILocalizationRepository, LocalizationRepository>();
+            services.AddScoped<IRouteRepository, RouteRepository>();
+            services.AddScoped<IRouteLocalizationRepository, RouteLocalizationRepository>();
 
             // Services
             services.AddScoped<IMembershipService, MembershipService>();

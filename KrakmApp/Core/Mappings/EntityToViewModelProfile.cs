@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using AutoMapper;
 
 using KrakmApp.Entities;
@@ -31,6 +31,19 @@ namespace KrakmApp.Core.Mappings
                 .ForMember(
                     vm => vm.Longitude,
                     monument => monument.MapFrom(src => src.Localization.Longitude));
+            Mapper.CreateMap<Entertainment, EntertainmentViewModel>()
+                .ForMember(
+                    vm => vm.Latitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Latitude))
+                .ForMember(
+                    vm => vm.Longitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Longitude));
+            Mapper.CreateMap<Localization, LocalizationViewModel>();
+            Mapper.CreateMap<Route, RouteViewModel>()
+                .ForMember(
+                    vm => vm.Localizations,
+                    opt => opt.MapFrom(
+                        src => src.RouteLocalization.Select(e => e.Localization)));
         }
     }
 }
