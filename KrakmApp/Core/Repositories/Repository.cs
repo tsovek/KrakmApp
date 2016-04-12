@@ -14,7 +14,7 @@ namespace KrakmApp.Core.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class, IEntityBase, new()
     {
-        KrakmAppContext _context;
+        protected KrakmAppContext _context;
 
         public Repository(KrakmAppContext context)
         {

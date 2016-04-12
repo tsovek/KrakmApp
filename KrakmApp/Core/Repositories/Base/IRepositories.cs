@@ -35,4 +35,17 @@ namespace KrakmApp.Core.Repositories.Base
     public interface ILoggingRepository : IRepository<Error> { }
 
     public interface ILocalizationRepository : IRepository<Localization> { }
+
+    public interface IRouteRepository : IRepository<Route>
+    {
+        Route GetSingleByUsername(int id, string username);
+        IEnumerable<Route> GetAllByUsername(string username);
+    }
+
+    public interface IRouteLocalizationRepository
+    {
+        void Add(RouteLocalization routeLoc);
+        void Delete(RouteLocalization routeLoc);
+        bool Exists(int routeId, int locId);
+    }
 }
