@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" 
+                            <input id="adress-input" type="text" class="form-control" 
                                    required 
                                    placeholder="Adress, ex. Pawia 6"
                                    [(ngModel)]="_newHotel.Adress"
@@ -54,18 +54,6 @@
                             </div>
                         </div>
 
-                        <div class="add-hotel-checkbox checkbox">
-                            <label>
-                                <input type="checkbox"> Set as default hotel
-                            </label>
-                        </div>
-
-                        <div class="add-hotel-checkbox checkbox">
-                            <label>
-                                <input type="checkbox"> Merge partners from other hotels
-                            </label>
-                        </div>
-
                         <div class="hotel-buttons">
                             <button type="submit" class="btn btn-default" [disabled]="!addHotelForm.valid">Add hotel</button>
                         </div>
@@ -75,8 +63,7 @@
         </div>
         <div class="col-md-7">
             <div class="hotel-map">
-                <sebm-google-map [latitude]="51.678418" [longitude]="7.809007">
-                </sebm-google-map>
+                <div id="map"></div>
             </div>
             <hr>
         </div>
