@@ -3,24 +3,24 @@
         <div class="col-md-12 hotel-map">
             <h4>List of your hotels</h4>
             <hr>
-            <div class="row" *ngFor="#hotel of _hotels">
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail">
-                        <img src="http://en.hotel-palaciodelmar.com/static/galerias/hotel/01-hotel-santander-sercotel-palacio-del-mar-fachada-foto.jpg" alt="...">
-                        <div class="caption">
-                            <h4>{{hotel.Name}}</h4>
-                            <p>adress: <b>{{hotel.Adress}}</b></p>
-                            <p>phone: <b>{{hotel.Phone}}</b></p>
-                            <div class="hotel-list-buttons">
-                                <a (click)="manage(hotel)" class="btn btn-default" role="button">Manage</a>
-                                <a (click)="edit(hotel)" class="btn btn-default" role="button">Edit</a>
-                                <a (click)="remove(hotel)" class="btn btn-danger" role="button">Remove</a>
+            <div>
+                <div *ngFor="#hotel of _hotels">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            <img src="http://www.ma.com/wp-content/uploads/2013/10/morris-adjmi-architects-wythe-hotel-3.jpg" alt="...">
+                            <div class="caption">
+                                <h4>{{hotel.Name}}</h4>
+                                <p>adress: <b>{{hotel.Adress}}</b></p>
+                                <p>phone: <b>{{hotel.Phone}}</b></p>
+                                <div class="hotel-list-buttons">
+                                    <a [routerLink]="[routes.editHotel.name, { id: hotel.Id }]" class="btn btn-success" role="button">Edit</a>
+                                    <a class="btn btn-danger" role="button">Remove</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

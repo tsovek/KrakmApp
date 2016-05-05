@@ -10,8 +10,6 @@ Location, LocationStrategy, HashLocationStrategy, Route, Router
 import 'rxjs/add/operator/map';
 import {enableProdMode} from 'angular2/core';
 import {ANGULAR2_GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/core';
-
-enableProdMode();
 import { Routes, APP_ROUTES } from './routes';
 
 import { DataService } from './core/services/dataService';
@@ -28,13 +26,21 @@ import { User } from './core/domain/user';
 export class AppRoot {
     private routes = Routes;
 
-    constructor(public membershipService: MembershipService, location: Location) {
+    constructor(
+        public membershipService: MembershipService,
+        location: Location,
+        public router: Router) {
         this.routes = Routes;
         location.go('/');
+        console.log('ahahaha');
     }
 
     isUserLoggedIn(): boolean {
         return this.membershipService.isUserAuthenticated();
+    }
+
+    redirectToLogin(): void {
+        this.router.navigate(['/Account/Login']);
     }
 
     getUserName(): string {

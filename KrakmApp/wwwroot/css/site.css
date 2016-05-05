@@ -118,10 +118,14 @@
   margin-left: -2px;
 }
 
-.hotel-map {
-  padding: 20px;
-  background: #fff;
+#map {
   min-height: 460px;
+  background: #fff;
+}
+
+.hotel-map {
+  background: #fff;
+  padding: 10px;
 }
 
 .hotel-list-buttons {

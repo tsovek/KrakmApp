@@ -13,7 +13,8 @@ export var Routes = {
     partners: new Route({ path: '/partners', name: 'Partners', component: Partners }),
     manageHotel: new Route({ path: '/hotels/:id', name: 'Hotels', component: Hotels }),
     account: new Route({ path: '/account/...', name: 'Account', component: Account }),
-    addHotel: new Route({ path: '/addHotels', name: 'AddHotels', component: AddHotel })
+    addHotel: new Route({ path: '/hotel', name: 'AddHotels', component: AddHotel }),
+    editHotel: new Route({ path: '/hotel/:id', name: 'EditHotel', component: AddHotel })
 };
 
 export const APP_ROUTES = Object.keys(Routes).map(r => Routes[r]);

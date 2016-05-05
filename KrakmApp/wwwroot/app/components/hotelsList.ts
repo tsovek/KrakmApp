@@ -1,22 +1,25 @@
 ﻿import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
+import { Router, ROUTER_DIRECTIVES } from 'angular2/router';
 import { DataService } from '../core/services/dataService';
 import { UtilityService } from '../core/services/utilityService';
 import { Hotel } from '../core/domain/hotel';
+import { Routes } from '../routes';
 
 @Component({
     selector: 'hotelsList',
-    templateUrl: './app/components/hotelsList.html'
+    templateUrl: './app/components/hotelsList.html',
+    directives: [ROUTER_DIRECTIVES]
 })
 export class HotelsList {
     private _hotelsApi: string = 'api/hotels';
     private _hotels: Array<Hotel>;
+    private routes = Routes;
 
     constructor(
         public hotelsService: DataService,
-        public utilityService: UtilityService,
-        private router: Router) {
+        public utilityService: UtilityService) {
 
+        this.routes = Routes;
         this.hotelsService.set(this._hotelsApi);
         this.getHotels();
     }
@@ -28,20 +31,5 @@ export class HotelsList {
                 this._hotels = data;
             },
             error => console.error('Error: ' + error));
-    }
-
-    remove(hotel: Hotel): void {
-        
-    }
-
-    manage(hotel: Hotel): void {
-        if (hotel == null) {
-            return;
-        }
-        this.router.navigate(['Hotels', { id: hotel.Id }]);
-    }
-
-    edit(hotel: Hotel): void {
-
     }
 }
