@@ -25,7 +25,7 @@ namespace KrakmApp.Controllers
             return null;
         }
 
-        [HttpDelete("{id}/{locId}")]
+        [HttpDelete("/{locId}")]
         public IActionResult Delete(
             int id,
             int locId)

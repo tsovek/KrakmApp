@@ -8,6 +8,8 @@ using KrakmApp.Core.Services;
 
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.StaticFiles;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -100,6 +102,9 @@ namespace KrakmApp
                 options.AutomaticChallenge = true;
             });
 
+            app.UseRuntimeInfoPage();
+            app.UseDeveloperExceptionPage();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -110,7 +115,7 @@ namespace KrakmApp
 
             AutoMapperConfiguration.Configure();
 
-            DbInitializer.Initialize(app.ApplicationServices, _applicationPath);
+            //DbInitializer.Initialize(app.ApplicationServices, _applicationPath);
         }
 
         // Entry point for the application.

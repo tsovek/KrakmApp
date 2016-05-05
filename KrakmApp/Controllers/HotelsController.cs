@@ -11,8 +11,7 @@ using Microsoft.AspNet.Mvc;
 
 namespace KrakmApp.Controllers
 {
-    [Route("api/[controller]")]
-    [Authorize(Policy = "All")]
+    [Route("api/hotels")]
     public class HotelsController : BaseController
     {
         IHotelRepository _hotelsRepository;
