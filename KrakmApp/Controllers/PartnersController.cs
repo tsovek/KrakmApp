@@ -117,7 +117,8 @@ namespace KrakmApp.Controllers
                     Localization = localization,
                     ImageUrl = value.ImageUrl,
                     Commission = value.Commission,
-                    UniqueKey = Guid.NewGuid()
+                    UniqueKey = Guid.NewGuid(),
+                    Description = value.Description
                 };
                 _partnersRepository.Add(partner);
                 _partnersRepository.Commit();
