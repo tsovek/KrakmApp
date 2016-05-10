@@ -22,6 +22,7 @@ export class AddHotel implements OnInit {
     private _newHotel: Hotel;
     private _hotelApi: string = 'api/hotels/';
     private _map: google.maps.Map;
+    private _title: string = 'Define new hotel';
 
     constructor(
         public _membershipSerivce: MembershipService,
@@ -35,11 +36,29 @@ export class AddHotel implements OnInit {
         var id: string = params.get('id');
         if (id !== null) {
             _dataService.set(this._hotelApi + id);
+            this._title = 'Edit hotel';
             this._dataService.get()
                 .subscribe(res => {
                     var data: any = res.json();
                     this._newHotel = data;
-                    console.log(this._newHotel);
+                    if (this._map)
+                    {
+                        this._map.setCenter(new google.maps.LatLng(
+                            this._newHotel.Latitude, this._newHotel.Longitude));
+                        var iconDefault = {
+                            url: 'http://localhost:5000/images/marker-green.png',
+                            size: new google.maps.Size(100, 100),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(17, 34),
+                            scaledSize: new google.maps.Size(50, 50)
+                        };
+                        var defaultMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(
+                                this._newHotel.Latitude, this._newHotel.Longitude),
+                            map: this._map,
+                            icon: iconDefault
+                        });
+                    }
                 }, error => console.error('Error: ' + error));
         }
 

@@ -4,7 +4,7 @@
             <div class="add-hotel-sidebar">
                 <div class="hotel-add hotel-add-form">
                     <div class="hotel-add-title">
-                        Add new hotel
+                        {{_title}}
                     </div>
                     <hr />
                     <form (ngSubmit)="addNewHotel()" #addHotelForm="ngForm">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="hotel-buttons">
-                            <button type="submit" class="btn btn-default" [disabled]="!addHotelForm.valid">Add hotel</button>
+                            <button type="submit" class="btn btn-default" [disabled]="!addHotelForm.valid">Save</button>
                         </div>
                     </form>
                 </div>
