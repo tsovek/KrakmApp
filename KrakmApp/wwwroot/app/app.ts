@@ -32,7 +32,6 @@ export class AppRoot {
         public router: Router) {
         this.routes = Routes;
         location.go('/');
-        console.log('ahahaha');
     }
 
     isUserLoggedIn(): boolean {

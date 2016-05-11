@@ -9,6 +9,7 @@ import { DataService } from '../core/services/dataService';
 import { Result } from '../core/domain/result';
 import { Partner } from '../core/domain/partner';
 import { ANGULAR2_GOOGLE_MAPS_DIRECTIVES } from 'angular2-google-maps/core';
+import { UtilityService } from '../core/services/utilityService';
 
 @Component({
     selector: 'addHotel',
@@ -28,10 +29,19 @@ export class AddPartner implements OnInit {
         public _membershipSerivce: MembershipService,
         public _notificationService: NotificationService,
         public _dataService: DataService,
-        private params: RouteParams) {
+        private params: RouteParams,
+        private _utility: UtilityService) {
 
         _dataService.set(this._partnersApi);
-        this._newPartner = new Partner(0, '', 50.0666501, 19.9449799, '');
+        this._newPartner = new Partner(0, '', 50.0666501, 19.9449799,
+            '', '', 0, 0, new Date(), new Date());
+        var iconDefault = {
+            url: 'http://localhost:5000/images/marker-red.png',
+            size: new google.maps.Size(100, 100),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(50, 50)
+        };
 
         var id: string = params.get('id');
         if (id !== null) {
@@ -42,22 +52,37 @@ export class AddPartner implements OnInit {
                     var data: any = res.json();
                     this._newPartner = data;
                     if (this._map) {
-                        this._map.setCenter(new google.maps.LatLng(
-                            this._newPartner.Latitude, this._newPartner.Longitude));
-                        var iconDefault = {
-                            url: 'http://localhost:5000/images/marker-green.png',
-                            size: new google.maps.Size(100, 100),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(17, 34),
-                            scaledSize: new google.maps.Size(50, 50)
-                        };
-                        var defaultMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(
-                                this._newPartner.Latitude, this._newPartner.Longitude),
+                        this._map.setZoom(17);
+                        var latLng = new google.maps.LatLng(
+                            this._newPartner.Latitude, this._newPartner.Longitude);
+                        this._map.setCenter(latLng);
+                        var marker = new google.maps.Marker({
+                            position: latLng,
                             map: this._map,
                             icon: iconDefault
                         });
                     }
+                }, error => console.error('Error: ' + error));
+        }
+        else {
+            this._dataService.set(this._partnersApi);
+            this._dataService.get()
+                .subscribe(res => {
+                    var bounds = new google.maps.LatLngBounds();
+                    var data: any = res.json();
+                    var partners: Array<Partner> = <Array<Partner>>data;
+                    for (var partner in partners) {
+                        var p: Partner = partners[partner];
+                        var pos: google.maps.LatLng = new google.maps.LatLng(
+                            p.Latitude, p.Longitude)
+                        var defaultMarker = new google.maps.Marker({
+                            position: pos,
+                            map: this._map,
+                            icon: iconDefault
+                        });
+                        bounds.extend(pos);
+                    }
+                    this._map.fitBounds(bounds);
                 }, error => console.error('Error: ' + error));
         }
 
@@ -99,7 +124,6 @@ export class AddPartner implements OnInit {
         ];
         var mapOptions: any = {
             center: myLatlng,
-            zoom: 17,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             styles: styleArray,
             disableDefaultUI: false,
@@ -107,18 +131,6 @@ export class AddPartner implements OnInit {
         };
         this._map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
-        var iconDefault = {
-            url: 'http://localhost:5000/images/marker-green.png',
-            size: new google.maps.Size(100, 100),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(50, 50)
-        };
-        var defaultMarker = new google.maps.Marker({
-            position: myLatlng,
-            map: this._map,
-            icon: iconDefault
-        });
 
         var input = <HTMLInputElement>document.getElementById('adress-input');
         var searchBox = new google.maps.places.SearchBox(input);
@@ -134,20 +146,33 @@ export class AddPartner implements OnInit {
                 return;
             }
             markers = [];
-            defaultMarker.setMap(null);
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function (place) {
+                var iconDefault = {
+                    url: 'http://localhost:5000/images/marker-red.png',
+                    size: new google.maps.Size(100, 100),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(50, 50)
+                };
+                var defaultMarker = new google.maps.Marker({
+                    position: place.geometry.location,
+                    map: localThis._map,
+                    icon: iconDefault
+                });
                 localThis._newPartner.Latitude = place.geometry.location.lat();
                 localThis._newPartner.Longitude = place.geometry.location.lng();
 
                 bounds.extend(place.geometry.location);
             });
+
             localThis._map.fitBounds(bounds);
             localThis._map.setZoom(17);
         });
     }
 
     addNewPartner(): void {
+        console.log("add partner");
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._newPartner))
             .subscribe(res => {
@@ -159,13 +184,32 @@ export class AddPartner implements OnInit {
                     if (result.Succeeded) {
                         this._notificationService
                             .printSuccessMessage(
-                                'Your partner: ' + this._newPartner.Name + ' is created');
-                        // todo: redirect to manage hotel
+                            'Your partner: ' + this._newPartner.Name + ' is created');
+                        this._utility.navigate('/Partners');
                     }
                     else {
                         this._notificationService
                             .printErrorMessage(result.Message);
                     }
                 });
+    }
+
+    file_srcs: string[] = [];
+
+    fileChange(input) {
+        var reader = [];  // create empt array for readers
+
+        for (var i = 0; i < input.files.length; i++) {
+            reader.push(new FileReader());
+
+            reader[i].addEventListener("load", (event) => {
+                this.file_srcs.push(event.target.result); 
+                // event.target selects the loaded reader
+            }, false);
+            if (input.files[i]) {
+                reader[i].readAsDataURL(input.files[i]);
+            }
+        }
+        console.log(this.file_srcs);
     }
 }
