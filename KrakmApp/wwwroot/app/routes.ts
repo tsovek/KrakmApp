@@ -9,6 +9,8 @@ import { PartnersList } from './components/partnersList';
 import { AddPartner } from './components/addPartner';
 import { AddMonument } from './components/addMonument';
 import { MonumentsList } from './components/monumentsList'; 
+import { AddEntertainment } from './components/addEntertainment';
+import { EntertainmentsList } from './components/entertainmentsList';
 
 export var Routes = {
     home: new Route({ path: '/', name: 'Home', component: Home }),
@@ -24,7 +26,11 @@ export var Routes = {
 
     addMonument: new Route({ path: '/monument', name: 'AddMonument', component: AddMonument }),
     editMonument: new Route({ path: '/monument/:id', name: 'EditMonument', component: AddMonument }),
-    monuments: new Route({ path: '/monuments', name: 'Monuments', component: MonumentsList })
+    monuments: new Route({ path: '/monuments', name: 'Monuments', component: MonumentsList }),
+
+    addEntertainment: new Route({ path: '/entertainment', name: 'AddEntertainment', component: AddEntertainment }),
+    editEntertainment: new Route({ path: '/entertainment/:id', name: 'EditEntertainment', component: AddEntertainment }),
+    entertainments: new Route({ path: '/entertainments', name: 'Entertainments', component: EntertainmentsList })
 };
 
 export const APP_ROUTES = Object.keys(Routes).map(r => Routes[r]);

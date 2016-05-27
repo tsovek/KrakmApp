@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a [routerLink]="[routes.hotels.name]"><i class="fa fa-hotel fa-fw"></i>&nbsp;Your app view</a>
+                    <a [routerLink]="[routes.home.name]"><i class="fa fa-hotel fa-fw"></i>&nbsp;Your app view</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears fa-fw"></i>&nbsp;Manage<b class="caret"></b></a>
@@ -27,7 +27,7 @@
                             <a [routerLink]="[routes.monuments.name]"><i class="fa fa-institution fa-fw"></i>&nbsp;Monuments</a>
                         </li>
                         <li>
-                            <a [routerLink]="[routes.addHotel.name]"><i class="fa fa-gamepad fa-fw"></i>&nbsp;Entertainments</a>
+                            <a [routerLink]="[routes.entertainments.name]"><i class="fa fa-gamepad fa-fw"></i>&nbsp;Entertainments</a>
                         </li>
                         <li>
                             <a [routerLink]="[routes.addHotel.name]"><i class="fa fa-road fa-fw"></i>&nbsp;Routes</a>
@@ -51,6 +51,9 @@
                         </li>
                         <li>
                             <a [routerLink]="[routes.addMonument.name]"><i class="fa fa-institution fa-fw"></i>&nbsp;New monument</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="[routes.addEntertainment.name]"><i class="fa fa-gamepad fa-fw"></i>&nbsp;New entertainment</a>
                         </li>
                     </ul>
                 </li>
