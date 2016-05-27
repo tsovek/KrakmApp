@@ -103,7 +103,8 @@ namespace KrakmApp.Controllers
                     Description = value.Description,
                     Payable = value.Payable,
                     Localization = localization,
-                    ImageUrl = value.ImageUrl
+                    ImageUrl = value.ImageUrl,
+                    Adress = value.Adress
                 };
                 _monumentsRepository.Add(monument);
                 _monumentsRepository.Commit();

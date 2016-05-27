@@ -104,7 +104,8 @@ namespace KrakmApp.Controllers
                     Description = value.Description,
                     Payable = value.Payable,
                     Localization = localization,
-                    ImageUrl = value.ImageUrl
+                    ImageUrl = value.ImageUrl,
+                    Adress = value.Adress
                 };
                 _entertainmentRepository.Add(entertainment);
                 _entertainmentRepository.Commit();
@@ -157,6 +158,7 @@ namespace KrakmApp.Controllers
                 entertainment.Description = value.Description;
                 entertainment.Payable = value.Payable;
                 entertainment.ImageUrl = value.ImageUrl;
+                entertainment.Adress = value.Adress;
                 _entertainmentRepository.Edit(entertainment);
 
                 _entertainmentRepository.Commit();

@@ -1,0 +1,25 @@
+﻿<div class="container">
+    <div class="row hotel">
+        <div class="col-md-12 hotel-map">
+            <h4>List of defined monuments</h4>
+            <hr>
+            <div>
+                <div *ngFor="#monument of _monuments">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            <img src="http://www.ma.com/wp-content/uploads/2013/10/morris-adjmi-architects-wythe-hotel-3.jpg" alt="...">
+                            <div class="caption">
+                                <h4>{{monument.Name}}</h4>
+                                <p>adress: <b>{{monument.Adress}}</b></p>
+                                <div class="hotel-list-buttons">
+                                    <a [routerLink]="[routes.editMonument.name, { id: monument.Id }]" class="btn btn-success" role="button">Edit</a>
+                                    <a class="btn btn-danger" role="button">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

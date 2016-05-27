@@ -10,6 +10,7 @@ namespace KrakmApp.Entities
         public string Description { get; set; }
         public bool Payable { get; set; }
         public string ImageUrl { get; set; }
+        public string Adress { get; set; }
 
         public virtual Localization Localization { get; set; }
     }
