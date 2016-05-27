@@ -50,6 +50,16 @@ namespace KrakmApp.Core.Mappings
                     vm => vm.Localizations,
                     opt => opt.MapFrom(
                         src => src.RouteLocalization.Select(e => e.Localization)));
+            Mapper.CreateMap<Banner, BannerViewModel>()
+                .ForMember(
+                    vm => vm.StartPromotion,
+                    banner => banner.MapFrom(src => src.Start))
+                .ForMember(
+                    vm => vm.EndPromotion,
+                    banner => banner.MapFrom(src => src.End))
+                .ForMember(
+                    vm => vm.ImageUrl,
+                    banner => banner.MapFrom(src => src.PhotoUrl));
         }
     }
 }

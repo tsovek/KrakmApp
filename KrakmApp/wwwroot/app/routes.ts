@@ -11,6 +11,8 @@ import { AddMonument } from './components/addMonument';
 import { MonumentsList } from './components/monumentsList'; 
 import { AddEntertainment } from './components/addEntertainment';
 import { EntertainmentsList } from './components/entertainmentsList';
+import { AddBanner } from './components/addBanner';
+import { BannersList } from './components/bannersList';
 
 export var Routes = {
     home: new Route({ path: '/', name: 'Home', component: Home }),
@@ -30,7 +32,11 @@ export var Routes = {
 
     addEntertainment: new Route({ path: '/entertainment', name: 'AddEntertainment', component: AddEntertainment }),
     editEntertainment: new Route({ path: '/entertainment/:id', name: 'EditEntertainment', component: AddEntertainment }),
-    entertainments: new Route({ path: '/entertainments', name: 'Entertainments', component: EntertainmentsList })
+    entertainments: new Route({ path: '/entertainments', name: 'Entertainments', component: EntertainmentsList }),
+
+    addBanner: new Route({ path: '/banner', name: 'AddBanner', component: AddBanner }),
+    editBanner: new Route({ path: '/banner/:id', name: 'EditBanner', component: AddBanner }),
+    banners: new Route({ path: '/banners', name: 'Banners', component: BannersList })
 };
 
 export const APP_ROUTES = Object.keys(Routes).map(r => Routes[r]);

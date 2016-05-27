@@ -18,6 +18,8 @@ namespace KrakmApp.Core.Repositories.Base
 
     public interface IClientRepository : IRepository<Client> { }
 
+    public interface IBannersRepository : IRepository<Banner> { }
+
     public interface IMonumentRepository : IRepository<Monument> { }
 
     public interface IEntertainmentRepository : IRepository<Entertainment> { }

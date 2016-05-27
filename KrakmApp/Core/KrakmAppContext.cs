@@ -43,6 +43,8 @@ namespace KrakmApp.Core
             modelBuilder.Entity<Partner>().HasOne(e => e.Localization).WithOne();
             modelBuilder.Entity<Partner>().HasOne(e => e.User).WithOne();
 
+            modelBuilder.Entity<Banner>().HasOne(e => e.User).WithOne();
+
             modelBuilder.Entity<Entertainment>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Entertainment>().HasOne(e => e.Localization).WithOne();
 
