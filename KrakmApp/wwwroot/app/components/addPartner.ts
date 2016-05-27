@@ -34,7 +34,7 @@ export class AddPartner implements OnInit {
 
         _dataService.set(this._partnersApi);
         this._newPartner = new Partner(0, '', 50.0666501, 19.9449799,
-            '', '', 0, 0, new Date(), new Date());
+            '', '', 0, 0, new Date(), new Date(), '');
         var iconDefault = {
             url: 'http://localhost:5000/images/marker-red.png',
             size: new google.maps.Size(100, 100),
@@ -172,7 +172,6 @@ export class AddPartner implements OnInit {
     }
 
     addNewPartner(): void {
-        console.log("add partner");
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._newPartner))
             .subscribe(res => {
@@ -197,19 +196,20 @@ export class AddPartner implements OnInit {
     file_srcs: string[] = [];
 
     fileChange(input) {
-        var reader = [];  // create empt array for readers
+        var reader = [];
 
         for (var i = 0; i < input.files.length; i++) {
             reader.push(new FileReader());
 
             reader[i].addEventListener("load", (event) => {
-                this.file_srcs.push(event.target.result); 
-                // event.target selects the loaded reader
+                this.file_srcs.push(event.target.result);
+                this._newPartner.ImageUrl = event.target.result;
             }, false);
             if (input.files[i]) {
                 reader[i].readAsDataURL(input.files[i]);
+                document.getElementById("uploadFile").setAttribute(
+                    "placeholder", input.value);
             }
         }
-        console.log(this.file_srcs);
     }
 }

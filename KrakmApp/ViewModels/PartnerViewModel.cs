@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace KrakmApp.ViewModels
 {
     public class PartnerViewModel
@@ -12,5 +14,7 @@ namespace KrakmApp.ViewModels
         public string Phone { get; set; }
         public decimal Commission { get; set; }
         public string ImageUrl { get; set; }
+        public DateTime StartPromotion { get; set; }
+        public DateTime EndPromotion { get; set; }
     }
 }

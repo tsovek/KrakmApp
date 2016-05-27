@@ -23,7 +23,13 @@ namespace KrakmApp.Core.Mappings
                     partner => partner.MapFrom(src => src.Localization.Latitude))
                 .ForMember(
                     vm => vm.Longitude,
-                    partner => partner.MapFrom(src => src.Localization.Longitude));
+                    partner => partner.MapFrom(src => src.Localization.Longitude))
+                .ForMember(
+                    vm => vm.StartPromotion,
+                    partner => partner.MapFrom(src => src.StartPromotion))
+                .ForMember(
+                    vm => vm.EndPromotion,
+                    partner => partner.MapFrom(src => src.EndPromotion));
             Mapper.CreateMap<Monument, MonumentViewModel>()
                 .ForMember(
                     vm => vm.Latitude,

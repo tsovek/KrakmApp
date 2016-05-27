@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using AutoMapper;
@@ -10,6 +11,7 @@ using KrakmApp.Entities;
 using KrakmApp.ViewModels;
 
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Mvc;
 
 namespace KrakmApp.Controllers
@@ -23,13 +25,15 @@ namespace KrakmApp.Controllers
         ILocalizationRepository _localizationRepository;
         ILoggingRepository _loggingRepository;
         IMembershipService _membership;
+        IHostingEnvironment _host;
 
         public PartnersController(
             IAuthorizationService authorizationService,
             IPartnersRepository partnersRepository,
             ILoggingRepository loggingRepository,
             IMembershipService membershipService,
-            ILocalizationRepository localizationRepository)
+            ILocalizationRepository localizationRepository,
+            IHostingEnvironment host)
             : base(membershipService, loggingRepository)
         {
             _authorizationService = authorizationService;
@@ -37,6 +41,7 @@ namespace KrakmApp.Controllers
             _loggingRepository = loggingRepository;
             _membership = membershipService;
             _localizationRepository = localizationRepository;
+            _host = host;
         }
 
         [HttpGet]
@@ -118,7 +123,9 @@ namespace KrakmApp.Controllers
                     ImageUrl = value.ImageUrl,
                     Commission = value.Commission,
                     UniqueKey = Guid.NewGuid(),
-                    Description = value.Description
+                    Description = value.Description,
+                    StartPromotion = value.StartPromotion,
+                    EndPromotion = value.EndPromotion
                 };
                 _partnersRepository.Add(partner);
                 _partnersRepository.Commit();

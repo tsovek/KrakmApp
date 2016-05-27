@@ -9,6 +9,7 @@
     PromotionKind: number;
     StartPromotion: Date;
     EndPromotion: Date;
+    ImageUrl: string;
 
     constructor(
         id: number,
@@ -20,7 +21,8 @@
         commission: number,
         promotionKind: number,
         startPromotion: Date,
-        endPromotion: Date) {
+        endPromotion: Date,
+        imageUrl: string) {
         this.Id = id;
         this.Name = name;
         this.Latitude = latitude;
@@ -31,5 +33,6 @@
         this.PromotionKind = promotionKind;
         this.StartPromotion = startPromotion;
         this.EndPromotion = endPromotion;
+        this.ImageUrl = imageUrl;
     }
 }
