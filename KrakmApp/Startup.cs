@@ -63,6 +63,7 @@ namespace KrakmApp
             // Services
             services.AddScoped<IMembershipService, MembershipService>();
             services.AddScoped<IEncryptionService, EncryptionService>();
+            services.AddScoped<IRandomGeneratorService, RandomGeneratorService>();
 
             services.AddAuthentication();
 

@@ -60,6 +60,7 @@ namespace KrakmApp.Core.Mappings
                 .ForMember(
                     vm => vm.ImageUrl,
                     banner => banner.MapFrom(src => src.PhotoUrl));
+            Mapper.CreateMap<Client, ClientViewModel>();
         }
     }
 }

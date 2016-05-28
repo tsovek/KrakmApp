@@ -1,0 +1,75 @@
+﻿<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a [routerLink]="['/Clients/Empty']" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+                <h4 class="text-center">
+                    <span class="fa-stack fa-1x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-group fa-stack-1x fa-inverse"></i>
+                    </span> Add client
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form col-md-12 center-block" #hf="ngForm">
+                    <div class="form-group">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Client's name"
+                               [(ngModel)]="_client.Name"
+                               name="name"
+                               ngControl="name"
+                               required #name="ngForm" />
+                        <div [hidden]="name.valid || name.untouched" class="alert alert-danger">
+                            Name is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="datetime-local"
+                               class="form-control"
+                               placeholder="Check In"
+                               [(ngModel)]="_client.CheckIn"
+                               ngControl="checkIn"
+                               #checkIn="ngForm">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="datetime-local"
+                               class="form-control"
+                               placeholder="Check Out"
+                               [(ngModel)]="_client.CheckOut"
+                               ngControl="checkOut"
+                               #checkOut="ngForm">
+                    </div>
+
+                    <div class="from-group">
+                        <my-dropdown></my-dropdown>
+                        <br />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" disabled class="form-control" placeholder="Key: {{_client.UniqueKey}}">
+                    </div>
+
+                    <div class="form-group text-left">
+                        <div class="checkbox-inline">
+                            <input type="checkbox"
+                                   [(ngModel)]="_client.Activated"
+                                   [value]="_client.Activated"
+                                   ngControl="activated" #activated="ngForm" #spy />
+                            Activated
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" (click)="addClient()" [disabled]="!hf.form.valid">Add client</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

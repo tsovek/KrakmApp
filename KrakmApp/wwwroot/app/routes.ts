@@ -13,10 +13,12 @@ import { AddEntertainment } from './components/addEntertainment';
 import { EntertainmentsList } from './components/entertainmentsList';
 import { AddBanner } from './components/addBanner';
 import { BannersList } from './components/bannersList';
+import { ClientsList } from './components/clients/clientsList';
 
 export var Routes = {
     home: new Route({ path: '/', name: 'Home', component: Home }),
     account: new Route({ path: '/account/...', name: 'Account', component: Account }),
+    clients: new Route({ path: '/clients/...', name: 'Clients', component: ClientsList }),
 
     partners: new Route({ path: '/partners', name: 'Partners', component: PartnersList }),
     addPartner: new Route({ path: 'partner', name: 'AddPartner', component: AddPartner }),

@@ -14,6 +14,9 @@
                 <li>
                     <a [routerLink]="[routes.home.name]"><i class="fa fa-hotel fa-fw"></i>&nbsp;Your app view</a>
                 </li>
+                <li>
+                    <a [routerLink]="['/Clients/Empty']"><i class="fa fa-group fa-fw"></i>&nbsp;Your clients</a>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears fa-fw"></i>&nbsp;Manage<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -34,9 +37,6 @@
                         </li>
                         <li>
                             <a [routerLink]="[routes.banners.name]"><i class="fa fa-meanpath fa-fw"></i>&nbsp;Banners</a>
-                        </li>
-                        <li>
-                            <a [routerLink]="[routes.addHotel.name]"><i class="fa fa-users fa-fw"></i>&nbsp;Clients</a>
                         </li>
                     </ul>
                 </li>
