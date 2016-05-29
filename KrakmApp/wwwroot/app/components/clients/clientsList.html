@@ -7,7 +7,33 @@
                 <button [routerLink]="[routes.add.name]" type="button" class="btn btn-success btn-sm">+</button>
             </h4>
             <hr>
-
+            <table class="table table-hover col-md-12">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Hotel</th>
+                        <th>Activated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="#client of _clients">
+                        <th scope="row">{{client.Id}}</th>
+                        <td>{{client.Name}}</td>
+                        <td>{{client.CheckIn}}</td>
+                        <td>{{client.CheckOut}}</td>
+                        <td>{{client.HotelId}}</td>
+                        <td>{{client.Activated}}</td>
+                        <td>
+                            <a [routerLink]="[routes.edit.name, { id: client.Id }]" class="btn btn-success btn-sm" role="button">Edit</a>
+                            <a class="btn btn-danger btn-sm" role="button">Remove</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -5,6 +5,7 @@ import { Routes, APP_ROUTES } from '../../routes';
 import { Result } from '../../core/domain/result';
 import { Client } from '../../core/domain/client';
 import { User } from '../../core/domain/user';
+import { Hotel } from '../../core/domain/hotel';
 import { MembershipService } from '../../core/services/membershipService';
 import { NotificationService } from '../../core/services/notificationService';
 import { DataService } from '../../core/services/dataService';
@@ -18,6 +19,8 @@ import { DropDownComponent } from '../../components/dropdown';
     directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, RouterLink, DropDownComponent]
 })
 export class AddClient {
+    public _hotels: Hotel[] = [];
+    public _selectedHotel: Hotel;
     private routes = Routes;
     private _router: Router;
     private _client: Client;
@@ -31,6 +34,17 @@ export class AddClient {
         private params: RouteParams,
         private _utility: UtilityService,
         router: Router) {
+        this._dataService.set('api/hotels/');
+        this._dataService.get().subscribe(
+            res => {
+                var data: any = res.json();
+                this._hotels = data;
+                if (this._hotels && this._hotels.length > 0)
+                {
+                    this._client.HotelId = this._hotels[0].Id;
+                }
+            },
+            error => console.error('Error: ' + error));
 
         this._dataService.set(this._clientsApi);
         this._user = _membershipSerivce.getLoggedInUser();

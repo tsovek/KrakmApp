@@ -1,32 +1,28 @@
 ﻿import { Component, Input, Output, EventEmitter } from 'angular2/core'
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/common';
-
-export class Product {
-    id: number;
-    name: string;
-}
+import { Hotel } from '../core/domain/hotel';
+import { Client } from '../core/domain/client';
 
 @Component({
     selector: 'my-dropdown',
     template: `
     <select class="form-control" (change)="onSelect($event.target.value)">
-      <option *ngFor="#product of products" [value]="product.id">{{product.name}}</option>
+      <option *ngFor="#hotel of hotels" [value]="hotel.Id">{{hotel.Name}}</option>
     </select>
     `,
     directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
 export class DropDownComponent {
-    public products: Product[] = [
-        { "id": 1, "name": "Table" },
-        { "id": 2, "name": "Chair" },
-        { "id": 3, "name": "Light" }
-    ];
-    public selectedProduct: Product = this.products[0];
+    @Input()
+    public hotels: Hotel[];
+    
+    @Input()
+    public client: Client;
+
     onSelect(productId) {
-        this.selectedProduct = null;
-        for (var i = 0; i < this.products.length; i++) {
-            if (this.products[i].id == productId) {
-                this.selectedProduct = this.products[i];
+        for (var i = 0; i < this.hotels.length; i++) {
+            if (this.hotels[i].Id == productId) {
+                this.client.HotelId = this.hotels[i].Id;
             }
         }
     }
