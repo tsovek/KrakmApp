@@ -34,4 +34,8 @@ export class ClientsList {
             },
             error => console.error('Error: ' + error));
     }
+
+    getFormattedDate(date: string): string {
+        return new Date(date).toLocaleDateString();
+    }
 }

@@ -23,8 +23,8 @@
                     <tr *ngFor="#client of _clients">
                         <th scope="row">{{client.Id}}</th>
                         <td>{{client.Name}}</td>
-                        <td>{{client.CheckIn}}</td>
-                        <td>{{client.CheckOut}}</td>
+                        <td>{{getFormattedDate(client.CheckIn)}}</td>
+                        <td>{{getFormattedDate(client.CheckOut)}}</td>
                         <td>{{client.HotelId}}</td>
                         <td>{{client.Activated}}</td>
                         <td>
