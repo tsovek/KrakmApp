@@ -41,7 +41,7 @@ export class AddClient {
                 this._hotels = data;
                 if (this._hotels && this._hotels.length > 0)
                 {
-                    this._client.HotelId = this._hotels[0].Id;
+                    this._client.HotelName = this._hotels[0].Name;
                 }
             },
             error => console.error('Error: ' + error));
@@ -50,7 +50,7 @@ export class AddClient {
         this._user = _membershipSerivce.getLoggedInUser();
         this.routes = Routes;
         this._router = router;
-        this._client = new Client(0, '', new Date(), new Date(), false, 0, '');
+        this._client = new Client(0, '', new Date(), new Date(), false, '', '');
         var id: string = params.get('id');
         if (id !== null) {
             this._dataService.set(this._clientsApi + id);

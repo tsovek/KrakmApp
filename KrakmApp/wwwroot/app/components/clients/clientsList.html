@@ -25,7 +25,7 @@
                         <td>{{client.Name}}</td>
                         <td>{{getFormattedDate(client.CheckIn)}}</td>
                         <td>{{getFormattedDate(client.CheckOut)}}</td>
-                        <td>{{client.HotelId}}</td>
+                        <td><i>{{client.HotelName}}</i></td>
                         <td>{{client.Activated}}</td>
                         <td>
                             <a [routerLink]="[routes.edit.name, { id: client.Id }]" class="btn btn-success btn-sm" role="button">Edit</a>

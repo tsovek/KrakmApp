@@ -10,6 +10,6 @@ namespace KrakmApp.ViewModels
         public DateTime CheckOut { get; set; }
         public bool Activated { get; set; }
         public string UniqueKey { get; set; }
-        public int HotelId { get; set; }
+        public string HotelName { get; set; }
     }
 }

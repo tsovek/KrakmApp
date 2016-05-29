@@ -4,7 +4,7 @@
     public CheckIn: Date;
     public CheckOut: Date;
     public Activated: boolean;
-    public HotelId: number;
+    public HotelName: string;
     public UniqueKey: string;
 
     constructor(
@@ -13,14 +13,14 @@
         checkIn: Date,
         checkOut: Date,
         activated: boolean,
-        hotelId: number,
+        hotelName: string,
         uniqueKey: string) {
         this.Id = id;
         this.Name = name;
         this.CheckIn = checkIn;
         this.CheckOut = checkOut;
         this.Activated = activated;
-        this.HotelId = hotelId;
+        this.HotelName = hotelName;
         this.UniqueKey = uniqueKey;
     }
 }

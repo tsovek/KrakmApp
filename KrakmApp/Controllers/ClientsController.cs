@@ -99,12 +99,18 @@ namespace KrakmApp.Controllers
                     throw new Exception("Correct data before adding");
                 }
 
-                User user = GetUser();
+                IEnumerable<Hotel> hotels = GetUser().Hotels;
+                Hotel hotel = hotels.FirstOrDefault(h => h.Name == value.Name);
+                if (hotel == null)
+                {
+                    return HttpBadRequest();
+                }
+
                 var client = new Client
                 {
                     Name = value.Name,
                     Activated = false,
-                    HotelId = value.HotelId,
+                    HotelId = hotel.Id,
                     CheckIn = value.CheckIn,
                     CheckOut = value.CheckOut,
                     UniqueKey = _randomGen.GenerateRandomUniqueKey()

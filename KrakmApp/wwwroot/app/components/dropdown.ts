@@ -22,7 +22,7 @@ export class DropDownComponent {
     onSelect(productId) {
         for (var i = 0; i < this.hotels.length; i++) {
             if (this.hotels[i].Id == productId) {
-                this.client.HotelId = this.hotels[i].Id;
+                this.client.HotelName = this.hotels[i].Name;
             }
         }
     }
