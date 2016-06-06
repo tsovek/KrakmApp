@@ -1,0 +1,61 @@
+﻿<div class="container">
+    <router-outlet></router-outlet>
+    <div class="row hotel">
+        <div class="col-md-5">
+            <div class="add-hotel-sidebar">
+                <div class="hotel-add hotel-add-form">
+                    <div class="hotel-add-title">
+                        Defined routes
+                    </div>
+                    <hr />
+                    <button [routerLink]="[routes.add.name]"
+                            type="button"
+                            class="btn btn-success btn-sm">
+                        ADD
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger btn-sm">
+                        DEL
+                    </button>
+                    <button type="button"
+                            class="btn btn-warning btn-sm">
+                        EDIT
+                    </button>
+                    <button type="button"
+                            class="btn btn-info btn-sm">
+                        DETAILS
+                    </button>
+                    <hr />
+                    <div class="list-group">
+                        <div *ngFor="#route of _definedRoutes">
+                            <a class="list-group-item">
+                                <div class="media">
+                                    <span *ngIf="route.Active" class="label label-success pull-right">Active</span>
+                                    <span *ngIf="!route.Active" class="label label-danger pull-right">Inactive</span>
+                                    <div class="checkbox pull-left">
+                                        <label>
+                                            <input type="checkbox" value="">
+                                        </label>
+                                    </div>
+                                    <div class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/100x70" alt="Image">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{route && route.Name}}</h4>
+                                        <p>{{route && route.Description}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="hotel-map">
+                <div id="map"></div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
