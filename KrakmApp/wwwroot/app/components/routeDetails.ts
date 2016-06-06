@@ -1,35 +1,35 @@
-﻿///<reference path="../../../../bower_components/googlemaps-ts/last/google.maps.d.ts"/>
-///<reference path="../../../../node_modules/typescript/lib/lib.d.ts"/>
+﻿///<reference path="../../../bower_components/googlemaps-ts/last/google.maps.d.ts"/>
+///<reference path="../../../node_modules/typescript/lib/lib.d.ts"/>
 import { Component, OnInit } from 'angular2/core';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from 'angular2/common';
-import { RouteConfig, RouterLink, Router, ROUTER_DIRECTIVES } from 'angular2/router';
-import { MembershipService } from '../../core/services/membershipService';
+import { RouteConfig, RouterLink, Router, ROUTER_DIRECTIVES, RouteParams } from 'angular2/router';
+import { MembershipService } from '../core/services/membershipService';
 import { ANGULAR2_GOOGLE_MAPS_DIRECTIVES } from 'angular2-google-maps/core';
-import { DataService } from '../../core/services/dataService';
-import { Routes, APP_ROUTES } from './routes';
-import { Route } from '../../core/domain/route';
+import { DataService } from '../core/services/dataService';
+import { Routes, APP_ROUTES } from '../routes';
+import { Route } from '../core/domain/route';
 
 @Component({
     selector: 'routesMain',
-    templateUrl: './app/components/routes/routesMain.html',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, RouterLink]
+    templateUrl: './app/components/routeDetails.html',
+    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, RouterLink]
 })
-@RouteConfig(APP_ROUTES)
-export class RoutesMain implements OnInit {
+export class RouteDetails implements OnInit {
     private _routesApi: string = 'api/routes/';
     private _map: google.maps.Map;
     private routes = Routes;
-    private _definedRoutes: Route[];
-    private _checkedItems: Array<number>;
+    private _route: Route;
 
-    constructor(private _dataService: DataService) {
+    constructor(
+        private _dataService: DataService,
+        private params: RouteParams) {
 
-        this._checkedItems = [];
-        this._dataService.set(this._routesApi);
+        var id: string = params.get('id');
+        this._dataService.set(this._routesApi + id);
         this._dataService.get().subscribe(
             res => {
                 var data: any = res.json();
-                this._definedRoutes = data;
+                this._route = data;
             },
             error => console.error('Error: ' + error));
     }
@@ -88,21 +88,5 @@ export class RoutesMain implements OnInit {
         this._map.addListener('bounds_changed', function () {
 
         });
-    }
-
-    disabledActionButtons(): boolean {
-        return this._checkedItems && this._checkedItems.length != 1;
-    }
-
-    onCheckedChange(route: Route, checked: boolean) {
-        if (checked) {
-            this._checkedItems.push(route.Id);
-        } 
-        else {
-            var index = this._checkedItems.indexOf(route.Id);
-            if (index > -1) {
-                this._checkedItems.splice(index, 1);
-            }
-        }
     }
 }

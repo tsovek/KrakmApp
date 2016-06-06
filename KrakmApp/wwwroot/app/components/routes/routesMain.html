@@ -13,16 +13,22 @@
                             class="btn btn-success btn-sm">
                         ADD
                     </button>
-                    <button type="button"
-                            class="btn btn-danger btn-sm">
+                    <button 
+                            type="button"
+                            class="btn btn-danger btn-sm"
+                            [disabled]="disabledActionButtons()">
                         DEL
                     </button>
-                    <button type="button"
-                            class="btn btn-warning btn-sm">
+                    <button [routerLink]="[routes.edit.name, { id: _checkedItems && _checkedItems[0] }]"
+                            type="button"
+                            class="btn btn-warning btn-sm"
+                            [disabled]="disabledActionButtons()">
                         EDIT
                     </button>
-                    <button type="button"
-                            class="btn btn-info btn-sm">
+                    <button [routerLink]="['/RouteDetails', { id: _checkedItems && _checkedItems[0] }]"
+                            type="button"
+                            class="btn btn-info btn-sm"
+                            [disabled]="disabledActionButtons()">
                         DETAILS
                     </button>
                     <hr />
@@ -34,7 +40,7 @@
                                     <span *ngIf="!route.Active" class="label label-danger pull-right">Inactive</span>
                                     <div class="checkbox pull-left">
                                         <label>
-                                            <input type="checkbox" value="">
+                                            <input type="checkbox" #checkbox (change)="onCheckedChange(route, checkbox.checked)" value="">
                                         </label>
                                     </div>
                                     <div class="pull-left">

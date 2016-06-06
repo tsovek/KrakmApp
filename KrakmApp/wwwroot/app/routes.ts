@@ -15,9 +15,11 @@ import { AddBanner } from './components/addBanner';
 import { BannersList } from './components/bannersList';
 import { ClientsList } from './components/clients/clientsList';
 import { RoutesMain } from './components/routes/routesMain';
+import { RouteDetails } from './components/routeDetails';
 
 export var Routes = {
     home: new Route({ path: '/', name: 'Home', component: Home }),
+    routeDetails: new Route({ path: '/routedetails/:id', name: 'RouteDetails', component: RouteDetails }),
     account: new Route({ path: '/account/...', name: 'Account', component: Account }),
     clients: new Route({ path: '/clients/...', name: 'Clients', component: ClientsList }),
     routes: new Route({ path: '/routes/...', name: 'Routes', component: RoutesMain }),
