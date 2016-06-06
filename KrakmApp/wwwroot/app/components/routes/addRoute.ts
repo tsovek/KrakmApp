@@ -35,7 +35,6 @@ export class AddRoute {
             this._dataService.get().subscribe(
                 res => {
                     var data: any = res.json();
-                    console.log(data);
                     this._route = data;
                 },
                 error => console.error('Error: ' + error));
