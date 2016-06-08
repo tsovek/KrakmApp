@@ -1,4 +1,5 @@
-﻿body {
+﻿@import url("http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+body {
   background: #F1F3FA;
   margin-top: 40px;
 }
@@ -175,4 +176,51 @@ input[type='range']::after {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+.panel-image {
+    position: relative;   
+}
+.panel-image img.panel-image-preview {
+    width: 100%;
+	border-radius: 4px 4px 0 0;
+}
+
+.panel-image label {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.panel-heading ~ .panel-image img.panel-image-preview {
+	border-radius: 0;
+}
+
+.panel-body {
+   overflow: hidden;
+}
+
+.panel-image ~ input[type=checkbox] {
+    position:absolute;
+    top:- 30px;
+    z-index: -1;   
+}
+
+.panel-image ~ input[type=checkbox] ~ .panel-body {
+	height: 0;
+	padding: 0;
+}
+
+.panel-image ~ input[type=checkbox]:checked ~ .panel-body {
+    height: auto;
+	padding: 15px;
+}
+
+.panel-image ~ .panel-footer a {
+    padding: 0 10px;
+	font-size: 1.3em;
+	color: rgb(100, 100, 100);
 }
