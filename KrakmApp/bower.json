@@ -5,6 +5,7 @@
     "bootstrap": "3.3.6",
     "components-font-awesome": "4.5.0",
     "alertify.js": "0.3.11",
-    "googlemaps-ts": "3.0.0"
+    "googlemaps-ts": "3.0.0",
+    "bootstrap-select": "1.7.3"
   }
 }
