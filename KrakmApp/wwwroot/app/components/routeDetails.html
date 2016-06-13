@@ -5,8 +5,72 @@
                 <div class="hotel-add hotel-add-form">
                     <div class="hotel-add-title">
                         {{_route && _route.Name}}
+                        <div class="pull-right">
+                            <button class="btn btn-sm btn-info"><i class="fa fa-check fa-fw"></i></button>
+                        </div>
                     </div>
                     <hr />
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <select class="js-example-basic-multiple form-control" multiple="multiple">
+                                    <optgroup label="empty" [label]="oo.Type" *ngFor="#oo of _objects && _objects.Objects">
+                                        <option *ngFor="#so of oo && oo.SingleObjects">{{so.Name}}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-sm btn-success"><i class="fa fa-plus fa-fw"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="panel panel-default">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="pull-left fa fa-group fa-fw"></span>
+                                        Nazwa
+                                    </td>
+                                    <td class="text-right text-nowrap">
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-up fa-fw"></i></button>
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-down fa-fw"></i></button>
+                                        <button class="btn btn-xs btn-warning">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="pull-left fa fa-map-marker fa-fw"></span>
+                                        Nazwa
+                                    </td>
+                                    <td class="text-right text-nowrap">
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-up fa-fw"></i></button>
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-down fa-fw"></i></button>
+                                        <button class="btn btn-xs btn-warning">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="pull-left fa fa-gamepad fa-fw"></span>
+                                        Nazwa
+                                    </td>
+                                    <td class="text-right text-nowrap">
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-up fa-fw"></i></button>
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-down fa-fw"></i></button>
+                                        <button class="btn btn-xs btn-warning">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
