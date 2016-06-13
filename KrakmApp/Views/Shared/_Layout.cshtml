@@ -7,8 +7,10 @@
     @*<base href="/">*@
 
     <link href="~/lib/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/css/bootstrap-select.css" rel="stylesheet" />
     <link href="~/lib/css/font-awesome.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 
     <script src="~/lib/js/angular2-polyfills.js"></script>
     <script src="~/lib/js/es6-shim.js"></script>
@@ -17,7 +19,9 @@
 
     <script src="~/lib/js/jquery.js"></script>
     <script src="~/lib/js/bootstrap.js"></script>
+    <script src="~/lib/js/bootstrap-select.js"></script>
     <script src="//maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
     <script>
         System.config({
@@ -26,7 +30,7 @@
             },
             packages: {
                 'app': { defaultExtension: 'js' },
-                'rxjs': { defaultExtension: 'js' }
+                'rxjs': { defaultExtension: 'js' },
             },
             defaultJSExtensions: true
 

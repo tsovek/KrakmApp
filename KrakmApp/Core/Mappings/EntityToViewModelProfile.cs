@@ -61,6 +61,27 @@ namespace KrakmApp.Core.Mappings
                     vm => vm.ImageUrl,
                     banner => banner.MapFrom(src => src.PhotoUrl));
             Mapper.CreateMap<Client, ClientViewModel>();
+            Mapper.CreateMap<Entertainment, SingleObjectViewModel>()
+                .ForMember(
+                    vm => vm.Latitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Latitude))
+                .ForMember(
+                    vm => vm.Longitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Longitude));
+            Mapper.CreateMap<Monument, SingleObjectViewModel>()
+                .ForMember(
+                    vm => vm.Latitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Latitude))
+                .ForMember(
+                    vm => vm.Longitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Longitude));
+            Mapper.CreateMap<Partner, SingleObjectViewModel>()
+                .ForMember(
+                    vm => vm.Latitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Latitude))
+                .ForMember(
+                    vm => vm.Longitude,
+                    entertainment => entertainment.MapFrom(src => src.Localization.Longitude));
         }
     }
 }
