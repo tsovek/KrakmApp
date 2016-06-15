@@ -100,16 +100,6 @@ namespace KrakmApp.Controllers
                     Length = 0
                 };
                 _routeRepository.Add(route);
-
-                foreach (var loc in localizations)
-                {
-                    _routeLocalizationRepo.Add(
-                        new RouteLocalization
-                        {
-                            Localization = loc,
-                            Route = route
-                        });
-                }
                 _routeRepository.Commit();
 
                 routeCreationResult = new Result()

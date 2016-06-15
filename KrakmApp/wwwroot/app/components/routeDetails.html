@@ -6,7 +6,10 @@
                     <div class="hotel-add-title">
                         {{_route && _route.Name}}
                         <div class="pull-right">
-                            <button class="btn btn-sm btn-info"><i class="fa fa-check fa-fw"></i></button>
+                            <button (click)="onSaveRoute()"
+                                    class="btn btn-sm btn-info">
+                                <i class="fa fa-check fa-fw"></i>
+                            </button>
                         </div>
                     </div>
                     <hr />

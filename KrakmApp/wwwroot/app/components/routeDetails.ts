@@ -69,6 +69,10 @@ export class RouteDetails implements OnInit {
         });
     }
 
+    onSaveRoute(): void {
+
+    }
+
     onDeleteClicked(element: SingleObject): void {
         var iter: number = -1;
         for (var obj of this._singleObjects) {
