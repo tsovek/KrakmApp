@@ -40,3 +40,15 @@ export class SingleObject {
         this.ImageUrl = imageUrl;
     }
 }
+
+export class SortableObject {
+    public Object: SingleObject;
+    public ObjType: string;
+    public Order: number;
+
+    constructor(object: SingleObject, objType: string, order: number) {
+        this.Object = object;
+        this.ObjType = objType;
+        this.Order = order;
+    }
+}

@@ -8,7 +8,7 @@ import { ANGULAR2_GOOGLE_MAPS_DIRECTIVES } from 'angular2-google-maps/core';
 import { DataService } from '../core/services/dataService';
 import { Routes, APP_ROUTES } from '../routes';
 import { Route } from '../core/domain/route';
-import { Objects } from '../core/domain/objects';
+import { Objects, SingleObject, SortableObject, ObjectGroup } from '../core/domain/objects';
 
 declare var jQuery: any;
 
@@ -24,6 +24,7 @@ export class RouteDetails implements OnInit {
     private routes = Routes;
     private _route: Route;
     private _objects: Objects;
+    private _singleObjects: Array<SortableObject> = [];
 
     constructor(
         private _dataService: DataService,
@@ -35,7 +36,8 @@ export class RouteDetails implements OnInit {
                 var data: any = res.json();
                 this._objects = data;
                 jQuery('.js-example-basic-multiple').select2({
-                    placeholder: 'Select an object'
+                    placeholder: 'Select an object',
+                    allowClear: true
                 });
             },
             error => console.error('Error: ' + error));
@@ -48,6 +50,79 @@ export class RouteDetails implements OnInit {
                 this._route = data;
             },
             error => console.error('Error: ' + error));
+    }
+
+    addObject(): void {
+        var that = this;
+        jQuery("select#objects-selector option").filter(":selected").each(function (i, select) {
+            jQuery(this).removeAttr("selected");
+            var textObject: string = jQuery(this).text();
+            for (var groupObj of that._objects.Objects) {
+                for (var singleObj of groupObj.SingleObjects) {
+                    if (singleObj.Name == textObject) {
+                        var order: number = that._singleObjects.length;
+                        that._singleObjects.push(
+                            new SortableObject(singleObj, groupObj.Type, order));
+                    }
+                }
+            }
+        });
+    }
+
+    onDeleteClicked(element: SingleObject): void {
+        var iter: number = -1;
+        for (var obj of this._singleObjects) {
+            iter++;
+            if (obj.Object.Name === element.Name) {
+                this._singleObjects.splice(iter, 1);
+                break;
+            }
+        }
+    }
+
+    onDownClicked(element: SingleObject): void {
+        var iter: number = -1;
+        for (var obj of this._singleObjects) {
+            iter++;
+            if (obj.Object.Name === element.Name &&
+                iter != this._singleObjects.length - 1) {
+                this._singleObjects.splice(iter, 1);
+                this._singleObjects.splice(iter + 1, 0, obj);
+                break;
+            }
+        }
+    }
+
+    onUpClicked(element: SingleObject): void {
+        var iter: number = -1;
+        for (var obj of this._singleObjects) {
+            iter++;
+            if (obj.Object.Name === element.Name && iter != 0) {
+                this._singleObjects.splice(iter, 1);
+                this._singleObjects.splice(iter - 1, 0, obj);
+                break;
+            }
+        }
+    }
+
+    getSpanClass(objType: string): string {
+        var returnType: string = "pull-left fa fa-question fa-fw";
+        switch (objType) {
+            case "Monuments":
+                returnType = "pull-left fa fa-bank fa-fw";
+                break;
+            case "Entertainments":
+                returnType = "pull-left fa fa-gamepad fa-fw";
+                break;
+            case "Partners":
+                returnType = "pull-left fa fa-group fa-fw";
+                break;
+        }
+        return returnType;
+    }
+
+    onAddButtonEnabled(): boolean {
+        return jQuery("select#objects-selector option").filter(":selected").length == 0;
     }
 
     getLatLng(): google.maps.LatLng {

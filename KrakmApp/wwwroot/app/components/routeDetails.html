@@ -14,14 +14,16 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-10">
-                                <select class="js-example-basic-multiple form-control" multiple="multiple">
+                                <select id="objects-selector" class="js-example-basic-multiple form-control" multiple="multiple">
                                     <optgroup label="empty" [label]="oo.Type" *ngFor="#oo of _objects && _objects.Objects">
                                         <option *ngFor="#so of oo && oo.SingleObjects">{{so.Name}}</option>
                                     </optgroup>
                                 </select>
                             </div>
                             <div class="col-sm-2">
-                                <button class="btn btn-sm btn-success"><i class="fa fa-plus fa-fw"></i></button>
+                                <button (click)="addObject()" 
+                                        [disabled]="onAddButtonEnabled()"
+                                        class="btn btn-sm btn-success"><i class="fa fa-plus fa-fw"></i></button>
                             </div>
                         </div>
                     </div>
@@ -29,41 +31,22 @@
                     <div class="panel panel-default">
                         <table class="table table-hover">
                             <tbody>
-                                <tr>
+                                <tr *ngFor="#selectedObj of _singleObjects">
                                     <td>
-                                        <span class="pull-left fa fa-group fa-fw"></span>
-                                        Nazwa
+                                        <span [class]="getSpanClass(selectedObj.ObjType)"></span>
+                                        {{selectedObj.Object.Name}}
                                     </td>
                                     <td class="text-right text-nowrap">
-                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-up fa-fw"></i></button>
-                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-down fa-fw"></i></button>
-                                        <button class="btn btn-xs btn-warning">
-                                            <span class="glyphicon glyphicon-trash"></span>
+                                        <button (click)="onUpClicked(selectedObj.Object)" 
+                                                 class="btn btn-xs btn-info">
+                                            <i class="fa fa-arrow-up fa-fw"></i>
                                         </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="pull-left fa fa-map-marker fa-fw"></span>
-                                        Nazwa
-                                    </td>
-                                    <td class="text-right text-nowrap">
-                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-up fa-fw"></i></button>
-                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-down fa-fw"></i></button>
-                                        <button class="btn btn-xs btn-warning">
-                                            <span class="glyphicon glyphicon-trash"></span>
+                                        <button (click)="onDownClicked(selectedObj.Object)"
+                                                 class="btn btn-xs btn-info">
+                                            <i class="fa fa-arrow-down fa-fw"></i>
                                         </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="pull-left fa fa-gamepad fa-fw"></span>
-                                        Nazwa
-                                    </td>
-                                    <td class="text-right text-nowrap">
-                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-up fa-fw"></i></button>
-                                        <button class="btn btn-xs btn-info"><i class="fa fa-arrow-down fa-fw"></i></button>
-                                        <button class="btn btn-xs btn-warning">
+                                        <button (click)="onDeleteClicked(selectedObj.Object)"
+                                                 class="btn btn-xs btn-warning">
                                             <span class="glyphicon glyphicon-trash"></span>
                                         </button>
                                     </td>
