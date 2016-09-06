@@ -9,6 +9,7 @@ using KrakmApp.Entities;
 
 namespace KrakmApp.Core.Services
 {
+
     public class MembershipService : IMembershipService
     {
         IRoleRepository _roleRepository;

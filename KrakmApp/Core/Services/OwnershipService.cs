@@ -31,6 +31,5 @@ namespace KrakmApp.Core.Services
         {
             throw new NotImplementedException();
         }
-
     }
 }

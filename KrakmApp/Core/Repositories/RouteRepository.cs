@@ -28,9 +28,7 @@ namespace KrakmApp.Core.Repositories
 
         private IQueryable<Route> AllIncludes()
         {
-            return _context.Set<Route>()
-                .Include(e => e.RouteLocalization)
-                .ThenInclude(e => e.Localization);
+            return _context.Set<Route>().Include(e => e.RouteDetails);
         }
     }
 }

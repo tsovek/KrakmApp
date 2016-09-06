@@ -57,13 +57,13 @@ namespace KrakmApp
             services.AddScoped<ILoggingRepository, LoggingRepository>();
             services.AddScoped<ILocalizationRepository, LocalizationRepository>();
             services.AddScoped<IRouteRepository, RouteRepository>();
-            services.AddScoped<IRouteLocalizationRepository, RouteLocalizationRepository>();
             services.AddScoped<IBannersRepository, BannersRepository>();
 
             // Services
             services.AddScoped<IMembershipService, MembershipService>();
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<IRandomGeneratorService, RandomGeneratorService>();
+            services.AddScoped<IRouteDetailsFactory, RouteDetailsFactory>();
 
             services.AddAuthentication();
 

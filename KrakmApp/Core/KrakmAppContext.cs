@@ -14,7 +14,7 @@ namespace KrakmApp.Core
         public DbSet<Localization> Localizations { get; set; }
         public DbSet<Entertainment> Entertainments { get; set; }
         public DbSet<Route> Routes { get; set; }
-        public DbSet<RouteLocalization> RoutesLocalizations { get; set; }
+        public DbSet<RouteDetails> RouteDetails { get; set; }
 
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
@@ -53,6 +53,7 @@ namespace KrakmApp.Core
 
             modelBuilder.Entity<Route>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Route>().HasOne(e => e.User).WithOne();
+            modelBuilder.Entity<Route>().HasMany(e => e.RouteDetails);
 
             modelBuilder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(200);
@@ -70,8 +71,6 @@ namespace KrakmApp.Core
             modelBuilder.Entity<Banner>().Property(b => b.End).IsRequired();
 
             modelBuilder.Entity<Error>().Property(e => e.Message).IsRequired();
-
-            modelBuilder.Entity<RouteLocalization>().HasKey(x => new { x.RouteId, x.LocalizationId });
         }
     }
 }

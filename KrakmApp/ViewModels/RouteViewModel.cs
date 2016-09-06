@@ -9,6 +9,6 @@ namespace KrakmApp.ViewModels
         public string Description { get; set; }
         public bool Active { get; set; }
         public decimal Length { get; set; }
-        public IEnumerable<LocalizationViewModel> Localizations { get; set; }
+        public IEnumerable<RouteDetailsViewModel> RouteDetails { get; set; }
     }
 }

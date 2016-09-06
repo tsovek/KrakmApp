@@ -100,7 +100,7 @@ namespace KrakmApp.Controllers
                 }
 
                 IEnumerable<Hotel> hotels = GetUser().Hotels;
-                Hotel hotel = hotels.FirstOrDefault(h => h.Name == value.Name);
+                Hotel hotel = hotels.FirstOrDefault(h => h.Name == value.HotelName);
                 if (hotel == null)
                 {
                     return HttpBadRequest();

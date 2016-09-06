@@ -47,9 +47,9 @@ namespace KrakmApp.Core.Mappings
             Mapper.CreateMap<Localization, LocalizationViewModel>();
             Mapper.CreateMap<Route, RouteViewModel>()
                 .ForMember(
-                    vm => vm.Localizations,
+                    vm => vm.RouteDetails,
                     opt => opt.MapFrom(
-                        src => src.RouteLocalization.Select(e => e.Localization)));
+                        src => src.RouteDetails));
             Mapper.CreateMap<Banner, BannerViewModel>()
                 .ForMember(
                     vm => vm.StartPromotion,
