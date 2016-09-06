@@ -7,6 +7,11 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KrakmApp.Entities", "KrakmA
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KrakmApp", "KrakmApp\KrakmApp.xproj", "{5D95601E-53D0-466D-976F-4122BF9122D8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2EB73B5F-3C53-40C9-9E2B-735D5EAE4BB1}"
+	ProjectSection(SolutionItems) = preProject
+		WebEssentials2015-Settings.json = WebEssentials2015-Settings.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +20,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{308D030C-AF69-4454-8A4B-4F048F70B892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{308D030C-AF69-4454-8A4B-4F048F70B892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{308D030C-AF69-4454-8A4B-4F048F70B892}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{308D030C-AF69-4454-8A4B-4F048F70B892}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{308D030C-AF69-4454-8A4B-4F048F70B892}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D95601E-53D0-466D-976F-4122BF9122D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D95601E-53D0-466D-976F-4122BF9122D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D95601E-53D0-466D-976F-4122BF9122D8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{5D95601E-53D0-466D-976F-4122BF9122D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D95601E-53D0-466D-976F-4122BF9122D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
