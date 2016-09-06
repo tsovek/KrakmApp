@@ -31,4 +31,11 @@ namespace KrakmApp.Core.Repositories
             return _context.Set<Route>().Include(e => e.RouteDetails);
         }
     }
+
+    public class RouteDetailsRepository : Repository<RouteDetails>, IRouteDetailsRepository
+    {
+        public RouteDetailsRepository(KrakmAppContext context)
+            : base(context)
+        { }
+    }
 }

@@ -43,4 +43,7 @@ namespace KrakmApp.Core.Repositories.Base
         Route GetSingleByUsername(int id, string username);
         IEnumerable<Route> GetAllByUsername(string username);
     }
+
+    public interface IRouteDetailsRepository : IRepository<RouteDetails>
+    { }
 }

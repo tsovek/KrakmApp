@@ -8,5 +8,7 @@ namespace KrakmApp.Entities
         public int IdInType { get; set; }
         public int Order { get; set; }
 
+        public int RouteId { get; set; }
+        public virtual Route Route { get; set; }
     }
 }

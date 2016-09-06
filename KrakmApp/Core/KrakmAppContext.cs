@@ -53,7 +53,11 @@ namespace KrakmApp.Core
 
             modelBuilder.Entity<Route>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Route>().HasOne(e => e.User).WithOne();
-            modelBuilder.Entity<Route>().HasMany(e => e.RouteDetails);
+
+            modelBuilder.Entity<RouteDetails>()
+                .HasOne(e => e.Route)
+                .WithMany(e => e.RouteDetails)
+                .HasForeignKey(e => e.RouteId);
 
             modelBuilder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(200);

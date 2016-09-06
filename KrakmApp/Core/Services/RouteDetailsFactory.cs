@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using KrakmApp.Core.Repositories.Base;
+using KrakmApp.Entities;
 using KrakmApp.ViewModels;
 
 namespace KrakmApp.Core.Services
@@ -7,6 +9,7 @@ namespace KrakmApp.Core.Services
     public interface IRouteDetailsFactory
     {
         void CompleteParamsAfterMapping(RouteDetailsViewModel routeDetailsVM);
+        RouteDetailsViewModel GetRouteDetailsViewModel(RouteDetails routeDetails);
     }
 
     public class RouteDetailsFactory : IRouteDetailsFactory
@@ -25,6 +28,24 @@ namespace KrakmApp.Core.Services
             _partners = partners;
         }
 
+        public RouteDetailsViewModel GetRouteDetailsViewModel(RouteDetails routeDetails)
+        {
+            var viewModel = new RouteDetailsViewModel();
+            var idTypePair = new IdTypePair
+            {
+                Id = routeDetails.IdInType,
+                Type = routeDetails.Type
+
+            };
+
+            viewModel.Order = routeDetails.Order;
+            viewModel.IdInType = routeDetails.IdInType;
+            viewModel.Type = routeDetails.Type;
+            CompleteParamsAfterMapping(viewModel);
+
+            return viewModel;
+        }
+
         public void CompleteParamsAfterMapping(RouteDetailsViewModel singleRoute)
         {
             var idType = new IdTypePair()
@@ -32,20 +53,21 @@ namespace KrakmApp.Core.Services
                 Id = singleRoute.IdInType,
                 Type = singleRoute.Type
             };
-            var nameDesc = this.GetNameAndDescriptionByIdAndType(idType);
+            var nameDesc = GetNameAndDescriptionByIdAndType(idType);
             singleRoute.Name = nameDesc.Name;
             singleRoute.Description = nameDesc.Description;
             singleRoute.Longitude = nameDesc.Longitude;
             singleRoute.Latitude = nameDesc.Latitude;
         }
 
-        private NameDescriptionPair GetNameAndDescriptionByIdAndType(
-            IdTypePair type)
+        private NameDescriptionPair GetNameAndDescriptionByIdAndType(IdTypePair type)
         {
             switch (type.Type)
             {
                 case "Entertainment":
-                    var entertainment = _entertainments.GetSingle(type.Id);
+                    var entertainment = _entertainments
+                        .AllIncluding(e => e.Localization)
+                        .First(e => e.Id == type.Id);
                     return new NameDescriptionPair()
                     {
                         Name = entertainment.Name,
@@ -54,7 +76,9 @@ namespace KrakmApp.Core.Services
                         Latitude = entertainment.Localization.Latitude
                     };
                 case "Monument":
-                    var monument = _monuments.GetSingle(type.Id);
+                    var monument = _monuments
+                        .AllIncluding(e => e.Localization)
+                        .First(e => e.Id == type.Id);
                     return new NameDescriptionPair()
                     {
                         Name = monument.Name,
@@ -63,7 +87,9 @@ namespace KrakmApp.Core.Services
                         Latitude = monument.Localization.Latitude
                     };
                 case "Partner":
-                    var partner = _partners.GetSingle(type.Id);
+                    var partner = _partners
+                        .AllIncluding(e => e.Localization)
+                        .First(e => e.Id == type.Id);
                     return new NameDescriptionPair()
                     {
                         Name = partner.Name,
