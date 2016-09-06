@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using KrakmApp.Core.Common;
 using KrakmApp.Core.Repositories.Base;
+using KrakmApp.Core.Services;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
 using Microsoft.AspNet.Authorization;
@@ -17,19 +18,19 @@ namespace KrakmApp.Controllers
     {
         private IRouteRepository _routeRepository;
         private ILocalizationRepository _localizationRepository;
-        private IRouteLocalizationRepository _routeLocalizationRepo;
+        private IRouteDetailsFactory _routeDetailsFactory;
 
         public RouteController(
             IRouteRepository routeRepository,
             ILocalizationRepository localizationRepository,
             ILoggingRepository loggingRepository,
             IMembershipService membershipService,
-            IRouteLocalizationRepository routeLocalizationRepo)
+            IRouteDetailsFactory routeDetailsFactory)
             : base(membershipService, loggingRepository)
         {
             _routeRepository = routeRepository;
             _localizationRepository = localizationRepository;
-            _routeLocalizationRepo = routeLocalizationRepo;
+            _routeDetailsFactory = routeDetailsFactory;
         }
 
         [HttpGet]
@@ -40,10 +41,21 @@ namespace KrakmApp.Controllers
             try
             {
                 IEnumerable<Route> routes = _routeRepository
-                    .GetAllByUsername(GetUsername());
+                    .AllIncluding(r => r.RouteDetails)
+                    .Where(r => r.UserId == GetUser().Id);
                 routeVM = Mapper.Map<
                     IEnumerable<Route>,
-                    IEnumerable<RouteViewModel>>(routes);
+                    IEnumerable<RouteViewModel>>(routes, opt => opt.AfterMap(
+                        (routesModel, routesVM) => 
+                        {
+                            var routeDetailsViewModels = 
+                                routeVM.SelectMany(e => e.RouteDetails);
+                            foreach (var routeDetails in routeDetailsViewModels)
+                            {
+                                _routeDetailsFactory
+                                    .CompleteParamsAfterMapping(routeDetails);
+                            }
+                        }));
             }
             catch (Exception ex)
             {
@@ -54,8 +66,7 @@ namespace KrakmApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(
-            int id)
+        public IActionResult Get(int id)
         {
             RouteViewModel routeVM = null;
 
@@ -63,6 +74,10 @@ namespace KrakmApp.Controllers
             {
                 Route route = _routeRepository
                     .GetSingleByUsername(id, GetUsername());
+                if (route == null)
+                {
+                    return HttpNotFound();
+                }
                 routeVM = Mapper.Map<Route, RouteViewModel>(route);
             }
             catch (Exception ex)
@@ -74,8 +89,7 @@ namespace KrakmApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(
-            [FromBody]RoutePostViewModel value)
+        public IActionResult Post([FromBody]RoutePostViewModel value)
         {
             IActionResult result = new ObjectResult(false);
             Result routeCreationResult = null;

@@ -1,6 +1,8 @@
 ﻿///<reference path="../../../bower_components/googlemaps-ts/last/google.maps.d.ts"/>
 ///<reference path="../../../node_modules/typescript/lib/lib.d.ts"/>
+///<reference path="linq.ts"/>
 import { Component, OnInit } from 'angular2/core';
+import { List } from './linq';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass } from 'angular2/common';
 import { RouteConfig, RouterLink, Router, ROUTER_DIRECTIVES, RouteParams } from 'angular2/router';
 import { MembershipService } from '../core/services/membershipService';
@@ -25,11 +27,15 @@ export class RouteDetails implements OnInit {
     private _route: Route;
     private _objects: Objects;
     private _singleObjects: Array<SortableObject> = [];
+    private _markers: List<google.maps.Marker>;
+    private _polyLine: google.maps.Polyline;
 
     constructor(
         private _dataService: DataService,
         private params: RouteParams) {
 
+        this._markers = new List<google.maps.Marker>();
+        this._polyLine = new google.maps.Polyline();
         this._dataService.set(this._objectsApi);
         this._dataService.get().subscribe(
             res => {
@@ -63,9 +69,96 @@ export class RouteDetails implements OnInit {
                         var order: number = that._singleObjects.length;
                         that._singleObjects.push(
                             new SortableObject(singleObj, groupObj.Type, order));
+                        that.updateMap();
                     }
                 }
             }
+        });
+    }
+
+    getIconFactory(category: string): any {
+        var imageUrl = '';
+        switch (category) {
+            case "Monuments":
+                imageUrl = "http://localhost:5000/images/marker-pink.png";
+                break;
+            case "Entertainments":
+                imageUrl = "http://localhost:5000/images/marker-blue.png";
+                break;
+            case "Partners":
+                imageUrl = "http://localhost:5000/images/marker-green.png";
+                break;
+        }
+        return {
+            url: imageUrl,
+            size: new google.maps.Size(100, 100),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(50, 50)
+        };
+    }
+
+    getInfo(object: SortableObject): string {
+        return '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<h3 class="firstHeading">' + object.Object.Name + '</h3>' +
+            '<div id="bodyContent">' +
+            '<img src="' + object.Object.ImageUrl + '">' +
+            '<p>' +
+            object.Object.Description
+            '</p>' +
+            '</div>' +
+            '</div>';
+    }
+
+    updateMap(): void {
+        this._markers.ForEach(e => {
+            e.setMap(null);
+        });
+        this._markers.RemoveAll(e => true);
+
+        this._polyLine.setMap(null);
+
+        var bounds = new google.maps.LatLngBounds();
+        var polyLines: any[] = [];
+        let iter = -1;
+        for (let obj of this._singleObjects) {
+            iter++;
+            let icon = this.getIconFactory(obj.ObjType);
+            let latLng = new google.maps.LatLng(obj.Object.Latitude, obj.Object.Longitude);
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: this._map,
+                icon: icon
+            });
+            this._markers.Add(marker);
+            bounds.extend(latLng);
+            polyLines.push({ lat: latLng.lat(), lng: latLng.lng() });
+
+            this.attachWindow(marker, obj);
+        }
+        this._map.fitBounds(bounds);
+        console.log(polyLines);
+        this._polyLine = new google.maps.Polyline({
+            path: polyLines,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.6,
+            strokeWeight: 2
+        });
+
+        this._polyLine.setMap(this._map);
+    }
+
+    attachWindow(marker: google.maps.Marker, obj: SortableObject): void {
+        var infowindow = new google.maps.InfoWindow({
+            content: this.getInfo(obj),
+            maxWidth: 300
+        });
+
+        marker.addListener('click', function () {
+            infowindow.open(marker.get('map'), marker);
         });
     }
 
@@ -82,6 +175,7 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
+        this.updateMap();
     }
 
     onDownClicked(element: SingleObject): void {
@@ -95,6 +189,7 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
+        this.updateMap();
     }
 
     onUpClicked(element: SingleObject): void {
@@ -107,6 +202,7 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
+        this.updateMap();
     }
 
     getSpanClass(objType: string): string {
@@ -180,6 +276,7 @@ export class RouteDetails implements OnInit {
             map: this._map,
             icon: iconDefault
         });
+        this._markers.Add(defaultMarker);
 
         this._map.addListener('bounds_changed', function () {
 
