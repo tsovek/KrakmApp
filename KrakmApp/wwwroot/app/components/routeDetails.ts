@@ -69,7 +69,6 @@ export class RouteDetails implements OnInit {
                     this._singleObjects.push(new SortableObject(singleObj, jsonObj.ObjType, jsonObj.Order));
                 }
                 this.updateMap();
-                console.log(this._singleObjects);
             },
             error => console.error('Error: ' + error));
     }
@@ -86,7 +85,6 @@ export class RouteDetails implements OnInit {
                         that._singleObjects.push(
                             new SortableObject(singleObj, groupObj.Type, order));
                         that.updateMap();
-                        console.log(that._singleObjects);
                     }
                 }
             }
@@ -157,7 +155,17 @@ export class RouteDetails implements OnInit {
 
             this.attachWindow(marker, obj);
         }
+
+        let isEmpty: boolean = bounds.isEmpty();
+        if (isEmpty) {
+            bounds.extend(this.getLatLng());
+        }
         this._map.fitBounds(bounds);
+        if (isEmpty)
+        {
+            this._map.setZoom(12);
+        }
+
         this._polyLine = new google.maps.Polyline({
             path: polyLines,
             geodesic: true,
@@ -217,7 +225,6 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
-        console.log(this._singleObjects);
         this.updateMap();
     }
 
@@ -232,7 +239,6 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
-        console.log(this._singleObjects);
         this.updateMap();
     }
 
@@ -246,7 +252,6 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
-        console.log(this._singleObjects);
         this.updateMap();
     }
 
@@ -309,22 +314,5 @@ export class RouteDetails implements OnInit {
         };
         this._map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
-        var iconDefault = {
-            url: 'http://localhost:5000/images/marker-green.png',
-            size: new google.maps.Size(100, 100),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(50, 50)
-        };
-        var defaultMarker = new google.maps.Marker({
-            position: myLatlng,
-            map: this._map,
-            icon: iconDefault
-        });
-        this._markers.Add(defaultMarker);
-
-        this._map.addListener('bounds_changed', function () {
-
-        });
     }
 }

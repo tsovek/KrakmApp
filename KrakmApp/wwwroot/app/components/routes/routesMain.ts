@@ -8,6 +8,7 @@ import { ANGULAR2_GOOGLE_MAPS_DIRECTIVES } from 'angular2-google-maps/core';
 import { DataService } from '../../core/services/dataService';
 import { Routes, APP_ROUTES } from './routes';
 import { Route } from '../../core/domain/route';
+import { List } from '../linq';
 
 @Component({
     selector: 'routesMain',
@@ -17,13 +18,23 @@ import { Route } from '../../core/domain/route';
 @RouteConfig(APP_ROUTES)
 export class RoutesMain implements OnInit {
     private _routesApi: string = 'api/routes/';
+    private _detailsApi: string = 'api/routedetails/';
     private _map: google.maps.Map;
     private routes = Routes;
     private _definedRoutes: Route[];
     private _checkedItems: Array<number>;
+    private _polylines: List<PolylineOwner>;
+    private _colors: List<string>;
 
     constructor(private _dataService: DataService) {
+        this._colors = new List<string>();
+        this._colors.Add("#008000");
+        this._colors.Add("#FF0000");
+        this._colors.Add("#000080");
+        this._colors.Add("#FF00FF");
+        this._colors.Add("#808000");
 
+        this._polylines = new List<PolylineOwner>();
         this._checkedItems = [];
         this._dataService.set(this._routesApi);
         this._dataService.get().subscribe(
@@ -64,7 +75,7 @@ export class RoutesMain implements OnInit {
         ];
         var mapOptions: any = {
             center: myLatlng,
-            zoom: 17,
+            zoom: 12,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             styles: styleArray,
             disableDefaultUI: false,
@@ -72,22 +83,6 @@ export class RoutesMain implements OnInit {
         };
         this._map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
-        var iconDefault = {
-            url: 'http://localhost:5000/images/marker-green.png',
-            size: new google.maps.Size(100, 100),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(50, 50)
-        };
-        var defaultMarker = new google.maps.Marker({
-            position: myLatlng,
-            map: this._map,
-            icon: iconDefault
-        });
-
-        this._map.addListener('bounds_changed', function () {
-
-        });
     }
 
     disabledActionButtons(): boolean {
@@ -97,12 +92,76 @@ export class RoutesMain implements OnInit {
     onCheckedChange(route: Route, checked: boolean) {
         if (checked) {
             this._checkedItems.push(route.Id);
+            this.addRouteView(route.Id);
         } 
         else {
             var index = this._checkedItems.indexOf(route.Id);
             if (index > -1) {
                 this._checkedItems.splice(index, 1);
+                this.removeRouteView(route.Id);
             }
         }
     }
+
+    removeRouteView(index: number): void {
+        var route = this._polylines.FirstOrDefault(e => e.Id == index);
+        if (route) {
+            route.Polyline.setMap(null);
+            this._polylines.Remove(route);
+
+            var bounds = new google.maps.LatLngBounds();
+            this._polylines.ForEach(e => e.LatLng.forEach(ll => bounds.extend(ll)));
+
+            let isEmpty: boolean = bounds.isEmpty();
+            if (isEmpty) {
+                bounds.extend(this.getLatLng());
+            }
+            this._map.fitBounds(bounds);
+            if (isEmpty) {
+                this._map.setZoom(12);
+            }
+        }
+    }
+
+    addRouteView(index: number): void {
+        this._dataService.set(this._detailsApi + index);
+        this._dataService.get().subscribe(
+            res => {
+                var data: any = res.json();
+                var bounds = new google.maps.LatLngBounds();
+                
+                var polyLines: any[] = [];
+                var latLngs: google.maps.LatLng[] = [];
+                for (let obj of data) {
+                    let latLng = new google.maps.LatLng(obj.Object.Latitude, obj.Object.Longitude);
+                    latLngs.push(latLng);
+                    bounds.extend(latLng);
+                    polyLines.push({ lat: latLng.lat(), lng: latLng.lng() });
+                }
+                this._map.fitBounds(bounds);
+
+                let length: number = this._polylines.Count();
+                let correctIndex = length < this._colors.Count() ? length : length % this._colors.Count();
+                let color: string = this._colors.ElementAt(correctIndex);
+                this._polylines.Add(new PolylineOwner(
+                    index,
+                    new google.maps.Polyline({
+                        path: polyLines,
+                        geodesic: true,
+                        strokeColor: color,
+                        strokeOpacity: 0.6,
+                        strokeWeight: 2,
+                        map: this._map
+                    }),
+                    latLngs));
+            },
+            error => console.error('Error: ' + error));
+    }
+}
+
+class PolylineOwner {
+    constructor(
+        public Id: number,
+        public Polyline: google.maps.Polyline,
+        public LatLng: google.maps.LatLng[]) { }
 }
