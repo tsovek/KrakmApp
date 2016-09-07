@@ -120,6 +120,7 @@ body {
 }
 
 #map {
+  height: 500px;
   min-height: 460px;
   background: #fff;
 }
