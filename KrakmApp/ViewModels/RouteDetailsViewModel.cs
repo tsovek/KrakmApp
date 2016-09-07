@@ -13,10 +13,12 @@ namespace KrakmApp.ViewModels
         public string Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public string ImageUrl { get; set; }
     }
 
     public class RouteDetailsPostViewModel
     {
+        public int RouteId { get; set; }
         public IEnumerable<RouteDetails> SpecificRoutes { get; set; }
     }
 

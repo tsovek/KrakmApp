@@ -45,6 +45,7 @@ namespace KrakmApp.Controllers
                 }
 
                 pointsOfRoute = route.RouteDetails
+                    .OrderBy(e => e.Order)
                     .Select(e => new RouteDetailsGetViewModel {
                         Object = _routeDetailsFactory.GetRouteDetailsViewModel(e),
                         ObjType = e.Type,
@@ -80,7 +81,7 @@ namespace KrakmApp.Controllers
 
                 Route route = _routeRepository
                     .AllIncluding(e => e.RouteDetails)
-                    .FirstOrDefault(e => e.Id == routeDetails.SpecificRoutes.First().RouteId);
+                    .FirstOrDefault(e => e.Id == routeDetails.RouteId);
                 if (route == null)
                 {
                     return HttpBadRequest();

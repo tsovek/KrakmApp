@@ -62,8 +62,14 @@ export class RouteDetails implements OnInit {
         this._dataService.get().subscribe(
             res => {
                 var data: any = res.json();
-                this._singleObjects = data;
+                for (var jsonObj of data) {
+                    var obj = jsonObj.Object;
+                    var singleObj = new SingleObject(
+                        obj.IdInType, obj.Name, obj.Description, obj.ImageUrl, obj.Latitude, obj.Longitude);
+                    this._singleObjects.push(new SortableObject(singleObj, jsonObj.ObjType, jsonObj.Order));
+                }
                 this.updateMap();
+                console.log(this._singleObjects);
             },
             error => console.error('Error: ' + error));
     }
@@ -76,10 +82,11 @@ export class RouteDetails implements OnInit {
             for (var groupObj of that._objects.Objects) {
                 for (var singleObj of groupObj.SingleObjects) {
                     if (singleObj.Name == textObject) {
-                        var order: number = that._singleObjects.length;
+                        var order: number = that._singleObjects.length + 1;
                         that._singleObjects.push(
                             new SortableObject(singleObj, groupObj.Type, order));
                         that.updateMap();
+                        console.log(that._singleObjects);
                     }
                 }
             }
@@ -122,6 +129,9 @@ export class RouteDetails implements OnInit {
     }
 
     updateMap(): void {
+        let list: List<SortableObject> = new List<SortableObject>(this._singleObjects);
+        list.ForEach((e, i) => e.Order = i);
+
         this._markers.ForEach(e => {
             e.setMap(null);
         });
@@ -148,7 +158,6 @@ export class RouteDetails implements OnInit {
             this.attachWindow(marker, obj);
         }
         this._map.fitBounds(bounds);
-        console.log(polyLines);
         this._polyLine = new google.maps.Polyline({
             path: polyLines,
             geodesic: true,
@@ -171,8 +180,32 @@ export class RouteDetails implements OnInit {
         });
     }
 
-    onSaveRoute(): void {
+    getObjToPostRequest(): any {
+        var request: any = {
+            RouteId: this.params.get('id'),
+            SpecificRoutes: []
+        };
+        var sortableObjs: List<SortableObject> = new List<SortableObject>(this._singleObjects);
+        sortableObjs.ForEach(e => request.SpecificRoutes.push({
+            Type: e.ObjType,
+            IdInType: e.Object.Id,
+            Order: e.Order
+        }));
+        return request;
+    }
 
+    onSaveRoute(): void {
+        var result: any = { Succeeded: false, Message: "" };
+        this._dataService.set(this._detailsApi);
+        this._dataService.post(JSON.stringify(this.getObjToPostRequest()))
+            .subscribe(res => {
+                result.Succeeded = res.Succeeded;
+                result.Message = res.Message;
+            },
+                error => console.error('Error: ' + error),
+                () => {
+
+                });
     }
 
     onDeleteClicked(element: SingleObject): void {
@@ -184,6 +217,7 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
+        console.log(this._singleObjects);
         this.updateMap();
     }
 
@@ -198,6 +232,7 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
+        console.log(this._singleObjects);
         this.updateMap();
     }
 
@@ -211,6 +246,7 @@ export class RouteDetails implements OnInit {
                 break;
             }
         }
+        console.log(this._singleObjects);
         this.updateMap();
     }
 

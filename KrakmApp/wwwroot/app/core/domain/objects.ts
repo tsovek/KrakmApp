@@ -26,13 +26,13 @@ export class SingleObject {
     Longitude: number;
 
     constructor(
-        id: number,
+        idInType: number,
         name: string,
         description: string,
         imageUrl: string,
         latitude: number,
         longitude: number) {
-        this.Id = id;
+        this.Id = idInType;
         this.Name = name;
         this.Latitude = latitude;
         this.Longitude = longitude;

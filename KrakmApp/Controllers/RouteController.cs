@@ -101,9 +101,6 @@ namespace KrakmApp.Controllers
                     throw new Exception("Correct data before adding");
                 }
 
-                IEnumerable<Localization> localizations = value.LocalizationIds
-                    .Select(loc => _localizationRepository.GetSingle(loc));
-
                 User user = GetUser();
                 var route = new Route
                 {
