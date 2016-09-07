@@ -22,6 +22,7 @@ declare var jQuery: any;
 export class RouteDetails implements OnInit {
     private _routesApi: string = 'api/routes/';
     private _objectsApi: string = 'api/objects/';
+    private _detailsApi: string = 'api/routedetails/';
     private _map: google.maps.Map;
     private routes = Routes;
     private _route: Route;
@@ -54,6 +55,15 @@ export class RouteDetails implements OnInit {
             res => {
                 var data: any = res.json();
                 this._route = data;
+            },
+            error => console.error('Error: ' + error));
+
+        this._dataService.set(this._detailsApi + id);
+        this._dataService.get().subscribe(
+            res => {
+                var data: any = res.json();
+                this._singleObjects = data;
+                this.updateMap();
             },
             error => console.error('Error: ' + error));
     }

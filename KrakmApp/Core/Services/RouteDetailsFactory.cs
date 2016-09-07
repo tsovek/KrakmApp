@@ -64,7 +64,7 @@ namespace KrakmApp.Core.Services
         {
             switch (type.Type)
             {
-                case "Entertainment":
+                case "Entertainments":
                     var entertainment = _entertainments
                         .AllIncluding(e => e.Localization)
                         .First(e => e.Id == type.Id);
@@ -75,7 +75,7 @@ namespace KrakmApp.Core.Services
                         Longitude = entertainment.Localization.Longitude,
                         Latitude = entertainment.Localization.Latitude
                     };
-                case "Monument":
+                case "Monuments":
                     var monument = _monuments
                         .AllIncluding(e => e.Localization)
                         .First(e => e.Id == type.Id);
@@ -86,7 +86,7 @@ namespace KrakmApp.Core.Services
                         Longitude = monument.Localization.Longitude,
                         Latitude = monument.Localization.Latitude
                     };
-                case "Partner":
+                case "Partners":
                     var partner = _partners
                         .AllIncluding(e => e.Localization)
                         .First(e => e.Id == type.Id);

@@ -33,7 +33,7 @@ namespace KrakmApp.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            IEnumerable<RouteDetailsViewModel> pointsOfRoute = null;
+            IEnumerable<RouteDetailsGetViewModel> pointsOfRoute = null;
 
             try
             {
@@ -45,7 +45,11 @@ namespace KrakmApp.Controllers
                 }
 
                 pointsOfRoute = route.RouteDetails
-                    .Select(e => _routeDetailsFactory.GetRouteDetailsViewModel(e));
+                    .Select(e => new RouteDetailsGetViewModel {
+                        Object = _routeDetailsFactory.GetRouteDetailsViewModel(e),
+                        ObjType = e.Type,
+                        Order = e.Order
+                    });
             }
             catch (Exception ex)
             {

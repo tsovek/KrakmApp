@@ -19,4 +19,11 @@ namespace KrakmApp.ViewModels
     {
         public IEnumerable<RouteDetails> SpecificRoutes { get; set; }
     }
+
+    public class RouteDetailsGetViewModel
+    {
+        public int Order { get; set; }
+        public string ObjType { get; set; }
+        public RouteDetailsViewModel Object { get; set; }
+    }
 }
