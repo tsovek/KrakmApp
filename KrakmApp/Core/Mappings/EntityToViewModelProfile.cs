@@ -45,11 +45,11 @@ namespace KrakmApp.Core.Mappings
                     vm => vm.Longitude,
                     entertainment => entertainment.MapFrom(src => src.Localization.Longitude));
             Mapper.CreateMap<Localization, LocalizationViewModel>();
+            Mapper.CreateMap<RouteDetails, RouteDetailsViewModel>();
             Mapper.CreateMap<Route, RouteViewModel>()
                 .ForMember(
                     vm => vm.RouteDetails,
-                    opt => opt.MapFrom(
-                        src => src.RouteDetails));
+                    opt => opt.MapFrom(src => src.RouteDetails));
             Mapper.CreateMap<Banner, BannerViewModel>()
                 .ForMember(
                     vm => vm.StartPromotion,

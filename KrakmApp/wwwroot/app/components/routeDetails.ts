@@ -106,7 +106,7 @@ export class RouteDetails implements OnInit {
             '<div id="bodyContent">' +
             '<img src="' + object.Object.ImageUrl + '">' +
             '<p>' +
-            object.Object.Description
+            object.Object.Description +
             '</p>' +
             '</div>' +
             '</div>';
