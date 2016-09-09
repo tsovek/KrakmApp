@@ -100,7 +100,6 @@ export class AddHotel implements OnInit {
         ];
         var mapOptions: any = {
             center: myLatlng,
-            zoom: 17,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             styles: styleArray,
             disableDefaultUI: false,
@@ -108,18 +107,8 @@ export class AddHotel implements OnInit {
         };
         this._map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
-        var iconDefault = {
-            url: 'http://localhost:5000/images/marker-green.png',
-            size: new google.maps.Size(100, 100),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(50, 50)
-        };
-        var defaultMarker = new google.maps.Marker({
-            position: myLatlng,
-            map: this._map,
-            icon: iconDefault
-        });
+
+        this._map.setZoom(12);
 
         var input = <HTMLInputElement>document.getElementById('adress-input');
         var searchBox = new google.maps.places.SearchBox(input);
@@ -135,7 +124,6 @@ export class AddHotel implements OnInit {
                 return;
             }
             markers = [];
-            defaultMarker.setMap(null);
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function (place) {
                 var icon = {

@@ -259,7 +259,7 @@ export class RouteDetails implements OnInit {
         var returnType: string = "pull-left fa fa-question fa-fw";
         switch (objType) {
             case "Monuments":
-                returnType = "pull-left fa fa-bank fa-fw";
+                returnType = "pull-left fa fa-opera fa-fw";
                 break;
             case "Entertainments":
                 returnType = "pull-left fa fa-gamepad fa-fw";

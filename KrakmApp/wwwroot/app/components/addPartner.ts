@@ -131,6 +131,7 @@ export class AddPartner implements OnInit {
         };
         this._map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
+        this._map.setZoom(12);
 
         var input = <HTMLInputElement>document.getElementById('adress-input');
         var searchBox = new google.maps.places.SearchBox(input);
