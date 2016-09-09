@@ -12,7 +12,7 @@
                             <input type="text" class="form-control"
                                    required
                                    placeholder="Entertainment name"
-                                   [(ngModel)]="_newEntertainment.Name"
+                                   [(ngModel)]="_newEntertainment.name"
                                    ngControl="name" #name="ngForm" #spy>
                             <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                                 Name is required
@@ -27,7 +27,7 @@
                             <input id="adress-input" type="text" class="form-control"
                                    required
                                    placeholder="Adress"
-                                   [(ngModel)]="_newEntertainment.Adress"
+                                   [(ngModel)]="_newEntertainment.adress"
                                    ngControl="adress" #adress="ngForm">
                             <div [hidden]="adress.valid || adress.pristine" class="alert alert-danger">
                                 Adress is required
@@ -38,15 +38,15 @@
                         <div class="form-group">
                             <input type="text" class="form-control"
                                    placeholder="Image url"
-                                   [(ngModel)]="_newEntertainment.ImageUrl"
+                                   [(ngModel)]="_newEntertainment.imageUrl"
                                    ngControl="imageUrl" #imageUrl="ngForm" #spy>
                         </div>
 
                         <div class="form-group text-left">
                             <div class="checkbox-inline">
                                 <input type="checkbox"
-                                       [(ngModel)]="_newEntertainment.Payable"
-                                       [value]="_newEntertainment.Payable"
+                                       [(ngModel)]="_newEntertainment.payable"
+                                       [value]="_newEntertainment.payable"
                                        ngControl="payable" #payable="ngForm" #spy />
                                 Object is payable
                             </div>
@@ -55,8 +55,8 @@
                         <div class="form-group">
                             <textarea ngDefaultControlt rows="7" type="text" class="form-control"
                                       placeholder="Description"
-                                      #ta (blur)="_newEntertainment.Description=ta.value" 
-                                      [value]="_newEntertainment.Description"
+                                      #ta (blur)="_newEntertainment.description=ta.value" 
+                                      [value]="_newEntertainment.description"
                                       ngControl="description" #description="ngForm"></textarea>
                             <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
                                 Description has bad chars!

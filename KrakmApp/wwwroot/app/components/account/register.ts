@@ -32,18 +32,18 @@ export class Register {
         var _registrationResult: Result = new Result(false, '');
         this.membershipService.register(this._newUser)
             .subscribe(res => {
-                _registrationResult.Succeeded = res.Succeeded;
-                _registrationResult.Message = res.Message;
+                _registrationResult.succeeded = res.succeeded;
+                _registrationResult.message = res.message;
 
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (_registrationResult.Succeeded) {
-                        this.notificationService.printSuccessMessage('Dear ' + this._newUser.Username + ', please login with your credentials');
+                    if (_registrationResult.succeeded) {
+                        this.notificationService.printSuccessMessage('Dear ' + this._newUser.username + ', please login with your credentials');
                         this._router.navigate([this.routes.login.name]);
                     }
                     else {
-                        this.notificationService.printErrorMessage(_registrationResult.Message);
+                        this.notificationService.printErrorMessage(_registrationResult.message);
                     }
                 });
     };

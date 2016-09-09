@@ -91,14 +91,14 @@ export class RoutesMain implements OnInit {
 
     onCheckedChange(route: Route, checked: boolean) {
         if (checked) {
-            this._checkedItems.push(route.Id);
-            this.addRouteView(route.Id);
+            this._checkedItems.push(route.id);
+            this.addRouteView(route.id);
         } 
         else {
-            var index = this._checkedItems.indexOf(route.Id);
+            var index = this._checkedItems.indexOf(route.id);
             if (index > -1) {
                 this._checkedItems.splice(index, 1);
-                this.removeRouteView(route.Id);
+                this.removeRouteView(route.id);
             }
         }
     }
@@ -133,7 +133,7 @@ export class RoutesMain implements OnInit {
                 var polyLines: any[] = [];
                 var latLngs: google.maps.LatLng[] = [];
                 for (let obj of data) {
-                    let latLng = new google.maps.LatLng(obj.Object.Latitude, obj.Object.Longitude);
+                    let latLng = new google.maps.LatLng(obj.object.latitude, obj.object.longitude);
                     latLngs.push(latLng);
                     bounds.extend(latLng);
                     polyLines.push({ lat: latLng.lat(), lng: latLng.lng() });

@@ -1,8 +1,8 @@
 "use strict";
 var Result = (function () {
     function Result(succeeded, message) {
-        this.Succeeded = succeeded;
-        this.Message = message;
+        this.succeeded = succeeded;
+        this.message = message;
     }
     return Result;
 }());

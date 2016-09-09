@@ -54,20 +54,20 @@ export class AddBanner {
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._banner))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (result.Succeeded) {
+                    if (result.succeeded) {
                         this._notificationService
                             .printSuccessMessage(
-                                'Banner: ' + this._banner.Name + ' is created');
+                                'Banner: ' + this._banner.name + ' is created');
                         this._utility.navigate('/Banners');
                     }
                     else {
                         this._notificationService
-                            .printErrorMessage(result.Message);
+                            .printErrorMessage(result.message);
                     }
                 });
     };

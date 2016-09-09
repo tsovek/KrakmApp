@@ -1,13 +1,6 @@
 ﻿export class Registration {
-    Username: string;
-    Password: string;
-    Email: string;
-
-    constructor(username: string,
-        password: string,
-        email: string) {
-        this.Username = username;
-        this.Password = password;
-        this.Email = email;
-    }
+    constructor(
+        public username: string,
+        public password: string,
+        public email: string) { }
 }

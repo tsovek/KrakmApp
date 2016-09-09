@@ -4,7 +4,7 @@
             <div class="add-hotel-sidebar">
                 <div class="hotel-add hotel-add-form">
                     <div class="hotel-add-title">
-                        {{_route && _route.Name}}
+                        {{_route && _route.name}}
                         <div class="pull-right">
                             <button (click)="onSaveRoute()"
                                     class="btn btn-sm btn-info">
@@ -18,8 +18,8 @@
                         <div class="form-group">
                             <div class="col-sm-10">
                                 <select id="objects-selector" class="js-example-basic-multiple form-control" multiple="multiple">
-                                    <optgroup label="empty" [label]="oo.Type" *ngFor="#oo of _objects && _objects.Objects">
-                                        <option *ngFor="#so of oo && oo.SingleObjects">{{so.Name}}</option>
+                                    <optgroup label="empty" [label]="oo.type" *ngFor="#oo of _objects && _objects.objects">
+                                        <option *ngFor="#so of oo && oo.singleObjects">{{so.name}}</option>
                                     </optgroup>
                                 </select>
                             </div>
@@ -36,19 +36,19 @@
                             <tbody>
                                 <tr *ngFor="#selectedObj of _singleObjects">
                                     <td>
-                                        <span [class]="getSpanClass(selectedObj.ObjType)"></span>
-                                        {{selectedObj.Object.Name}}
+                                        <span [class]="getSpanClass(selectedObj.objType)"></span>
+                                        {{selectedObj.object.name}}
                                     </td>
                                     <td class="text-right text-nowrap">
-                                        <button (click)="onUpClicked(selectedObj.Object)" 
+                                        <button (click)="onUpClicked(selectedObj.object)" 
                                                  class="btn btn-xs btn-info">
                                             <i class="fa fa-arrow-up fa-fw"></i>
                                         </button>
-                                        <button (click)="onDownClicked(selectedObj.Object)"
+                                        <button (click)="onDownClicked(selectedObj.object)"
                                                  class="btn btn-xs btn-info">
                                             <i class="fa fa-arrow-down fa-fw"></i>
                                         </button>
-                                        <button (click)="onDeleteClicked(selectedObj.Object)"
+                                        <button (click)="onDeleteClicked(selectedObj.object)"
                                                  class="btn btn-xs btn-warning">
                                             <span class="glyphicon glyphicon-trash"></span>
                                         </button>

@@ -32,18 +32,18 @@ export class Login {
 
         this.membershipService.login(this._user)
             .subscribe(res => {
-                _authenticationResult.Succeeded = res.Succeeded;
-                _authenticationResult.Message = res.Message;
+                _authenticationResult.succeeded = res.succeeded;
+                _authenticationResult.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (_authenticationResult.Succeeded) {
-                        this.notificationService.printSuccessMessage('Welcome back ' + this._user.Username + '!');
+                    if (_authenticationResult.succeeded) {
+                        this.notificationService.printSuccessMessage('Welcome back ' + this._user.username + '!');
                         localStorage.setItem('user', JSON.stringify(this._user));
                         this._router.navigate([this.routes.home.name]);
                     }
                     else {
-                        this.notificationService.printErrorMessage(_authenticationResult.Message);
+                        this.notificationService.printErrorMessage(_authenticationResult.message);
                     }
                 });
     };

@@ -13,21 +13,21 @@
             <div class="modal-body">
                 <form class="form col-md-12 center-block" #hf="ngForm">
                     <div class="form-group">
-                        <input type="text" class="form-control input-lg" placeholder="Username" [(ngModel)]="_newUser.Username"
+                        <input type="text" class="form-control input-lg" placeholder="Username" [(ngModel)]="_newUser.username"
                                name="username" ngControl="username" required #username="ngForm">
                         <div [hidden]="username.valid || username.untouched" class="alert alert-danger">
                             Username is required
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control input-lg" placeholder="Email" [(ngModel)]="_newUser.Email"
+                        <input type="email" class="form-control input-lg" placeholder="Email" [(ngModel)]="_newUser.email"
                                name="email" ngControl="email" required #email="ngForm">
                         <div [hidden]="email.valid || email.untouched" class="alert alert-danger">
                             Email is required
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control input-lg" placeholder="Password" [(ngModel)]="_newUser.Password"
+                        <input type="password" class="form-control input-lg" placeholder="Password" [(ngModel)]="_newUser.password"
                                name="password" ngControl="password" required #password="ngForm">
                         <div [hidden]="password.valid || password.untouched" class="alert alert-danger">
                             Password is required

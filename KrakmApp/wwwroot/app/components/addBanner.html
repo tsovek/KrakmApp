@@ -16,7 +16,7 @@
                         <input type="text" 
                                class="form-control" 
                                placeholder="Banner name" 
-                               [(ngModel)]="_banner.Name"
+                               [(ngModel)]="_banner.name"
                                name="name" 
                                ngControl="name" 
                                required #name="ngForm" />
@@ -29,7 +29,7 @@
                         <input type="datetime-local" 
                                class="form-control" 
                                placeholder="Start promotion"
-                               [(ngModel)]="_banner.StartPromotion"
+                               [(ngModel)]="_banner.startPromotion"
                                ngControl="startPromotion" 
                                #startPromotion="ngForm">
                     </div>
@@ -38,7 +38,7 @@
                         <input type="datetime-local" 
                                class="form-control" 
                                placeholder="End promotion"
-                               [(ngModel)]="_banner.EndPromotion"
+                               [(ngModel)]="_banner.endPromotion"
                                ngControl="endPromotion" 
                                #endPromotion="ngForm">
                     </div>
@@ -64,8 +64,8 @@
                                   type="text" 
                                   class="form-control"
                                   placeholder="Description"
-                                  #ta (blur)="_banner.Description=ta.value" 
-                                  [value]="_banner.Description"
+                                  #ta (blur)="_banner.description=ta.value" 
+                                  [value]="_banner.description"
                                   ngControl="description" 
                                   #description="ngForm"></textarea>
                         <div [hidden]="description.valid || description.pristine" class="alert alert-danger">

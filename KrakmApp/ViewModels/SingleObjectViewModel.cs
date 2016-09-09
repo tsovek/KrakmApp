@@ -18,7 +18,7 @@ namespace KrakmApp.ViewModels
 
     public class SingleObjectViewModel
     {
-        public int Id { get; set; }
+        public int IdInType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }

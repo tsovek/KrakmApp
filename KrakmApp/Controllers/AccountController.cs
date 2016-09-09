@@ -9,8 +9,8 @@ using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
 
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {
@@ -100,7 +100,7 @@ namespace KrakmApp.Controllers
                 _loggingRepository.Add(new Error() { Message = ex.Message, StackTrace = ex.StackTrace, DateCreated = DateTime.Now });
                 _loggingRepository.Commit();
 
-                return HttpBadRequest();
+                return BadRequest();
             }
 
         }

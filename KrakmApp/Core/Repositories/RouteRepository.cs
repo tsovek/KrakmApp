@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 
 namespace KrakmApp.Core.Repositories
 {

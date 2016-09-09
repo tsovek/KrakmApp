@@ -2,7 +2,7 @@
 using KrakmApp.Core.Common;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {

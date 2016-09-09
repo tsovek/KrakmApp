@@ -41,7 +41,7 @@ export class AddClient {
                 this._hotels = data;
                 if (this._hotels && this._hotels.length > 0)
                 {
-                    this._client.HotelName = this._hotels[0].Name;
+                    this._client.hotelName = this._hotels[0].name;
                 }
             },
             error => console.error('Error: ' + error));
@@ -68,20 +68,20 @@ export class AddClient {
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._client))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (result.Succeeded) {
+                    if (result.succeeded) {
                         this._notificationService
                             .printSuccessMessage(
-                                'Client: ' + this._client.Name + ' is created');
+                                'Client: ' + this._client.name + ' is created');
                         this._utility.navigate('/Clients/List');
                     }
                     else {
                         this._notificationService
-                            .printErrorMessage(result.Message);
+                            .printErrorMessage(result.message);
                     }
                 });
     };

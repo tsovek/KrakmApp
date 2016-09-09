@@ -16,7 +16,7 @@
                         <input type="text"
                                class="form-control"
                                placeholder="Route name"
-                               [(ngModel)]="_route.Name"
+                               [(ngModel)]="_route.name"
                                name="name"
                                ngControl="name"
                                required #name="ngForm" />
@@ -30,8 +30,8 @@
                                   type="text"
                                   class="form-control"
                                   placeholder="Description"
-                                  #ta (blur)="_route.Description=ta.value"
-                                  [value]="_route.Description"
+                                  #ta (blur)="_route.description=ta.value"
+                                  [value]="_route.description"
                                   ngControl="description"
                                   #description="ngForm"></textarea>
                         <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
@@ -42,8 +42,8 @@
                     <div class="form-group text-left">
                         <div class="checkbox-inline">
                             <input type="checkbox"
-                                   [(ngModel)]="_route.Active"
-                                   [value]="_route.Active"
+                                   [(ngModel)]="_route.active"
+                                   [value]="_route.active"
                                    ngControl="activated" #activated="ngForm" #spy />
                             Activated
                         </div>

@@ -6,7 +6,7 @@ using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Core.Services;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {
@@ -41,7 +41,7 @@ namespace KrakmApp.Controllers
                     .GetSingleByUsername(id, GetUsername());
                 if (route == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
 
                 pointsOfRoute = route.RouteDetails
@@ -84,7 +84,7 @@ namespace KrakmApp.Controllers
                     .FirstOrDefault(e => e.Id == routeDetails.RouteId);
                 if (route == null)
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 if (route.RouteDetails != null && route.RouteDetails.Any())

@@ -7,8 +7,8 @@ using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Core.Services;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {
@@ -76,7 +76,7 @@ namespace KrakmApp.Controllers
                     .GetSingleByUsername(id, GetUsername());
                 if (route == null)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
                 routeVM = Mapper.Map<Route, RouteViewModel>(route);
             }
@@ -148,7 +148,7 @@ namespace KrakmApp.Controllers
 
                 if (route == null)
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 route.Name = value.Name;
@@ -197,7 +197,7 @@ namespace KrakmApp.Controllers
                 }
                 else
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

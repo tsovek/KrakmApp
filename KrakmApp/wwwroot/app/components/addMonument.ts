@@ -54,7 +54,7 @@ export class AddMonument implements OnInit {
                     if (this._map) {
                         this._map.setZoom(17);
                         var latLng = new google.maps.LatLng(
-                            this._newMonument.Latitude, this._newMonument.Longitude);
+                            this._newMonument.latitude, this._newMonument.longitude);
                         this._map.setCenter(latLng);
                         var marker = new google.maps.Marker({
                             position: latLng,
@@ -75,7 +75,7 @@ export class AddMonument implements OnInit {
                     for (var monument in monuments) {
                         var p: Monument = monuments[monument];
                         var pos: google.maps.LatLng = new google.maps.LatLng(
-                            p.Latitude, p.Longitude)
+                            p.latitude, p.longitude)
                         var defaultMarker = new google.maps.Marker({
                             position: pos,
                             map: this._map,
@@ -93,10 +93,10 @@ export class AddMonument implements OnInit {
     }
 
     getLatLng(): google.maps.LatLng {
-        if (this._newMonument.Id === 0) {
+        if (this._newMonument.id === 0) {
             return new google.maps.LatLng(50.0666501, 19.9449799);
         }
-        return new google.maps.LatLng(this._newMonument.Latitude, this._newMonument.Longitude);
+        return new google.maps.LatLng(this._newMonument.latitude, this._newMonument.longitude);
     }
 
     ngOnInit() {
@@ -135,9 +135,9 @@ export class AddMonument implements OnInit {
 
         var input = <HTMLInputElement>document.getElementById('adress-input');
         var searchBox = new google.maps.places.SearchBox(input);
-        var localThis = this;
+        var that = this;
         this._map.addListener('bounds_changed', function () {
-            searchBox.setBounds(localThis._map.getBounds());
+            searchBox.setBounds(that._map.getBounds());
         });
         var markers = [];
         searchBox.addListener('places_changed', function () {
@@ -158,17 +158,17 @@ export class AddMonument implements OnInit {
                 };
                 var defaultMarker = new google.maps.Marker({
                     position: place.geometry.location,
-                    map: localThis._map,
+                    map: that._map,
                     icon: iconDefault
                 });
-                localThis._newMonument.Latitude = place.geometry.location.lat();
-                localThis._newMonument.Longitude = place.geometry.location.lng();
+                that._newMonument.latitude = place.geometry.location.lat();
+                that._newMonument.longitude = place.geometry.location.lng();
 
                 bounds.extend(place.geometry.location);
             });
 
-            localThis._map.fitBounds(bounds);
-            localThis._map.setZoom(17);
+            that._map.fitBounds(bounds);
+            that._map.setZoom(17);
         });
     }
 
@@ -176,20 +176,20 @@ export class AddMonument implements OnInit {
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._newMonument))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (result.Succeeded) {
+                    if (result.succeeded) {
                         this._notificationService
                             .printSuccessMessage(
-                                'Monument: ' + this._newMonument.Name + ' is created');
+                                'Monument: ' + this._newMonument.name + ' is created');
                         this._utility.navigate('/Monuments');
                     }
                     else {
                         this._notificationService
-                            .printErrorMessage(result.Message);
+                            .printErrorMessage(result.message);
                     }
                 });
     }
@@ -204,7 +204,7 @@ export class AddMonument implements OnInit {
 
             reader[i].addEventListener("load", (event) => {
                 this.file_srcs.push(event.target.result);
-                this._newMonument.ImageUrl = event.target.result;
+                this._newMonument.imageUrl = event.target.result;
             }, false);
             if (input.files[i]) {
                 reader[i].readAsDataURL(input.files[i]);

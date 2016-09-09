@@ -3,14 +3,14 @@
         <div class="col-xs-12 col-md-3" *ngFor="#monument of _monuments">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
-                    <div class="text-danger">{{monument.Name}}</div>
+                    <div class="text-danger">{{monument.name}}</div>
                 </div>
                 <div class="panel-image">
-                    <img src="{{monument.ImageUrl}}" class="panel-image-preview" />
+                    <img src="{{monument.imageUrl}}" class="panel-image-preview" />
                     <label for="toggle-1"></label>
                 </div>
                 <div class="panel-footer text-center">
-                    <a [routerLink]="[routes.editMonument.name, { id: monument.Id }]"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a [routerLink]="[routes.editMonument.name, { id: monument.id }]"><span class="glyphicon glyphicon-edit"></span></a>
                     <a href="#share"><span class="glyphicon glyphicon-remove"></span></a>
                 </div>
             </div>

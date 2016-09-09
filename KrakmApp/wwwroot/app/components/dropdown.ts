@@ -7,7 +7,7 @@ import { Client } from '../core/domain/client';
     selector: 'my-dropdown',
     template: `
     <select class="form-control" (change)="onSelect($event.target.value)">
-      <option *ngFor="#hotel of hotels" [value]="hotel.Id">{{hotel.Name}}</option>
+      <option *ngFor="#hotel of hotels" [value]="hotel.id">{{hotel.name}}</option>
     </select>
     `,
     directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
@@ -21,8 +21,8 @@ export class DropDownComponent {
 
     onSelect(productId) {
         for (var i = 0; i < this.hotels.length; i++) {
-            if (this.hotels[i].Id == productId) {
-                this.client.HotelName = this.hotels[i].Name;
+            if (this.hotels[i].id == productId) {
+                this.client.hotelName = this.hotels[i].name;
             }
         }
     }

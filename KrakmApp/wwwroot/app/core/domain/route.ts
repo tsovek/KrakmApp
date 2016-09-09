@@ -1,20 +1,17 @@
 ﻿export class Route {
-    public Id: number;
-    public Name: string;
-    public Description: string;
-    public Active: boolean;
-    public Points: RoutePoint[];
-
-    constructor() {
-
-    }
+    constructor(
+        public id: number,
+        public name: string,
+        public description: string,
+        public active: boolean,
+        public points: RoutePoint[]) {}
 }
 
 export class RoutePoint {
-    public Order: number;
-    public Name: string;
-    public Description: string;
-    public ImageUrl: string;
-    public MarkerUrl: string;
-    
+    constructor(
+        public order: number,
+        public name: string,
+        public description: string,
+        public imageUrl: string,
+        public markerUrl: string) { }
 }

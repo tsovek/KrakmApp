@@ -54,7 +54,7 @@ export class AddEntertainment implements OnInit {
                     if (this._map) {
                         this._map.setZoom(17);
                         var latLng = new google.maps.LatLng(
-                            this._newEntertainment.Latitude, this._newEntertainment.Longitude);
+                            this._newEntertainment.latitude, this._newEntertainment.longitude);
                         this._map.setCenter(latLng);
                         var marker = new google.maps.Marker({
                             position: latLng,
@@ -74,7 +74,7 @@ export class AddEntertainment implements OnInit {
                     for (var entr in entertainments) {
                         var p: Entertainment = entertainments[entr];
                         var pos: google.maps.LatLng = new google.maps.LatLng(
-                            p.Latitude, p.Longitude)
+                            p.latitude, p.longitude)
                         var defaultMarker = new google.maps.Marker({
                             position: pos,
                             map: this._map,
@@ -92,10 +92,10 @@ export class AddEntertainment implements OnInit {
     }
 
     getLatLng(): google.maps.LatLng {
-        if (this._newEntertainment.Id === 0) {
+        if (this._newEntertainment.id === 0) {
             return new google.maps.LatLng(50.0666501, 19.9449799);
         }
-        return new google.maps.LatLng(this._newEntertainment.Latitude, this._newEntertainment.Longitude);
+        return new google.maps.LatLng(this._newEntertainment.latitude, this._newEntertainment.longitude);
     }
 
     ngOnInit() {
@@ -161,8 +161,8 @@ export class AddEntertainment implements OnInit {
                     map: localThis._map,
                     icon: iconDefault
                 });
-                localThis._newEntertainment.Latitude = place.geometry.location.lat();
-                localThis._newEntertainment.Longitude = place.geometry.location.lng();
+                localThis._newEntertainment.latitude = place.geometry.location.lat();
+                localThis._newEntertainment.longitude = place.geometry.location.lng();
 
                 bounds.extend(place.geometry.location);
             });
@@ -176,20 +176,20 @@ export class AddEntertainment implements OnInit {
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._newEntertainment))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (result.Succeeded) {
+                    if (result.succeeded) {
                         this._notificationService
                             .printSuccessMessage(
-                                'Entertainment: ' + this._newEntertainment.Name + ' is created');
+                                'Entertainment: ' + this._newEntertainment.name + ' is created');
                         this._utility.navigate('/Entertainments');
                     }
                     else {
                         this._notificationService
-                            .printErrorMessage(result.Message);
+                            .printErrorMessage(result.message);
                     }
                 });
     }
@@ -204,7 +204,7 @@ export class AddEntertainment implements OnInit {
 
             reader[i].addEventListener("load", (event) => {
                 this.file_srcs.push(event.target.result);
-                this._newEntertainment.ImageUrl = event.target.result;
+                this._newEntertainment.imageUrl = event.target.result;
             }, false);
             if (input.files[i]) {
                 reader[i].readAsDataURL(input.files[i]);

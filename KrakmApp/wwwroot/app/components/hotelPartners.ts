@@ -65,15 +65,15 @@ export class HotelPartners {
 
         this.notificationService.printConfirmationDialog('Are you sure you want to delete the partner?',
             () => {
-                this.dataService.deleteResource(this._partnersAPI + partner.Id)
+                this.dataService.deleteResource(this._partnersAPI + partner.id)
                     .subscribe(res => {
-                        _removeResult.Succeeded = res.Succeeded;
-                        _removeResult.Message = res.Message;
+                        _removeResult.succeeded = res.succeeded;
+                        _removeResult.message = res.message;
                     },
                     error => console.error('Error: ' + error),
                     () => {
-                        if (_removeResult.Succeeded) {
-                            this.notificationService.printSuccessMessage(partner.Name + ' removed from hotel.');
+                        if (_removeResult.succeeded) {
+                            this.notificationService.printSuccessMessage(partner.name + ' removed from hotel.');
                             this.getHotelPartners();
                         }
                         else {

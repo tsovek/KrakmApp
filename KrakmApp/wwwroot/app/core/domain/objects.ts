@@ -1,54 +1,21 @@
-﻿
-export class Objects {
-    public Objects: Array<ObjectGroup>;
-
-    constructor(objectGroup: Array<ObjectGroup>) {
-        this.Objects = objectGroup; 
-    }
+﻿export class Objects {
+    constructor(public objects: Array<ObjectGroup>) { }
 }
 
 export class ObjectGroup {
-    public Type: string;
-    public SingleObjects: Array<SingleObject>;
-
-    constructor(typeName: string, singleObjects: Array<SingleObject>) {
-        this.Type = typeName;
-        this.SingleObjects = singleObjects;
-    }
+    constructor(public type: string, public singleObjects: Array<SingleObject>) { }
 }
 
 export class SingleObject {
-    Id: number;
-    Name: string;
-    Description: string;
-    ImageUrl: string;
-    Latitude: number;
-    Longitude: number;
-
     constructor(
-        idInType: number,
-        name: string,
-        description: string,
-        imageUrl: string,
-        latitude: number,
-        longitude: number) {
-        this.Id = idInType;
-        this.Name = name;
-        this.Latitude = latitude;
-        this.Longitude = longitude;
-        this.Description = description;
-        this.ImageUrl = imageUrl;
-    }
+        public idInType: number,
+        public name: string,
+        public description: string,
+        public imageUrl: string,
+        public latitude: number,
+        public longitude: number) { }
 }
 
 export class SortableObject {
-    public Object: SingleObject;
-    public ObjType: string;
-    public Order: number;
-
-    constructor(object: SingleObject, objType: string, order: number) {
-        this.Object = object;
-        this.ObjType = objType;
-        this.Order = order;
-    }
+    constructor(public object: SingleObject, public objType: string, public order: number) { }
 }

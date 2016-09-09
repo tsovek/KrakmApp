@@ -7,8 +7,8 @@ using KrakmApp.Core.Common;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {
@@ -145,7 +145,7 @@ namespace KrakmApp.Controllers
 
                 if (entertainment == null)
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 Localization loc = _localization
@@ -201,7 +201,7 @@ namespace KrakmApp.Controllers
                 }
                 else
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

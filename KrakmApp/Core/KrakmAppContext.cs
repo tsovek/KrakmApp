@@ -1,7 +1,5 @@
-﻿using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.Infrastructure;
-
-using KrakmApp.Entities;
+﻿using KrakmApp.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace KrakmApp.Core
 {
@@ -20,12 +18,17 @@ namespace KrakmApp.Core
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
-        public KrakmAppContext(DbContextOptions options) 
+        public KrakmAppContext(DbContextOptions<KrakmAppContext> options) 
             : base (options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                entity.Relational().TableName = entity.ClrType.Name;
+            }
+
             modelBuilder.Entity<Client>().Property(e => e.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Client>().HasOne(e => e.Hotel).WithMany(e => e.Clients);
 

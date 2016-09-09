@@ -12,7 +12,7 @@
                             <input type="text" class="form-control"
                                    required
                                    placeholder="Partner name"
-                                   [(ngModel)]="_newPartner.Name"
+                                   [(ngModel)]="_newPartner.name"
                                    ngControl="name" #name="ngForm" #spy>
                             <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                                 Name is required
@@ -27,7 +27,7 @@
                             <input id="adress-input" type="text" class="form-control"
                                    required
                                    placeholder="Adress"
-                                   [(ngModel)]="_newPartner.Adress"
+                                   [(ngModel)]="_newPartner.adress"
                                    ngControl="adress" #adress="ngForm">
                             <div [hidden]="adress.valid || adress.pristine" class="alert alert-danger">
                                 Adress is required
@@ -36,7 +36,7 @@
 
                         <div class="form-group">
                             <input type="range" min="0" max="100" step="1"
-                                   [(ngModel)]="_newPartner.Commission" class="form-control"
+                                   [(ngModel)]="_newPartner.commission" class="form-control"
                                    ngControl="commission" #commission="ngForm"
                                    placeholder="Commission: {{commission.value}}%">
                         </div>
@@ -45,7 +45,7 @@
                             <input type="datetime-local" 
                                    class="form-control" 
                                    placeholder="Start promotion"
-                                   [(ngModel)]="_newPartner.StartPromotion"
+                                   [(ngModel)]="_newPartner.startPromotion"
                                    ngControl="startPromotion" 
                                    #startPromotion="ngForm">
                         </div>
@@ -54,7 +54,7 @@
                             <input type="datetime-local" 
                                    class="form-control" 
                                    placeholder="End promotion"
-                                   [(ngModel)]="_newPartner.EndPromotion"
+                                   [(ngModel)]="_newPartner.endPromotion"
                                    ngControl="endPromotion" 
                                    #endPromotion="ngForm">
                         </div>
@@ -62,14 +62,14 @@
                         <div class="form-group">
                             <input type="text" class="form-control"
                                    placeholder="Image url"
-                                   [(ngModel)]="_newPartner.ImageUrl"
+                                   [(ngModel)]="_newPartner.imageUrl"
                                    ngControl="imageUrl" #imageUrl="ngForm" #spy>
                         </div>
 
                         <div class="form-group">
                             <textarea ngDefaultControlt rows="7" type="text" class="form-control"
                                    placeholder="Description"
-                                   #ta (blur)="_newPartner.Description=ta.value" [value]="_newPartner.Description"
+                                   #ta (blur)="_newPartner.description=ta.value" [value]="_newPartner.description"
                                    ngControl="description" #description="ngForm"></textarea>
                             <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
                                 Description has bad chars!

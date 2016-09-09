@@ -7,8 +7,8 @@ using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Core.Services;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -51,7 +51,7 @@ namespace KrakmApp.Controllers
             catch (Exception ex)
             {
                 LogFail(ex);
-                return HttpBadRequest();
+                return BadRequest();
             }
 
             return new ObjectResult(clientVM);
@@ -70,7 +70,7 @@ namespace KrakmApp.Controllers
                 if (client == null ||
                     !hotels.Any(hotel => hotel.Id == client.HotelId))
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 clientVM = Mapper.Map<Client, ClientViewModel>(client);
@@ -78,7 +78,7 @@ namespace KrakmApp.Controllers
             catch (Exception ex)
             {
                 LogFail(ex);
-                return HttpBadRequest();
+                return BadRequest();
             }
 
             return new ObjectResult(clientVM);
@@ -103,7 +103,7 @@ namespace KrakmApp.Controllers
                 Hotel hotel = hotels.FirstOrDefault(h => h.Name == value.HotelName);
                 if (hotel == null)
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 var client = new Client
@@ -163,7 +163,7 @@ namespace KrakmApp.Controllers
                 }
                 else
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

@@ -6,8 +6,8 @@ using KrakmApp.Core.Common;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {
@@ -69,7 +69,7 @@ namespace KrakmApp.Controllers
 
                 if (hotel == null)
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 hotelVM = Mapper.Map<Hotel, HotelViewModel>(hotel);
@@ -205,7 +205,7 @@ namespace KrakmApp.Controllers
                 }
                 else
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

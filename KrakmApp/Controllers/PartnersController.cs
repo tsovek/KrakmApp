@@ -9,9 +9,9 @@ using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
 
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KrakmApp.Controllers
 {
@@ -76,7 +76,7 @@ namespace KrakmApp.Controllers
 
                 if (partner == null)
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
 
                 partnerVM = Mapper.Map<Partner, PartnerViewModel>(partner);
@@ -216,7 +216,7 @@ namespace KrakmApp.Controllers
                 }
                 else
                 {
-                    return HttpBadRequest();
+                    return BadRequest();
                 }
             }
             catch (Exception ex)

@@ -27,7 +27,7 @@ export class AddRoute {
         private params: RouteParams,
         private _utility: UtilityService) {
 
-        this._route = new Route();
+        this._route = new Route(0, '', '', false, []);
         console.log(this._route);
         var id: string = params.get('id');
         if (id !== null) {
@@ -47,19 +47,19 @@ export class AddRoute {
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._route))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
-                    if (result.Succeeded) {
+                    if (result.succeeded) {
                         this._notificationService
                             .printSuccessMessage(
-                                'Route: ' + this._route.Name + ' is created');
+                                'Route: ' + this._route.name + ' is created');
                     }
                     else {
                         this._notificationService
-                            .printErrorMessage(result.Message);
+                            .printErrorMessage(result.message);
                     }
                 });
     };

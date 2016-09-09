@@ -44,7 +44,7 @@ export class AddHotel implements OnInit {
                     if (this._map)
                     {
                         this._map.setCenter(new google.maps.LatLng(
-                            this._newHotel.Latitude, this._newHotel.Longitude));
+                            this._newHotel.latitude, this._newHotel.longitude));
                         var iconDefault = {
                             url: 'http://localhost:5000/images/marker-green.png',
                             size: new google.maps.Size(100, 100),
@@ -54,7 +54,7 @@ export class AddHotel implements OnInit {
                         };
                         var defaultMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(
-                                this._newHotel.Latitude, this._newHotel.Longitude),
+                                this._newHotel.latitude, this._newHotel.longitude),
                             map: this._map,
                             icon: iconDefault
                         });
@@ -68,10 +68,10 @@ export class AddHotel implements OnInit {
     }
 
     getLatLng(): google.maps.LatLng{
-        if (this._newHotel.Id === 0) {
+        if (this._newHotel.id === 0) {
             return new google.maps.LatLng(50.0666501, 19.9449799);
         }
-        return new google.maps.LatLng(this._newHotel.Latitude, this._newHotel.Longitude);
+        return new google.maps.LatLng(this._newHotel.latitude, this._newHotel.longitude);
     }
 
     ngOnInit() {
@@ -112,9 +112,9 @@ export class AddHotel implements OnInit {
 
         var input = <HTMLInputElement>document.getElementById('adress-input');
         var searchBox = new google.maps.places.SearchBox(input);
-        var localThis = this;
+        var that = this;
         this._map.addListener('bounds_changed', function () {
-            searchBox.setBounds(localThis._map.getBounds());
+            searchBox.setBounds(that._map.getBounds());
         });
         var markers = [];
         searchBox.addListener('places_changed', function () {
@@ -135,18 +135,18 @@ export class AddHotel implements OnInit {
                 };
 
                 markers.push(new google.maps.Marker({
-                    map: localThis._map,
+                    map: that._map,
                     icon: icon,
                     title: place.name,
                     position: place.geometry.location
                 }));
-                localThis._newHotel.Latitude = place.geometry.location.lat();
-                localThis._newHotel.Longitude = place.geometry.location.lng();
+                that._newHotel.latitude = place.geometry.location.lat();
+                that._newHotel.longitude = place.geometry.location.lng();
 
                 bounds.extend(place.geometry.location);
             });
-            localThis._map.fitBounds(bounds);
-            localThis._map.setZoom(17);
+            that._map.fitBounds(bounds);
+            that._map.setZoom(17);
         });
     }
     
@@ -154,20 +154,20 @@ export class AddHotel implements OnInit {
         var result: Result = new Result(false, '');
         this._dataService.post(JSON.stringify(this._newHotel))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
             error => console.error('Error: ' + error),
             () => {
-                if (result.Succeeded) {
+                if (result.succeeded) {
                     this._notificationService
                         .printSuccessMessage(
-                        'Your hotel: ' + this._newHotel.Name + ' is created');
+                        'Your hotel: ' + this._newHotel.name + ' is created');
                     // todo: redirect to manage hotel
                 }
                 else {
                     this._notificationService
-                        .printErrorMessage(result.Message);
+                        .printErrorMessage(result.message);
                 }
             });
     }

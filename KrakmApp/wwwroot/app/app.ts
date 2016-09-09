@@ -45,7 +45,7 @@ export class AppRoot {
     getUserName(): string {
         if (this.isUserLoggedIn()) {
             var _user = this.membershipService.getLoggedInUser();
-            return _user.Username;
+            return _user.username;
         }
         else
             return 'Account';

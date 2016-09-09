@@ -36,8 +36,8 @@
                         <div *ngFor="#route of _definedRoutes">
                             <a class="list-group-item">
                                 <div class="media">
-                                    <span *ngIf="route.Active" class="label label-success pull-right">Active</span>
-                                    <span *ngIf="!route.Active" class="label label-danger pull-right">Inactive</span>
+                                    <span *ngIf="route.active" class="label label-success pull-right">Active</span>
+                                    <span *ngIf="!route.active" class="label label-danger pull-right">Inactive</span>
                                     <div class="checkbox pull-left">
                                         <label>
                                             <input type="checkbox" #checkbox (change)="onCheckedChange(route, checkbox.checked)" value="">
@@ -47,8 +47,8 @@
                                         <img class="media-object" src="http://placehold.it/100x70" alt="Image">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="media-heading">{{route && route.Name}}</h4>
-                                        <p>{{route && route.Description}}</p>
+                                        <h4 class="media-heading">{{route && route.name}}</h4>
+                                        <p>{{route && route.description}}</p>
                                     </div>
                                 </div>
                             </a>

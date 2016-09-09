@@ -63,10 +63,10 @@ export class RouteDetails implements OnInit {
             res => {
                 var data: any = res.json();
                 for (var jsonObj of data) {
-                    var obj = jsonObj.Object;
+                    var obj = jsonObj.object;
                     var singleObj = new SingleObject(
-                        obj.IdInType, obj.Name, obj.Description, obj.ImageUrl, obj.Latitude, obj.Longitude);
-                    this._singleObjects.push(new SortableObject(singleObj, jsonObj.ObjType, jsonObj.Order));
+                        obj.idInType, obj.name, obj.description, obj.imageUrl, obj.latitude, obj.longitude);
+                    this._singleObjects.push(new SortableObject(singleObj, jsonObj.objType, jsonObj.order));
                 }
                 this.updateMap();
             },
@@ -78,12 +78,12 @@ export class RouteDetails implements OnInit {
         jQuery("select#objects-selector option").filter(":selected").each(function (i, select) {
             jQuery(this).removeAttr("selected");
             var textObject: string = jQuery(this).text();
-            for (var groupObj of that._objects.Objects) {
-                for (var singleObj of groupObj.SingleObjects) {
-                    if (singleObj.Name == textObject) {
+            for (var groupObj of that._objects.objects) {
+                for (var singleObj of groupObj.singleObjects) {
+                    if (singleObj.name == textObject) {
                         var order: number = that._singleObjects.length + 1;
                         that._singleObjects.push(
-                            new SortableObject(singleObj, groupObj.Type, order));
+                            new SortableObject(singleObj, groupObj.type, order));
                         that.updateMap();
                     }
                 }
@@ -117,10 +117,10 @@ export class RouteDetails implements OnInit {
         return '<div id="content">' +
             '<div id="siteNotice">' +
             '</div>' +
-            '<h3 class="firstHeading">' + object.Object.Name + '</h3>' +
+            '<h3 class="firstHeading">' + object.object.name + '</h3>' +
             '<div id="bodyContent">' +
             '<p>' +
-            object.Object.Description +
+            object.object.description +
             '</p>' +
             '</div>' +
             '</div>';
@@ -128,7 +128,7 @@ export class RouteDetails implements OnInit {
 
     updateMap(): void {
         let list: List<SortableObject> = new List<SortableObject>(this._singleObjects);
-        list.ForEach((e, i) => e.Order = i);
+        list.ForEach((e, i) => e.order = i);
 
         this._markers.ForEach(e => {
             e.setMap(null);
@@ -142,8 +142,8 @@ export class RouteDetails implements OnInit {
         let iter = -1;
         for (let obj of this._singleObjects) {
             iter++;
-            let icon = this.getIconFactory(obj.ObjType);
-            let latLng = new google.maps.LatLng(obj.Object.Latitude, obj.Object.Longitude);
+            let icon = this.getIconFactory(obj.objType);
+            let latLng = new google.maps.LatLng(obj.object.latitude, obj.object.longitude);
             var marker = new google.maps.Marker({
                 position: latLng,
                 map: this._map,
@@ -195,20 +195,20 @@ export class RouteDetails implements OnInit {
         };
         var sortableObjs: List<SortableObject> = new List<SortableObject>(this._singleObjects);
         sortableObjs.ForEach(e => request.SpecificRoutes.push({
-            Type: e.ObjType,
-            IdInType: e.Object.Id,
-            Order: e.Order
+            Type: e.objType,
+            IdInType: e.object.idInType,
+            Order: e.order
         }));
         return request;
     }
 
     onSaveRoute(): void {
-        var result: any = { Succeeded: false, Message: "" };
+        var result: any = { succeeded: false, message: "" };
         this._dataService.set(this._detailsApi);
         this._dataService.post(JSON.stringify(this.getObjToPostRequest()))
             .subscribe(res => {
-                result.Succeeded = res.Succeeded;
-                result.Message = res.Message;
+                result.succeeded = res.succeeded;
+                result.message = res.message;
             },
                 error => console.error('Error: ' + error),
                 () => {
@@ -220,7 +220,7 @@ export class RouteDetails implements OnInit {
         var iter: number = -1;
         for (var obj of this._singleObjects) {
             iter++;
-            if (obj.Object.Name === element.Name) {
+            if (obj.object.name === element.name) {
                 this._singleObjects.splice(iter, 1);
                 break;
             }
@@ -232,7 +232,7 @@ export class RouteDetails implements OnInit {
         var iter: number = -1;
         for (var obj of this._singleObjects) {
             iter++;
-            if (obj.Object.Name === element.Name &&
+            if (obj.object.name === element.name &&
                 iter != this._singleObjects.length - 1) {
                 this._singleObjects.splice(iter, 1);
                 this._singleObjects.splice(iter + 1, 0, obj);
@@ -246,7 +246,7 @@ export class RouteDetails implements OnInit {
         var iter: number = -1;
         for (var obj of this._singleObjects) {
             iter++;
-            if (obj.Object.Name === element.Name && iter != 0) {
+            if (obj.object.name === element.name && iter != 0) {
                 this._singleObjects.splice(iter, 1);
                 this._singleObjects.splice(iter - 1, 0, obj);
                 break;

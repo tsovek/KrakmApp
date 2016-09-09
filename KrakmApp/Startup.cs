@@ -6,32 +6,33 @@ using KrakmApp.Core.Repositories;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Core.Services;
 
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.StaticFiles;
-using Microsoft.Data.Entity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
 
 namespace KrakmApp
 {
     public class Startup
     {
         private static string _applicationPath = string.Empty;
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        public Startup(IHostingEnvironment env)
         {
+            ApplicationEnvironment appEnv = new ApplicationEnvironment();
             _applicationPath = appEnv.ApplicationBasePath;
 
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
             {
-                builder.AddUserSecrets();
+                //builder.AddUserSecrets();
             }
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -41,9 +42,7 @@ namespace KrakmApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFramework()
-                    .AddSqlServer()
-                    .AddDbContext<KrakmAppContext>(options =>
+            services.AddDbContext<KrakmAppContext>(options =>
                         options.UseSqlServer(Configuration["Data:KrakmAppConnection:ConnectionString"]));
 
             services.AddScoped<IHotelRepository, HotelRepository>();
@@ -93,19 +92,14 @@ namespace KrakmApp
 
         public void Configure(IApplicationBuilder app)
         {
-            // Add the platform handler to the request pipeline.
-            app.UseIISPlatformHandler();
-
             // Add static files to the request pipeline.
             app.UseStaticFiles();
-
-            app.UseCookieAuthentication(options =>
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
-                options.AutomaticAuthenticate = true;
-                options.AutomaticChallenge = true;
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
             });
 
-            app.UseRuntimeInfoPage();
             app.UseDeveloperExceptionPage();
 
             app.UseMvc(routes =>
@@ -118,10 +112,20 @@ namespace KrakmApp
 
             AutoMapperConfiguration.Configure();
 
-            //DbInitializer.Initialize(app.ApplicationServices, _applicationPath);
+            DbInitializer.Initialize(app.ApplicationServices, _applicationPath);
         }
 
         // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
     }
 }

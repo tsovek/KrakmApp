@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
-
-using Microsoft.Data.Entity;
-using Microsoft.Data.Entity.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace KrakmApp.Core.Repositories
 {
