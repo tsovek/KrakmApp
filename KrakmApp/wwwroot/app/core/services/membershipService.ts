@@ -43,7 +43,7 @@ export class MembershipService {
 
         if (this.isUserAuthenticated()) {
             var _userData = JSON.parse(localStorage.getItem('user'));
-            _user = new User(_userData.Username, _userData.Password);
+            _user = new User(_userData.username, _userData.password);
         }
 
         return _user;

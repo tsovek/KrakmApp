@@ -10,20 +10,10 @@ namespace KrakmApp.Core.Services
     {
         public string CreateSalt()
         {
-            return "oooo";
             var data = new byte[0x10];
-#if DNXCORE50
-            var cryptoServiceProvider = System.Security.Cryptography.RandomNumberGenerator.Create();
+            var cryptoServiceProvider = RandomNumberGenerator.Create();
                 cryptoServiceProvider.GetBytes(data);
                 return Convert.ToBase64String(data);
-#endif
-//#if DNX451
-//            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
-//            {
-//                cryptoServiceProvider.GetBytes(data);
-//                return Convert.ToBase64String(data);
-//            }
-//#endif
         }
 
         public string EncryptPassword(string password, string salt)
