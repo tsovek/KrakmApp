@@ -215,3 +215,8 @@ ModelManifest.xml
 lib
 *.js
 *.map
+KrakmApp/.vscode/launch.json
+KrakmApp/.vscode/tasks.json
+KrakmApp/Properties/PublishProfiles/ts-publish.ps1
+KrakmApp/Properties/PublishProfiles/ts.pubxml
+KrakmApp/web.config
