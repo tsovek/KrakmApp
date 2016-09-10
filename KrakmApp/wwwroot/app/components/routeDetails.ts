@@ -95,13 +95,13 @@ export class RouteDetails implements OnInit {
         var imageUrl = '';
         switch (category) {
             case "Monuments":
-                imageUrl = "http://localhost:5000/images/marker-pink.png";
+                imageUrl = "images/marker-pink.png";
                 break;
             case "Entertainments":
-                imageUrl = "http://localhost:5000/images/marker-blue.png";
+                imageUrl = "images/marker-blue.png";
                 break;
             case "Partners":
-                imageUrl = "http://localhost:5000/images/marker-green.png";
+                imageUrl = "images/marker-green.png";
                 break;
         }
         return {

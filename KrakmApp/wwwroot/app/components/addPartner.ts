@@ -150,7 +150,7 @@ export class AddPartner implements OnInit {
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function (place) {
                 var iconDefault = {
-                    url: 'http://localhost:5000/images/marker-red.png',
+                    url: 'images/marker-red.png',
                     size: new google.maps.Size(100, 100),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(17, 34),

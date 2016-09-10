@@ -32,7 +32,7 @@ namespace KrakmApp
 
             if (env.IsDevelopment())
             {
-                //builder.AddUserSecrets();
+                builder.AddUserSecrets();
             }
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -119,6 +119,7 @@ namespace KrakmApp
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
+                .UseUrls("http://0.0.0.0:5000")
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

@@ -12,10 +12,10 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Check In</th>
-                        <th>Check Out</th>
-                        <th>Hotel</th>
-                        <th>Activated</th>
+                        <th class="visible-sm visible-md visible-lg">Check In</th>
+                        <th class="visible-sm visible-md visible-lg">Check Out</th>
+                        <th class="visible-md visible-lg">Hotel</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -23,10 +23,13 @@
                     <tr *ngFor="#client of _clients">
                         <th scope="row">{{client.id}}</th>
                         <td>{{client.name}}</td>
-                        <td>{{getFormattedDate(client.checkIn)}}</td>
-                        <td>{{getFormattedDate(client.checkOut)}}</td>
-                        <td><i>{{client.hotelName}}</i></td>
-                        <td>{{client.activated}}</td>
+                        <td class="visible-sm visible-md visible-lg">{{getFormattedDate(client.checkIn)}}</td>
+                        <td class="visible-sm visible-md visible-lg">{{getFormattedDate(client.checkOut)}}</td>
+                        <td class="visible-md visible-lg"><i>{{client.hotelName}}</i></td>
+                        <td>
+                            <div class="label label-info" *ngIf="client.activated">activated</div>
+                            <div class="label label-warning" *ngIf="!client.activated">inactive</div>
+                        </td>
                         <td>
                             <a [routerLink]="[routes.edit.name, { id: client.id }]" class="btn btn-success btn-sm" role="button">Edit</a>
                             <a class="btn btn-danger btn-sm" role="button">Remove</a>

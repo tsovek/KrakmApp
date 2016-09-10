@@ -16,14 +16,14 @@
 
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <div class="col-sm-10">
+                            <div class="col-md-10">
                                 <select id="objects-selector" class="js-example-basic-multiple form-control" multiple="multiple">
                                     <optgroup label="empty" [label]="oo.type" *ngFor="#oo of _objects && _objects.objects">
                                         <option *ngFor="#so of oo && oo.singleObjects">{{so.name}}</option>
                                     </optgroup>
                                 </select>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <button (click)="addObject()" 
                                         [disabled]="onAddButtonEnabled()"
                                         class="btn btn-sm btn-success"><i class="fa fa-plus fa-fw"></i></button>
