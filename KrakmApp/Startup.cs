@@ -64,6 +64,8 @@ namespace KrakmApp
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<IRandomGeneratorService, RandomGeneratorService>();
             services.AddScoped<IRouteDetailsFactory, RouteDetailsFactory>();
+            services.AddScoped<IObjectsService, ObjectsService>();
+            services.AddScoped<IAllRoutesFactory, AllRoutesFactory>();
 
             services.AddAuthentication();
 

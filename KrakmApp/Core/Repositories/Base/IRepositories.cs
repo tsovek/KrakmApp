@@ -18,7 +18,10 @@ namespace KrakmApp.Core.Repositories.Base
 
     public interface IClientRepository : IRepository<Client> { }
 
-    public interface IBannersRepository : IRepository<Banner> { }
+    public interface IBannersRepository : IRepository<Banner>
+    {
+        IEnumerable<Banner> GetAllByUserId(int userId);
+    }
 
     public interface IMonumentRepository : IRepository<Monument> { }
 

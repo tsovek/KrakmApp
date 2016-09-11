@@ -17,20 +17,17 @@ namespace KrakmApp.Controllers
     public class RouteController : BaseController
     {
         private IRouteRepository _routeRepository;
-        private ILocalizationRepository _localizationRepository;
-        private IRouteDetailsFactory _routeDetailsFactory;
+        private IAllRoutesFactory _allRoutesFactory;
 
         public RouteController(
             IRouteRepository routeRepository,
-            ILocalizationRepository localizationRepository,
             ILoggingRepository loggingRepository,
             IMembershipService membershipService,
-            IRouteDetailsFactory routeDetailsFactory)
+            IAllRoutesFactory allRoutesFactory)
             : base(membershipService, loggingRepository)
         {
             _routeRepository = routeRepository;
-            _localizationRepository = localizationRepository;
-            _routeDetailsFactory = routeDetailsFactory;
+            _allRoutesFactory = allRoutesFactory;
         }
 
         [HttpGet]
@@ -40,22 +37,7 @@ namespace KrakmApp.Controllers
 
             try
             {
-                IEnumerable<Route> routes = _routeRepository
-                    .AllIncluding(r => r.RouteDetails)
-                    .Where(r => r.UserId == GetUser().Id);
-                routeVM = Mapper.Map<
-                    IEnumerable<Route>,
-                    IEnumerable<RouteViewModel>>(routes, opt => opt.AfterMap(
-                        (routesModel, routesVM) => 
-                        {
-                            var routeDetailsViewModels = 
-                                routeVM.SelectMany(e => e.RouteDetails);
-                            foreach (var routeDetails in routeDetailsViewModels)
-                            {
-                                _routeDetailsFactory
-                                    .CompleteParamsAfterMapping(routeDetails);
-                            }
-                        }));
+                routeVM = _allRoutesFactory.GetAllByUserId(GetUser().Id);
             }
             catch (Exception ex)
             {
