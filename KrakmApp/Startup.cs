@@ -90,6 +90,7 @@ namespace KrakmApp
 
             // Add MVC services to the services container.
             services.AddMvc();
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app)
