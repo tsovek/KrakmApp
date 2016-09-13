@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using AutoMapper;
 using KrakmApp.Core.Repositories.Base;
@@ -49,7 +50,9 @@ namespace KrakmApp.Controllers
                     return BadRequest();
                 }
 
-                Hotel hotel = _hotelRepo.GetSingle(hotelId);
+                Hotel hotel = _hotelRepo
+                    .AllIncluding(e => e.Localization)
+                    .SingleOrDefault(e => e.Id == hotelId);
                 Client client = _clientRepo.GetSingle(e => e.UniqueKey == key);
                 if (hotel == null || client == null)
                 {
