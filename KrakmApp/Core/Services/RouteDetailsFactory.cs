@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using KrakmApp.Core.Repositories.Base;
 using KrakmApp.Entities;
 using KrakmApp.ViewModels;
@@ -35,7 +34,6 @@ namespace KrakmApp.Core.Services
             {
                 Id = routeDetails.IdInType,
                 Type = routeDetails.Type
-
             };
 
             viewModel.Order = routeDetails.Order;
@@ -58,6 +56,7 @@ namespace KrakmApp.Core.Services
             singleRoute.Description = nameDesc.Description;
             singleRoute.Longitude = nameDesc.Longitude;
             singleRoute.Latitude = nameDesc.Latitude;
+            singleRoute.ImageUrl = nameDesc.ImageUrl;
         }
 
         private NameDescriptionPair GetNameAndDescriptionByIdAndType(IdTypePair type)
@@ -73,7 +72,8 @@ namespace KrakmApp.Core.Services
                         Name = entertainment.Name,
                         Description = entertainment.Description,
                         Longitude = entertainment.Localization.Longitude,
-                        Latitude = entertainment.Localization.Latitude
+                        Latitude = entertainment.Localization.Latitude,
+                        ImageUrl = entertainment.ImageUrl
                     };
                 case "Monuments":
                     var monument = _monuments
@@ -84,7 +84,8 @@ namespace KrakmApp.Core.Services
                         Name = monument.Name,
                         Description = monument.Description,
                         Longitude = monument.Localization.Longitude,
-                        Latitude = monument.Localization.Latitude
+                        Latitude = monument.Localization.Latitude,
+                        ImageUrl = monument.ImageUrl
                     };
                 case "Partners":
                     var partner = _partners
@@ -95,7 +96,8 @@ namespace KrakmApp.Core.Services
                         Name = partner.Name,
                         Description = partner.Description,
                         Longitude = partner.Localization.Longitude,
-                        Latitude = partner.Localization.Latitude
+                        Latitude = partner.Localization.Latitude,
+                        ImageUrl = partner.ImageUrl
                     };
                 default:
                     break;
@@ -115,6 +117,7 @@ namespace KrakmApp.Core.Services
             public string Description { get; set; }
             public double Longitude { get; set; }
             public double Latitude { get; set; }
+            public string ImageUrl { get; set; }
         }
     }
 }

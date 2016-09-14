@@ -13,8 +13,7 @@
                             class="btn btn-success btn-sm">
                         ADD
                     </button>
-                    <button 
-                            type="button"
+                    <button type="button"
                             class="btn btn-danger btn-sm"
                             [disabled]="disabledActionButtons()">
                         DEL
@@ -43,7 +42,18 @@
                                         </label>
                                     </div>
                                     <div class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/100x70" alt="Image">
+                                        <img style="width: 100px; height: 70px" 
+                                             *ngIf="route.id === 10" 
+                                             class="media-object" 
+                                             src="/images/items/fast.jpg">
+                                        <img style="width: 100px; height: 70px"
+                                             *ngIf="route.id === 11" 
+                                             class="media-object" 
+                                             src="/images/items/cheap.jpg">
+                                        <img style="width: 100px; height: 70px"
+                                             *ngIf="route.id === 12" 
+                                             class="media-object" 
+                                             src="/images/items/complex.jpg">
                                     </div>
                                     <div class="media-body">
                                         <h5 class="media-heading">

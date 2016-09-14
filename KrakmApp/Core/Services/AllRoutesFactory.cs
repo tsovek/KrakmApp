@@ -30,9 +30,20 @@ namespace KrakmApp.Core.Services
         public IEnumerable<RouteViewModel> GetAllByUserId(int userId)
         {
             IEnumerable<RouteViewModel> allRoutes = null;
-            IEnumerable<Route> routes = _routeRepository
+            IEnumerable<Route> nonSortedRoutes = _routeRepository
                     .AllIncluding(r => r.RouteDetails)
                     .Where(r => r.UserId == userId);
+            IEnumerable<Route> routes = nonSortedRoutes.Select(e => new Route()
+            {
+                Active = e.Active,
+                Description = e.Description,
+                User = e.User,
+                UserId = e.UserId,
+                Id = e.Id,
+                Length = e.Length,
+                Name = e.Name,
+                RouteDetails = e.RouteDetails.OrderBy(det => det.Order).ToList()
+            });
             allRoutes = Mapper.Map<
                 IEnumerable<Route>,
                 IEnumerable<RouteViewModel>>(routes, opt => opt.AfterMap(

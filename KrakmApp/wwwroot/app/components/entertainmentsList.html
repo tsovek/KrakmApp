@@ -2,8 +2,14 @@
     <div class="row form-group">
         <div class="col-xs-12 col-md-3" *ngFor="#entertainment of _entertainments">
             <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <div class="text-danger"
+                         style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                        {{entertainment.name}}
+                    </div>
+                </div>
                 <div class="panel-image">
-                    <img src="http://666a658c624a3c03a6b2-25cda059d975d2f318c03e90bcf17c40.r92.cf1.rackcdn.com/unsplash_52d09387ae003_1.JPG" class="panel-image-preview" />
+                    <img height="130" src="/images/{{entertainment.imageUrl}}" class="panel-image-preview" />
                     <label for="toggle-1"></label>
                 </div>
                 <div class="panel-footer text-center">
