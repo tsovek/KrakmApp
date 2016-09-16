@@ -6,7 +6,6 @@
     directives: []
 })
 export class Home {
-
     constructor() {
 
     }
